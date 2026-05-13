@@ -10,7 +10,7 @@ import logo from "../imgs/logo.svg";
 export default function Home() {
   return (
     <div className={styles.page}>
-      <Image src={logo} alt="Logo" style={{ objectFit: "contain" }} />
+      <Image src={logo} alt="Logo" style={{ objectFit: "contain" }} loading="eager" />
       <h1>Em breve...</h1>
     </div>
   );

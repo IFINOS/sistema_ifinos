@@ -8,3 +8,17 @@
   font-family: var(--font-geist-sans);
   background-color: var(--background);
 }
+
+/* lembrar de separar os estilos :) */
+.back_btn {
+  background-color: var(--primary_red);
+  color: var(--background);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.back_btn:hover {
+  background-color: var(--primary_red_hover);
+}
