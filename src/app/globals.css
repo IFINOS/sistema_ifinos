@@ -1,7 +1,34 @@
 :root {
   --background: #fcfcfc;
   --foreground: #262626;
+
+  --primary_green: hsl(134, 100%, 36%);
+
+  --primary_red: hsl(0, 90%, 44%);
+  --primary_red_hover: hsl(0, 90%, 36%);
 }
+
+/* CORES */
+
+/* 
+Primária — Verde
+  Verde Principal: hsl(134, 100%, 36%)  
+  Verde Escuro: hsl(134, 100%, 28%)  
+  Verde Claro: hsl(134, 62%, 90%) 
+Secundária — Ciano
+  Ciano Principal: hsl(183, 100%, 35%) 
+  Ciano Variação: hsl(191, 97%, 35%) 
+  Ciano Suave: hsl(185, 80%, 88%)  
+Acento — Vermelho
+  Vermelho: hsl(0, 90%, 44%)  
+  Vermelho Rosa: hsl(342, 84%, 40%) 
+  Vermelho Suave: hsl(0, 88%, 95%)  
+Neutros
+  Preto Logo: hsl(0, 0%, 15%)  
+  Cinza Escuro: hsl(0, 0%, 29%)  
+  Cinza Médio: hsl(0, 0%, 55%) 
+  Fundo Página: hsl(60, 5%, 95%)
+  Branco: hsl(0, 0%, 100%)  */
 
 * {
   box-sizing: border-box;
