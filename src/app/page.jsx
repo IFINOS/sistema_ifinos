@@ -1,17 +1,7 @@
 // Utils
-import styles from "./page.module.css";
+import { redirect } from "next/navigation";
 
-// Components
-import Image from "next/image";
-
-// Images
-import logo from "../imgs/logo.svg";
-
-export default function Home() {
-  return (
-    <div className={styles.page}>
-      <Image src={logo} alt="Logo" style={{ objectFit: "contain" }} loading="eager" />
-      <h1>Em breve...</h1>
-    </div>
-  );
+// tecnicamente essa é a página index, mas no nosso caso tem que ser redirecionado para o home, pois o home é o nosso index
+export default function Page() {
+  redirect("/home");
 }

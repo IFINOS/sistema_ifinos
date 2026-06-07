@@ -1,0 +1,219 @@
+.header_wrapper,
+.desktop_links_wrapper,
+.desktop_links,
+.user_options {
+  display: flex;
+  align-items: center;
+}
+
+.header_wrapper {
+  position: relative;
+  min-height: var(--header-height);
+  padding: var(--global_pad);
+  justify-content: space-between;
+}
+
+.desktop_links_wrapper {
+  gap: 0.6rem;
+}
+
+.desktop_links,
+.user_options {
+  gap: 0.6rem;
+}
+
+.link {
+  position: relative;
+  color: hsla(134, 100%, 28%, 0.75);
+  transition: 0.4s ease all;
+}
+
+.link::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 1px;
+  background-color: var(--primary_green);
+  transition: 0.4s ease width;
+}
+
+.link:not(.current_link):hover::before {
+  width: 100%;
+}
+
+.current_link::before {
+  width: 100%;
+}
+
+.current_link {
+  color: var(--primary_green);
+}
+
+.user_options_link {
+  width: fit-content;
+  padding: 0.6rem 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border: 1px solid var(--primary_green);
+  border-radius: var(--pill_border);
+  transition: 0.6s ease all;
+}
+
+.user_options_link:hover {
+  color: hsl(0, 0%, 100%);
+  box-shadow: inset 0 -4rem 0 0 var(--primary_green);
+}
+
+/* MENU HAMBURGUER ============================================= */
+
+.mobile_btn {
+  padding: 0.5rem;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.4rem;
+  border-radius: 0.4rem;
+  border: 1px solid var(--primary_green);
+  background: transparent;
+  cursor: pointer;
+  padding: 0.6rem;
+  align-items: center;
+  z-index: 1001;
+  position: relative;
+}
+
+.mobile_btn_open {
+  background-color: var(--primary_green);
+  color: hsl(0, 0%, 100%);
+}
+
+.mobile_menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100svh; /* small viewport pra considerar apenas o conteúdo da página*/
+  z-index: 999;
+  pointer-events: none;
+  background-color: hsla(0, 0%, 0%, 0);
+  transition: background-color 0.35s ease;
+}
+
+/* aplica o efeito de escurecer a página... */
+.mobile_menu_open {
+  pointer-events: all;
+  background-color: hsla(0, 0%, 0%, 0.35);
+}
+
+.mobile_menu_inner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(16.25rem, 80vw);
+  height: fit-content;
+  min-height: unset;
+  background-color: hsl(0, 0%, 100%);
+  box-shadow: -0.4rem 0 1.6rem hsla(0, 0%, 0%, 0.12);
+  border-left: 1px solid hsla(134, 100%, 28%, 0.15);
+  border-bottom: 1px solid hsla(134, 100%, 28%, 0.15);
+  border-bottom-left-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.25rem 1.5rem 1.75rem;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile_menu_open .mobile_menu_inner {
+  transform: translateX(0);
+}
+
+.mobile_links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.mobile_links li {
+  opacity: 0;
+  transform: translateX(16px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  transition-delay: calc(
+    var(--i) * 0.06s
+  ); /* pega o index da lista de links e aplica o tempo da animação*/
+  width: 100%;
+  text-align: center;
+}
+
+.mobile_menu_open .mobile_links li {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.mobile_links .link {
+  font-size: 1.2rem;
+}
+
+.mobile_user_options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+  opacity: 0;
+  transform: translateX(1rem);
+  transition:
+    opacity 0.3s ease 0.42s,
+    transform 0.3s ease 0.42s;
+}
+
+.mobile_menu_open .mobile_user_options {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.mobile_user_options .user_options_link {
+  width: 100%;
+  justify-content: center;
+}
+
+/* tive que separar entre 2 menus*/
+/* o de 969px fica zuado no mobile :( */
+@media screen and (max-width: 969px) {
+  .desktop_links_wrapper {
+    display: none;
+  }
+  .mobile_btn {
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .mobile_menu_inner {
+    padding-top: var(--header-height);
+    width: 100%;
+    border-left: none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    box-shadow: 0 0.4rem 1.2rem hsla(0, 0%, 0%, 0.12);
+  }
+
+  .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+  }
+}

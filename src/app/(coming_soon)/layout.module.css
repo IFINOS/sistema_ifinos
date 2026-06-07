@@ -1,0 +1,16 @@
+.indevelopment_wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.4rem;
+  text-align: center;
+  padding: var(--global_pad);
+}
+
+.indevelopment_img {
+  width: clamp(15rem, calc(3.9506vw + 14.2593rem), 19rem);
+  height: clamp(15rem, calc(3.9506vw + 14.2593rem), 19rem);
+}

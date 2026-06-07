@@ -1,4 +1,4 @@
 // sistema do next para lidar com proteção de rotas
-function proxy() {
+export default async function proxy() {
   console.log("Oi :)");
 }
