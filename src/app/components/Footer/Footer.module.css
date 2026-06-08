@@ -1,0 +1,15 @@
+.footer_wrapper {
+  min-height: var(--footer-height);
+  background-color: var(--dark_green);
+  color: hsl(0, 0%, 100%);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: var(--global_pad);
+}
+
+.copy_warning {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}

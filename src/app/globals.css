@@ -1,34 +1,37 @@
+/* qualquer valor de estilo que for recorrente no código adicione aqui :) */
+/* BREAKPOINT PARA QUEBRA DE TELA: 869px */
 :root {
-  --background: #fcfcfc;
-  --foreground: #262626;
+  /* CORES */
+  --background: hsl(60, 5%, 95%);
+  --foreground: hsl(0, 0%, 15%);
+  --dark_gray: hsl(0, 0%, 29%);
+  --light_gray: hsl(0, 0%, 55%);
 
+  /* Cores "hover" = -8% de lightness (o L de HSL)*/
   --primary_green: hsl(134, 100%, 36%);
+  --primary_green_hover: hsl(134, 100%, 28%);
+  --secondary_green: hsl(134, 62%, 90%);
+  --dark_green: hsl(134, 100%, 28%);
+
+  --primary_cyan: hsl(183, 100%, 35%);
+  --secondary_cyan: hsl(185, 80%, 88%);
+  --dark_cyan: hsl(191, 97%, 35%);
 
   --primary_red: hsl(0, 90%, 44%);
   --primary_red_hover: hsl(0, 90%, 36%);
+  --secondary_red: hsl(0, 88%, 95%);
+  --pink_red: hsl(342, 84%, 40%); /* sla q nome melhor dar pra essa cor :)*/
+
+  /* altura de componentes */
+  --header-height: 6rem;
+  --footer-height: 4rem;
+
+  /* padding global do site, responsável por: header, main e footer */
+  --global_pad: 0rem clamp(0.8rem, calc(1.1852vw + 0.5778rem), 2rem);
+
+  /* border radius */
+  --pill_border: 2rem;
 }
-
-/* CORES */
-
-/* 
-Primária — Verde
-  Verde Principal: hsl(134, 100%, 36%)  
-  Verde Escuro: hsl(134, 100%, 28%)  
-  Verde Claro: hsl(134, 62%, 90%) 
-Secundária — Ciano
-  Ciano Principal: hsl(183, 100%, 35%) 
-  Ciano Variação: hsl(191, 97%, 35%) 
-  Ciano Suave: hsl(185, 80%, 88%)  
-Acento — Vermelho
-  Vermelho: hsl(0, 90%, 44%)  
-  Vermelho Rosa: hsl(342, 84%, 40%) 
-  Vermelho Suave: hsl(0, 88%, 95%)  
-Neutros
-  Preto Logo: hsl(0, 0%, 15%)  
-  Cinza Escuro: hsl(0, 0%, 29%)  
-  Cinza Médio: hsl(0, 0%, 55%) 
-  Fundo Página: hsl(60, 5%, 95%)
-  Branco: hsl(0, 0%, 100%)  */
 
 * {
   box-sizing: border-box;
@@ -36,28 +39,65 @@ Neutros
   margin: 0;
 }
 
-html {
-  height: 100vh;
-}
-
 html,
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   max-width: 100vw;
-  overflow-x: hidden;
 }
 
 body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-bai-jamjuree), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+ul {
+  list-style: none;
 }
+
+a {
+  text-decoration: none;
+  color: var(--foreground);
+}
+
+/* todas as propriedades do toast aqui devem usar "!important", pois valores iniciais já estão sendo atribuídos no toast principal :) */
+.toast_success {
+  border-color: var(--primary_green) !important;
+  color: var(--secondary_green) !important;
+}
+
+.toast_error {
+  border-color: var(--primary_red) !important;
+  color: var(--secondary_red) !important;
+}
+
+/* estilos da página de not-found */
+.page {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-family: var(--font-geist-sans);
+  background-color: var(--background);
+}
+
+.back_btn {
+  background-color: var(--primary_red);
+  color: var(--background);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.back_btn:hover {
+  background-color: var(--primary_red_hover);
+}
+
+/* colocar estilo para a barra de scroll? */
