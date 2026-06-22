@@ -25,7 +25,7 @@
 .link {
   position: relative;
   color: hsla(134, 100%, 28%, 0.75);
-  transition: 0.4s ease all;
+  transition: var(--default_transition);
 }
 
 .link::before {
@@ -65,7 +65,7 @@
 
 .user_options_link:hover {
   color: hsl(0, 0%, 100%);
-  box-shadow: inset 0 -4rem 0 0 var(--primary_green);
+  box-shadow: var(--background_effect) var(--primary_green);
 }
 
 /* MENU HAMBURGUER ============================================= */
