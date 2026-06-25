@@ -20,7 +20,6 @@
   --primary_red: hsl(0, 90%, 44%);
   --primary_red_hover: hsl(0, 90%, 36%);
   --secondary_red: hsl(0, 88%, 95%);
-  --pink_red: hsl(342, 84%, 40%); /* sla q nome melhor dar pra essa cor :)*/
 
   /* altura de componentes */
   --header-height: 6rem;

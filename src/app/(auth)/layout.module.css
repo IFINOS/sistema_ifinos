@@ -28,9 +28,28 @@
 
 .input_wrapper {
   display: flex;
-  align-items: flex-start;
   flex-direction: column;
+  align-items: flex-start;
   gap: 0.6rem;
+}
+
+.input_content {
+  height: 3rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.icon_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  flex: 1 1 5rem;
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 0 var(--input_border_radius) var(--input_border_radius) 0;
+  border: 0.1rem solid var(--foreground);
+  border-left: none;
 }
 
 .auth_label {
@@ -39,15 +58,24 @@
 }
 
 .auth_input {
+  height: 3rem;
   width: 100%;
   padding: var(--global_input_pad);
-  border-radius: var(--input_border_radius);
+  border-radius: var(--input_border_radius) 0 0 var(--input_border_radius);
   border: 0.1rem solid var(--foreground);
+  border-right: none;
   font-size: 1rem;
 }
 
 .auth_input:focus {
-  outline-color: var(--primary_green);
+  outline: none;
+  border: 0.1rem solid var(--primary_green);
+  border-right: none;
+}
+
+.auth_input:focus + .icon_container {
+  border: 0.1rem solid var(--primary_green);
+  border-left: none;
 }
 
 .user_options {
@@ -142,4 +170,19 @@
 
 .account_support_link:hover {
   color: var(--primary_green);
+}
+
+/* estado de erro */
+
+.input_invalid,
+.input_invalid + .icon_container,
+.input_invalid:focus,
+.input_invalid:focus + .icon_container {
+  color: var(--primary_red) !important;
+  border-color: var(--primary_red);
+}
+
+.field_error {
+  color: var(--primary_red);
+  text-align: start;
 }

@@ -1,0 +1,33 @@
+/*
+   Hierarquia:
+    - visitor:   apenas acessa o site, sem conteúdo restrito
+    - member:    alunos, bolsistas, integrantes de projetos
+    - professor: professores e orientadores
+    - admin:     acesso total
+ */
+
+// define o role mínimo exigido para acessar cada rota :D
+export const ROUTE_PERMISSIONS = {
+  "/meu-perfil": "visitor",
+  "/projetos/cadastrar": "professor",
+  "/demandas/cadastrar": "professor",
+  "/noticias/cadastrar": "member",
+  "/merchandise/cadastrar": "admin",
+  "/sistema": "admin",
+};
+
+export function getRequiredRole(pathname) {
+  // isso é uma obra de arte :0
+  const match = Object.keys(ROUTE_PERMISSIONS)
+    // filtra só as rotas que são prefixo do pathname atual
+    // ex: pathname '/projetos/cadastrar' → passa '/projetos' e '/projetos/cadastrar'
+    // ex: pathname '/sistema' → passa só '/sistema'
+    .filter((route) => pathname.startsWith(route))
+
+    // ordena do mais longo para o mais curto
+    // '/projetos/cadastrar' (20 chars) vem antes de '/projetos' (9 chars)
+    // isso garante que a rota mais específica sempre vence
+    .sort((a, b) => b.length - a.length)[0]; // ex: '/projetos/cadastrar' em vez de '/projetos'
+
+  return match ? ROUTE_PERMISSIONS[match] : null; // null = rota pública (sem login)
+}

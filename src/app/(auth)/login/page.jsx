@@ -8,7 +8,12 @@ import styles from "../layout.module.css";
 
 // Images
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { faArrowRightToBracket, faR } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRightToBracket,
+  faEnvelope,
+  faEye,
+  faEyeSlash,
+} from "@fortawesome/free-solid-svg-icons";
 
 // Components
 import Link from "next/link";
@@ -17,6 +22,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const page = () => {
   const supabase = createClient();
   const [errors, setErrors] = useState({});
+  const [isShowingPass, setIsShowingPass] = useState(false);
 
   const validate_inputs = () => {};
 
@@ -32,24 +38,44 @@ const page = () => {
         <label htmlFor="email" className={styles.auth_label}>
           Email
         </label>
-        <input
-          className={styles.auth_input}
-          type="email"
-          name="email"
-          id="email"
-        />
+        <section className={styles.input_content}>
+          <input
+            className={styles.auth_input}
+            type="email"
+            name="email"
+            id="email"
+          />
+          <div className={styles.icon_container}>
+            <FontAwesomeIcon
+              className={styles.input_icon}
+              icon={faEnvelope}
+              size="lg"
+            />
+          </div>{" "}
+        </section>
       </section>
 
       <section className={styles.input_wrapper}>
         <label htmlFor="password" className={styles.auth_label}>
           Senha
         </label>
-        <input
-          className={styles.auth_input}
-          type="password"
-          name="password"
-          id="password"
-        />
+        <section className={styles.input_content}>
+          <input
+            className={styles.auth_input}
+            type={isShowingPass ? "text" : "password"}
+            name="password"
+            id="password"
+          />
+          <div className={styles.icon_container}>
+            <FontAwesomeIcon
+              style={{ cursor: "pointer" }}
+              onClick={() => setIsShowingPass(!isShowingPass)}
+              className={styles.input_icon}
+              icon={isShowingPass ? faEyeSlash : faEye}
+              size="lg"
+            />
+          </div>
+        </section>
       </section>
 
       <section className={styles.user_options}>
