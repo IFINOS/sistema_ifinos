@@ -8,8 +8,9 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Hooks
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useUser } from "@/context/userContext";
 
 // Images
 import logo from "@/imgs/logo.svg";
@@ -17,9 +18,8 @@ import {
   faArrowRightToBracket,
   faBars,
   faUserPlus,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
-faArrowRightToBracket;
-faUserPlus;
 
 const links = [
   { id: 1, content: "Home", path: "/home" },
@@ -33,6 +33,11 @@ const links = [
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { user } = useUser();
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   return (
     <header className={styles.header_wrapper}>
@@ -64,15 +69,24 @@ const Header = () => {
         </ul>
 
         <section className={styles.user_options}>
-          <Link href="/login" className={styles.user_options_link}>
-            <FontAwesomeIcon icon={faArrowRightToBracket} size="sm" />
-            <span>Entrar</span>
-          </Link>
+          {user ? (
+            <Link href="/meu-perfil" className={styles.user_options_link}>
+              <FontAwesomeIcon icon={faUser} size="sm" />
+              <span>{user.user_metadata.name}</span>
+            </Link>
+          ) : (
+            <>
+              <Link href="/login" className={styles.user_options_link}>
+                <FontAwesomeIcon icon={faArrowRightToBracket} size="sm" />
+                <span>Entrar</span>
+              </Link>
 
-          <Link href="/cadastrar-se" className={styles.user_options_link}>
-            <FontAwesomeIcon icon={faUserPlus} size="sm" />
-            <span>Cadastrar-se</span>
-          </Link>
+              <Link href="/cadastrar-se" className={styles.user_options_link}>
+                <FontAwesomeIcon icon={faUserPlus} size="sm" />
+                <span>Cadastrar-se</span>
+              </Link>
+            </>
+          )}
         </section>
       </section>
 
@@ -107,22 +121,24 @@ const Header = () => {
           </ul>
 
           <section className={styles.mobile_user_options}>
-            <Link
-              href="/login"
-              className={styles.user_options_link}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <FontAwesomeIcon icon={faArrowRightToBracket} size="sm" />
-              <span>Entrar</span>
-            </Link>
-            <Link
-              href="/cadastrar-se"
-              className={styles.user_options_link}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <FontAwesomeIcon icon={faUserPlus} size="sm" />
-              <span>Cadastrar-se</span>
-            </Link>
+            {user ? (
+              <Link href="/login" className={styles.user_options_link}>
+                <FontAwesomeIcon icon={faUser} size="sm" />
+                <span>{user.user_metadata.name}</span>
+              </Link>
+            ) : (
+              <>
+                <Link href="/login" className={styles.user_options_link}>
+                  <FontAwesomeIcon icon={faArrowRightToBracket} size="sm" />
+                  <span>Entrar</span>
+                </Link>
+
+                <Link href="/cadastrar-se" className={styles.user_options_link}>
+                  <FontAwesomeIcon icon={faUserPlus} size="sm" />
+                  <span>Cadastrar-se</span>
+                </Link>
+              </>
+            )}
           </section>
         </section>
       </section>

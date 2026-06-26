@@ -78,11 +78,13 @@ a {
 /* todas as propriedades do toast aqui devem usar "!important", pois valores iniciais já estão sendo atribuídos no toast principal :) */
 .toast_success {
   border-color: var(--primary_green) !important;
+  background-color: var(--dark_green) !important;
   color: var(--secondary_green) !important;
 }
 
 .toast_error {
-  border-color: var(--primary_red) !important;
+  border-color: var(--secondary_red) !important;
+  background-color: var(--primary_red) !important;
   color: var(--secondary_red) !important;
 }
 

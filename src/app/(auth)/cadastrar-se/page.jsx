@@ -69,7 +69,10 @@ const page = () => {
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { name } },
+      options: {
+        data: { name },
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?next=/confirmar-email`,
+      },
     });
 
     if (error) {
@@ -81,6 +84,9 @@ const page = () => {
       setLoading(false);
       return;
     }
+
+    sessionStorage.setItem("pending_email", email);
+    window.location.href = "/confirmar-email";
   };
 
   return (

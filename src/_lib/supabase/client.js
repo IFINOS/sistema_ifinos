@@ -16,20 +16,8 @@ import { createBrowserClient } from "@supabase/ssr";
  seja criada por sessão do browser, evitando múltiplas conexões 
 */
 export function createClient() {
-  const remember =
-    typeof window !== "undefined"
-      ? JSON.parse(localStorage.getItem("remember_user") ?? "true")
-      : true; // no servidor assume true como fallback
-
   return createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
-    // lógica para lembrar o login do usuário
-    {
-      auth: {
-        persistSession: remember,
-        storageKey: "supabase_session",
-      },
-    },
   );
 }
