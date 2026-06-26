@@ -34,7 +34,7 @@ const Layout = () => {
           alt="Em desenvolvimento"
           className={styles.indevelopment_img}
           style={{ objectFit: "contain" }}
-          loading="lazy" // estabelecendo um padrão aonde a logo é a prioridade em carregar
+          loading="eager" // estabelecendo um padrão aonde a logo é a prioridade em carregar
         />
 
         <h1

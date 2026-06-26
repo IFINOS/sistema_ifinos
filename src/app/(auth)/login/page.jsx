@@ -19,6 +19,7 @@ import {
 import Link from "next/link";
 import Loading from "@/app/components/Loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { toast } from "sonner";
 
 const page = () => {
   const [errors, setErrors] = useState({});

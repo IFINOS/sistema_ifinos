@@ -8,7 +8,7 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Hooks
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/context/userContext";
 
@@ -33,11 +33,7 @@ const links = [
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
-  const { user } = useUser();
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  const { user, logout } = useUser();
 
   return (
     <header className={styles.header_wrapper}>
@@ -70,10 +66,23 @@ const Header = () => {
 
         <section className={styles.user_options}>
           {user ? (
-            <Link href="/meu-perfil" className={styles.user_options_link}>
-              <FontAwesomeIcon icon={faUser} size="sm" />
-              <span>{user.user_metadata.name}</span>
-            </Link>
+            <>
+              <Link href="/meu-perfil" className={styles.user_options_link}>
+                <FontAwesomeIcon icon={faUser} size="sm" />
+                <span>{user.user_metadata.name}</span>
+              </Link>
+
+              <button
+                onClick={() => {
+                  console.log("clicou");
+                  logout();
+                }}
+                className={styles.logout_btn}
+              >
+                <FontAwesomeIcon icon={faArrowRightToBracket} size="sm" />
+                Logout
+              </button>
+            </>
           ) : (
             <>
               <Link href="/login" className={styles.user_options_link}>
@@ -122,10 +131,17 @@ const Header = () => {
 
           <section className={styles.mobile_user_options}>
             {user ? (
-              <Link href="/login" className={styles.user_options_link}>
-                <FontAwesomeIcon icon={faUser} size="sm" />
-                <span>{user.user_metadata.name}</span>
-              </Link>
+              <>
+                <Link href="/login" className={styles.user_options_link}>
+                  <FontAwesomeIcon icon={faUser} size="sm" />
+                  <span>{user.user_metadata.name}</span>
+                </Link>
+
+                <button onClick={logout} className={styles.logout_btn}>
+                  <FontAwesomeIcon icon={faArrowRightToBracket} size="sm" />
+                  Logout
+                </button>
+              </>
             ) : (
               <>
                 <Link href="/login" className={styles.user_options_link}>

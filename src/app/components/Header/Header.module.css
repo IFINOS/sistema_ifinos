@@ -58,9 +58,28 @@
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  border: 1px solid var(--primary_green);
+  border: 0.1rem solid var(--primary_green);
   border-radius: var(--pill_border);
-  transition: 0.6s ease all;
+  transition: var(--default_transition);
+}
+
+.logout_btn {
+  cursor: pointer;
+  width: fit-content;
+  border: 0.1rem solid var(--primary_red);
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border-radius: var(--pill_border);
+  transition: var(--default_transition);
+}
+
+.logout_btn:hover {
+  color: hsl(0, 0%, 100%);
+  box-shadow: var(--background_effect) var(--primary_red);
 }
 
 .user_options_link:hover {
@@ -184,7 +203,8 @@
   transform: translateX(0);
 }
 
-.mobile_user_options .user_options_link {
+.mobile_user_options .user_options_link,
+.mobile_user_options .logout_btn {
   width: 100%;
   justify-content: center;
 }

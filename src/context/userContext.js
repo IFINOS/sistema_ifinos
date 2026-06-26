@@ -63,8 +63,13 @@ export function UserProvider({ children }) {
     return () => subscription.unsubscribe();
   }, []);
 
+  const logout = async () => {
+    await fetch("/auth/logout", { method: "POST" });
+    window.location.href = "/login";
+  };
+
   return (
-    <UserContext.Provider value={{ user, userRole, loading }}>
+    <UserContext.Provider value={{ user, userRole, loading, logout }}>
       {children}
     </UserContext.Provider>
   );
