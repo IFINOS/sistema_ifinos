@@ -73,6 +73,32 @@ const page = () => {
     window.location.href = next;
   };
 
+  /*
+    o login com google usa o fluxo OAuth do supabase
+    ao chamar signInWithOAuth, o supabase redireciona o usuário para a página de login do google
+    após autenticar, o google redireciona de volta para /auth/callback com um ?code=
+    o callback troca o code por uma sessão e redireciona para /home
+  */
+  const handle_google_login = async () => {
+    setLoading(true);
+
+    const supabase = createClient();
+
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?next=/home`,
+      },
+    });
+
+    if (error) {
+      toast.error("Erro ao entrar com o Google. Tente novamente.");
+      setLoading(false);
+    }
+
+    // não precisa de redirect manual aqui pois o supabase já redireciona para o google
+  };
+
   return (
     <form onSubmit={handle_login} className={styles.auth_form}>
       {loading ? (
@@ -172,9 +198,13 @@ const page = () => {
           </section>
 
           <section className={styles.auth_options_container}>
-            <button className={styles.auth_option}>
+            <button
+              type="button"
+              className={styles.auth_option}
+              onClick={handle_google_login}
+            >
               <FontAwesomeIcon icon={faGoogle} />
-              Criar conta com o Google
+              Entrar com o Google
             </button>
 
             <Link className={styles.account_support_link} href="/cadastrar-se">

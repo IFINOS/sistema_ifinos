@@ -89,6 +89,31 @@ const page = () => {
     window.location.href = "/confirmar-email";
   };
 
+  /*
+    o cadastro com google usa o mesmo fluxo OAuth do login
+    o supabase cria a conta automaticamente se o email ainda não existir
+    ou faz login se o email já estiver cadastrado
+    após autenticar, redireciona para /auth/callback que troca o code por sessão
+    e redireciona para /home
+  */
+  const handle_google_signup = async () => {
+    setLoading(true);
+
+    const supabase = createClient();
+
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?next=/home`,
+      },
+    });
+
+    if (error) {
+      toast.error("Erro ao cadastrar com o Google. Tente novamente.");
+      setLoading(false);
+    }
+  };
+
   return (
     <form onSubmit={handle_signup} className={styles.auth_form}>
       {loading ? (
@@ -243,7 +268,11 @@ const page = () => {
           </section>
 
           <section className={styles.auth_options_container}>
-            <button className={styles.auth_option}>
+            <button
+              type="button"
+              className={styles.auth_option}
+              onClick={handle_google_signup}
+            >
               <FontAwesomeIcon icon={faGoogle} size="lg" />
               Criar conta com o Google
             </button>
