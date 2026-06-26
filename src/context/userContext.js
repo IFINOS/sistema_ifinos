@@ -8,6 +8,7 @@ import { createClient } from "@/_lib/supabase/client";
 import { getRoleFromGroups } from "@/_lib/auth/roles";
 
 const UserContext = createContext(null);
+const supabase = createClient();
 
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -15,37 +16,28 @@ export function UserProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const supabase = createClient();
-
-    // busca o usuário atual
-    const getUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (user) {
-        setUser(user);
-        await getRole(user.id);
-      }
-
-      setLoading(false);
-    };
-
     // busca o role do usuário
     const getRole = async (userId) => {
-      const { data: grupos } = await supabase
+      const { data: grupos, error } = await supabase
         .from("usuarios_grupos")
-        .select("grupos(nome)")
+        .select("grupos!inner(nome)")
         .eq("usuario_id", userId);
 
-      const groupNames = grupos?.map((g) => g.grupos.nome) ?? [];
-      setUserRole(getRoleFromGroups(groupNames));
+      if (error) {
+        console.error("Erro ao buscar role:", error);
+        return;
+      }
+
+      const groupNames =
+        grupos?.map((item) => item.grupos?.nome).filter(Boolean) || [];
+
+      const role = getRoleFromGroups(groupNames);
+      setUserRole(role);
     };
 
-    getUser();
-
     // escuta mudanças de sessão em tempo real
-    // ex: login, logout, refresh de token
+    // também dispara imediatamente na montagem se já houver sessão ativa
+    // ex: login, logout, refresh de token, carregamento inicial
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {

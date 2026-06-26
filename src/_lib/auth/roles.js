@@ -20,22 +20,21 @@ const GROUP_NAME_TO_ROLE = {
   administradores: "admin",
 };
 
-// recebe array de nomes de grupos e retorna o role mais alto
 export function getRoleFromGroups(groupNames) {
-  let highest = "visitor"; // assumindo o menor role possível
+  let highest = "visitor";
 
-  // percorre cada nome de grupo que o usuário possui
-  // um usuário pode ter mais de um grupo no banco
-  for (const name of groupNames) {
-    const role = GROUP_NAME_TO_ROLE[name.toLowerCase()] ?? "visitor";
+  groupNames.forEach((name) => {
+    // Normaliza para evitar problemas com espaços ou maiúsculas
+    const normalizedName = name.trim().toLowerCase();
+    const role = GROUP_NAME_TO_ROLE[normalizedName];
 
     // compara o nível numérico do role encontrado com o maior até agora
     // ex: ROLE_LEVEL['admin'] (3) > ROLE_LEVEL['visitor'] (0) = atualiza
     // ex: ROLE_LEVEL['visitor'] (0) > ROLE_LEVEL['admin'] (3) = ignora
-    if (ROLE_LEVEL[role] > ROLE_LEVEL[highest]) {
+    if (role && ROLE_LEVEL[role] > ROLE_LEVEL[highest]) {
       highest = role;
     }
-  }
+  });
 
   // retorna o role de maior nível encontrado entre todos os grupos do usuário
   return highest;
