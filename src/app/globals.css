@@ -20,7 +20,6 @@
   --primary_red: hsl(0, 90%, 44%);
   --primary_red_hover: hsl(0, 90%, 36%);
   --secondary_red: hsl(0, 88%, 95%);
-  --pink_red: hsl(342, 84%, 40%); /* sla q nome melhor dar pra essa cor :)*/
 
   /* altura de componentes */
   --header-height: 6rem;
@@ -31,6 +30,18 @@
 
   /* border radius */
   --pill_border: 2rem;
+  --form_border_radius: 0.6rem;
+  --input_border_radius: 0.4rem;
+
+  /* padding dos componentes */
+  --global_input_pad: 0.8rem;
+
+  /* effects  principalmente usado em hovers */
+  /* este efeito é utilizado com o box-shadow */
+  --background_effect: inset 0 -4rem 0 0; /* efeito de preencher o background de um componente... LEMBRAR DE ESCOLHER A COR */
+
+  /* transições*/
+  --default_transition: 0.4s ease all;
 }
 
 * {
@@ -67,11 +78,13 @@ a {
 /* todas as propriedades do toast aqui devem usar "!important", pois valores iniciais já estão sendo atribuídos no toast principal :) */
 .toast_success {
   border-color: var(--primary_green) !important;
+  background-color: var(--dark_green) !important;
   color: var(--secondary_green) !important;
 }
 
 .toast_error {
-  border-color: var(--primary_red) !important;
+  border-color: var(--secondary_red) !important;
+  background-color: var(--primary_red) !important;
   color: var(--secondary_red) !important;
 }
 

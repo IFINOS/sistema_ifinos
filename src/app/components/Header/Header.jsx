@@ -8,8 +8,9 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Hooks
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useUser } from "@/context/userContext";
 
 // Images
 import logo from "@/imgs/logo.svg";
@@ -17,9 +18,11 @@ import {
   faArrowRightToBracket,
   faBars,
   faUserPlus,
+  faUser,
+  faChevronDown,
+  faUsers,
+  faCog,
 } from "@fortawesome/free-solid-svg-icons";
-faArrowRightToBracket;
-faUserPlus;
 
 const links = [
   { id: 1, content: "Home", path: "/home" },
@@ -33,6 +36,17 @@ const links = [
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const [isSystemOpen, setIsSystemOpen] = useState(false);
+  const { user, logout, userRole } = useUser();
+
+  // fecha ao clicar fora :)
+  useEffect(() => {
+    const handle_click_outside = (e) => {
+      if (!e.target.closest(".sistema_wrapper")) setIsSystemOpen(false);
+    };
+    document.addEventListener("click", handle_click_outside);
+    return () => document.removeEventListener("click", handle_click_outside);
+  }, []);
 
   return (
     <header className={styles.header_wrapper}>
@@ -61,18 +75,75 @@ const Header = () => {
               </Link>
             </li>
           ))}
+
+          {userRole == "admin" && (
+            <li className="sistema_wrapper" style={{ position: "relative" }}>
+              <button
+                className={`${styles.link} ${styles.system_btn} ${pathname.includes("/sistema") || isSystemOpen ? styles.current_link : ""} `}
+                onClick={() => setIsSystemOpen(!isSystemOpen)}
+              >
+                Sistema
+                <FontAwesomeIcon
+                  icon={faChevronDown}
+                  size="xs"
+                  style={{
+                    marginLeft: 4,
+                    transition: "transform 0.2s",
+                    transform: isSystemOpen ? "rotate(180deg)" : "rotate(0deg)",
+                  }}
+                />
+              </button>
+
+              {isSystemOpen && (
+                <div className={styles.system_dropdown}>
+                  <Link
+                    className={styles.dropdown_links}
+                    href="/sistema/usuarios"
+                    onClick={() => setIsSystemOpen(false)}
+                  >
+                    <FontAwesomeIcon icon={faUsers} size="sm" />
+                    Usuários
+                  </Link>
+                  <Link
+                    className={styles.dropdown_links}
+                    href="/sistema/configuracoes"
+                    onClick={() => setIsSystemOpen(false)}
+                  >
+                    <FontAwesomeIcon icon={faCog} size="sm" />
+                    Configurações
+                  </Link>
+                </div>
+              )}
+            </li>
+          )}
         </ul>
 
         <section className={styles.user_options}>
-          <Link href="/login" className={styles.user_options_link}>
-            <FontAwesomeIcon icon={faArrowRightToBracket} size="sm" />
-            <span>Entrar</span>
-          </Link>
+          {user ? (
+            <>
+              <Link href="/meu-perfil" className={styles.user_options_link}>
+                <FontAwesomeIcon icon={faUser} size="sm" />
+                <span>{user.user_metadata.name}</span>
+              </Link>
 
-          <Link href="/cadastrar-se" className={styles.user_options_link}>
-            <FontAwesomeIcon icon={faUserPlus} size="sm" />
-            <span>Cadastrar-se</span>
-          </Link>
+              <button onClick={() => logout()} className={styles.logout_btn}>
+                <FontAwesomeIcon icon={faArrowRightToBracket} size="sm" />
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login" className={styles.user_options_link}>
+                <FontAwesomeIcon icon={faArrowRightToBracket} size="sm" />
+                <span>Entrar</span>
+              </Link>
+
+              <Link href="/cadastrar-se" className={styles.user_options_link}>
+                <FontAwesomeIcon icon={faUserPlus} size="sm" />
+                <span>Cadastrar-se</span>
+              </Link>
+            </>
+          )}
         </section>
       </section>
 
@@ -104,25 +175,82 @@ const Header = () => {
                 </Link>
               </li>
             ))}
+            {userRole == "admin" && (
+              <li style={{ "--i": links.length }} className="sistema_wrapper">
+                <button
+                  className={`${styles.link} ${styles.system_btn} ${pathname.includes("/sistema") ? styles.current_link : ""}`}
+                  onClick={() => setIsSystemOpen((prev) => !prev)}
+                >
+                  Sistema
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    size="xs"
+                    style={{
+                      marginLeft: 4,
+                      transition: "transform 0.2s",
+                      transform: isSystemOpen
+                        ? "rotate(180deg)"
+                        : "rotate(0deg)",
+                    }}
+                  />
+                </button>
+
+                <div
+                  className={`${styles.submenu_system} ${isSystemOpen ? styles.submenu_system_open : ""}`}
+                >
+                  <Link
+                    className={styles.submenu_system_link}
+                    href="/sistema/usuarios"
+                    onClick={() => {
+                      setIsSystemOpen(false);
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faUsers} size="sm" />
+                    Usuários
+                  </Link>
+                  <Link
+                    className={styles.submenu_system_link}
+                    href="/sistema/configuracoes"
+                    onClick={() => {
+                      setIsSystemOpen(false);
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faCog} size="sm" />
+                    Configurações
+                  </Link>
+                </div>
+              </li>
+            )}
           </ul>
 
           <section className={styles.mobile_user_options}>
-            <Link
-              href="/login"
-              className={styles.user_options_link}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <FontAwesomeIcon icon={faArrowRightToBracket} size="sm" />
-              <span>Entrar</span>
-            </Link>
-            <Link
-              href="/cadastrar-se"
-              className={styles.user_options_link}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              <FontAwesomeIcon icon={faUserPlus} size="sm" />
-              <span>Cadastrar-se</span>
-            </Link>
+            {user ? (
+              <>
+                <Link href="/login" className={styles.user_options_link}>
+                  <FontAwesomeIcon icon={faUser} size="sm" />
+                  <span>{user.user_metadata.name}</span>
+                </Link>
+
+                <button onClick={logout} className={styles.logout_btn}>
+                  <FontAwesomeIcon icon={faArrowRightToBracket} size="sm" />
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className={styles.user_options_link}>
+                  <FontAwesomeIcon icon={faArrowRightToBracket} size="sm" />
+                  <span>Entrar</span>
+                </Link>
+
+                <Link href="/cadastrar-se" className={styles.user_options_link}>
+                  <FontAwesomeIcon icon={faUserPlus} size="sm" />
+                  <span>Cadastrar-se</span>
+                </Link>
+              </>
+            )}
           </section>
         </section>
       </section>

@@ -7,6 +7,7 @@ import { Toaster } from "sonner";
 // Utils
 import "@/_lib/fontawesome";
 import "./globals.css";
+import { UserProvider } from "@/context/userContext";
 
 const bai_jamjuree = Bai_Jamjuree({
   variable: "--font-bai-jamjuree",
@@ -30,7 +31,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={bai_jamjuree.variable}>
       <body suppressHydrationWarning>
-        {children}
+        <UserProvider>{children}</UserProvider>
 
         {/* componente para alertar o usuário com mensagens de "erro" e de "sucesso" */}
         <Toaster

@@ -1,3 +1,4 @@
+"use client";
 // Utils
 import styles from "./layout.module.css";
 
@@ -9,7 +10,21 @@ import Image from "next/image";
 // Images
 import in_development from "@/imgs/coming_soon.svg";
 
+// Hooks
+import { useEffect } from "react";
+import { createClient } from "@/_lib/supabase/client";
+
 const Layout = () => {
+  useEffect(() => {
+    const pending = sessionStorage.getItem("pending_email");
+    if (!pending) return;
+
+    // só remove se o usuário estiver autenticado
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) sessionStorage.removeItem("pending_email");
+    });
+  }, []);
   return (
     <>
       <Header />
@@ -19,7 +34,7 @@ const Layout = () => {
           alt="Em desenvolvimento"
           className={styles.indevelopment_img}
           style={{ objectFit: "contain" }}
-          loading="lazy" // estabelecendo um padrão aonde a logo é a prioridade em carregar
+          loading="eager" // estabelecendo um padrão aonde a logo é a prioridade em carregar
         />
 
         <h1

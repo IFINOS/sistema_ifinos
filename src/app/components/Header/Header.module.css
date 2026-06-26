@@ -25,7 +25,7 @@
 .link {
   position: relative;
   color: hsla(134, 100%, 28%, 0.75);
-  transition: 0.4s ease all;
+  transition: var(--default_transition);
 }
 
 .link::before {
@@ -58,14 +58,76 @@
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  border: 1px solid var(--primary_green);
+  border: 0.1rem solid var(--primary_green);
   border-radius: var(--pill_border);
-  transition: 0.6s ease all;
+  transition: var(--default_transition);
+}
+
+.logout_btn {
+  cursor: pointer;
+  width: fit-content;
+  border: 0.1rem solid var(--primary_red);
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border-radius: var(--pill_border);
+  transition: var(--default_transition);
+}
+
+.logout_btn:hover {
+  color: hsl(0, 0%, 100%);
+  box-shadow: var(--background_effect) var(--primary_red);
 }
 
 .user_options_link:hover {
   color: hsl(0, 0%, 100%);
-  box-shadow: inset 0 -4rem 0 0 var(--primary_green);
+  box-shadow: var(--background_effect) var(--primary_green);
+}
+
+.system_btn {
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.system_dropdown {
+  position: absolute;
+  top: calc(100% + 0.6rem);
+  right: 0;
+  background: var(--surface-2, #fff);
+  border: 0.5px solid var(--border, #e5e5e5);
+  border-radius: 0.6rem;
+  min-width: 10rem;
+  overflow: hidden;
+  box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown_links {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+  color: inherit;
+  transition: background 0.1s;
+  font-weight: 600;
+  color: var(--primary_green);
+  transition: 0.4s ease color;
+}
+
+.dropdown_links:hover {
+  color: var(--primary_green_hover);
+}
+
+.system_dropdown a:hover {
+  background: var(--surface-1, #f5f5f5);
 }
 
 /* MENU HAMBURGUER ============================================= */
@@ -184,14 +246,50 @@
   transform: translateX(0);
 }
 
-.mobile_user_options .user_options_link {
+.mobile_user_options .user_options_link,
+.mobile_user_options .logout_btn {
   width: 100%;
   justify-content: center;
 }
 
+.submenu_system {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-height: 0;
+  overflow: hidden;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.3s ease,
+    margin 0.3s ease;
+  margin-top: 0;
+  opacity: 0;
+}
+
+.submenu_system_open {
+  max-height: 8rem;
+  opacity: 1;
+  margin-top: 0.75rem;
+}
+
+.submenu_system_link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1rem;
+  color: var(--primary_green);
+  transition: color 0.2s;
+}
+
+.sistema_submenu_link:hover {
+  color: var(--primary_green_hover);
+}
+
 /* tive que separar entre 2 menus*/
-/* o de 969px fica zuado no mobile :( */
-@media screen and (max-width: 969px) {
+/* agora 1080px por conta da adição de um novo link */
+/* o de 1080px fica zuado no mobile :( */
+@media screen and (max-width: 1080px) {
   .desktop_links_wrapper {
     display: none;
   }
