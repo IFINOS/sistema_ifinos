@@ -1,7 +1,7 @@
 /* qualquer valor de estilo que for recorrente no código adicione aqui :) */
 /* BREAKPOINT PARA QUEBRA DE TELA: 869px */
 :root {
-  /* CORES */
+  /* cores */
   --background: hsl(60, 5%, 95%);
   --foreground: hsl(0, 0%, 15%);
   --dark_gray: hsl(0, 0%, 29%);
@@ -42,6 +42,9 @@
 
   /* transições*/
   --default_transition: 0.4s ease all;
+
+  /* fontes/linhas de texto */
+  --long_text_line_height: 1.75rem; 
 }
 
 * {

@@ -7,6 +7,7 @@
   min-height: 100%;
   gap: 1rem;
   color: var(--foreground);
+  flex: 1;
 }
 
 .spinner {
