@@ -11,7 +11,7 @@
 }
 
 .main_app_title {
-  font-size: clamp(2.4rem, calc(.5926vw + 2.2889rem), 3rem);
+  font-size: clamp(2.4rem, calc(0.5926vw + 2.2889rem), 3rem);
   font-weight: 400;
   position: relative;
 }
@@ -19,7 +19,7 @@
 .main_app_title::before {
   content: "";
   position: absolute;
-  height: .4rem;
+  height: 0.4rem;
   width: 100%;
   bottom: 0;
   left: 0;

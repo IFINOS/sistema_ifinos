@@ -6,6 +6,7 @@ const page = () => {
   return (
     <section className={styles.about_texts_container}>
       <h1 className={layout.main_app_title}>Sobre o IFINOS</h1>
+
       <p className={styles.about_text}>
         Essa página foi criada para compartilhar as ações e os resultados de
         pesquisa do grupo ifinos. O trabalho começou como um grupo de estudos do
@@ -54,6 +55,16 @@ const page = () => {
         <b>Paola Julie dos Santos da Silva</b>, na época aluna do IFPR no curso
         de programação de sistemas básicos (Do Zero ao Um) e, posteriormente,
         estudante de Análise e Desenvolvimento de Sistemas no Biopark.
+      </p>
+
+      <p className={styles.about_text}>
+        No ano de 2026, o site passou por uma completa renovação e modernização,
+        projeto este idealizado e desenvolvido pelos alunos <b>Arthur Gehlen</b>
+        , <b>Marcelo Gergen Urban</b> e <b>Mateus Vinicios Rosler</b> como o
+        Projeto Integrador do 3° ano do Curso Técnico em Informática para a
+        Internet Integrado ao Ensino Médio. Esta nova versão foi reconstruída
+        para trazer uma nova experiência para a instituição, marcando um novo
+        capítulo na história da página do grupo.
       </p>
     </section>
   );

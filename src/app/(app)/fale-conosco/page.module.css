@@ -1,0 +1,70 @@
+.contact_container {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  gap: 2rem;
+}
+
+.contact_form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 100%;
+}
+
+.input_wrapper,
+.message_container {
+  width: 35rem;
+  max-width: 100%;
+}
+
+.input_wrapper {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.input_label {
+  font-size: 1.2rem;
+}
+
+.input,
+.message_container {
+  padding: var(--global_input_pad);
+  border-radius: var(--input_border_radius);
+  border: 0.1rem solid var(--foreground);
+  font-size: 1rem;
+}
+
+.input {
+  width: 100%;
+}
+
+.message_container {
+  resize: none;
+  font-family: "Bai Jamburee", sans-serif;
+  height: 20rem;
+  font-size: 1rem;
+  line-height: var(--long_text_line_height);
+}
+
+.send_message_btn {
+  padding: var(--global_input_pad);
+  border-radius: var(--input_border_radius);
+  border: 0.1rem solid var(--primary_green);
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
+  cursor: pointer;
+  transition: var(--default_transition);
+  font-weight: 500;
+}
+
+.send_message_btn:hover {
+  box-shadow: var(--background_effect) var(--primary_green);
+  color: hsl(0, 0%, 100%);
+}
