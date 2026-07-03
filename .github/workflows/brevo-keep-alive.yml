@@ -1,0 +1,21 @@
+name: Brevo Keep Alive
+
+on:
+  schedule:
+    - cron: "0 9 1 */2 *" # dia 1 a cada 2 meses
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send keep-alive email
+        run: |
+          curl -X POST https://api.brevo.com/v3/smtp/email \
+          -H "api-key: ${{ secrets.BREVO_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "sender": { "name": "IFINOS", "email": "ifinos.ifpr@gmail.com" },
+            "to": [{ "email": "ifinos.ifpr@gmail.com" }],
+            "subject": "Brevo keep-alive",
+            "htmlContent": "<p>Ping automático para manter conta ativa.</p>"
+          }'
