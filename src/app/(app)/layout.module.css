@@ -25,3 +25,16 @@
   left: 0;
   background-color: var(--primary_green);
 }
+
+.input_invalid,
+.input_invalid + .icon_container,
+.input_invalid:focus,
+.input_invalid:focus + .icon_container {
+  color: var(--primary_red) !important;
+  border-color: var(--primary_red);
+}
+
+.field_error {
+  color: var(--primary_red);
+  text-align: start;
+}

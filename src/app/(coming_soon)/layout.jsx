@@ -46,7 +46,7 @@ const Layout = () => {
         </h1>
         <p>Estamos trabalhando nisso, volte mais tarde! :)</p>
       </section>
-      {/* <Footer /> por hora não irei adicionar o footer */}
+      <Footer />
     </>
   );
 };

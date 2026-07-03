@@ -38,6 +38,12 @@
   font-size: 1rem;
 }
 
+.input:focus,
+.message_container:focus {
+  outline: none;
+  border: 0.1rem solid var(--primary_green);
+}
+
 .input {
   width: 100%;
 }

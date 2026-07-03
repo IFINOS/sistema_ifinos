@@ -6,29 +6,67 @@ import { useUser } from "@/context/userContext";
 
 // Components
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { toast } from "sonner";
 
 // Images
 import {
   faEnvelope,
   faUser,
   faMessage,
-  faPaperPlane
+  faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 
 // Hooks
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const page = () => {
   const [inputErrors, setInputErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   const { user } = useUser();
 
-  // DEBUG
-  // useEffect(() => {
-  //   console.log(user);
-  // }, [user]);
+  const validate_inputs = ({ nome, email, mensagem }) => {
+    const errors = {};
 
-  const handle_submit = (e) => {
+    if (!nome) errors.nome = "Nome obrigatório";
+    else if (nome.length < 3) errors.nome = "Nome muito curto";
+
+    if (!email) errors.email = "Email obrigatório";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      errors.email = "Email inválido";
+
+    if (!mensagem) errors.mensagem = "Mensagem obrigatória";
+    else if (mensagem.length < 10) errors.mensagem = "Mensagem muito curta";
+
+    return errors;
+  };
+
+  const handle_submit = async (e) => {
     e.preventDefault();
+
+    setInputErrors({});
+
+    const form_data = new FormData(e.currentTarget);
+    const nome = form_data.get("nome")?.trim();
+    const email = form_data.get("email")?.trim();
+    const mensagem = form_data.get("mensagem");
+
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nome, email, mensagem }),
+      });
+
+      if (!res.ok) throw new Error();
+
+      toast.success("Mensagem enviada com sucesso!");
+    } catch (e) {
+      toast.error("Erro ao enviar mensagem. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -37,17 +75,21 @@ const page = () => {
 
       <form onSubmit={handle_submit} className={styles.contact_form}>
         <section className={styles.input_wrapper}>
-          <label className={styles.input_label} htmlFor="name">
+          <label className={styles.input_label} htmlFor="nome">
             Nome <FontAwesomeIcon icon={faUser} />
           </label>
 
           <input
             defaultValue={user ? user.user_metadata.full_name : ""}
-            className={styles.input}
+            className={`${styles.input} ${inputErrors.nome ? layout.input_invalid : ""}`}
             type="text"
-            name="name"
-            id="name"
+            name="nome"
+            id="nome"
           />
+
+          {inputErrors.nome && (
+            <span className={layout.field_error}>{inputErrors.nome}</span>
+          )}
         </section>
 
         <section className={styles.input_wrapper}>
@@ -57,29 +99,45 @@ const page = () => {
 
           <input
             defaultValue={user ? user.email : ""}
-            className={styles.input}
+            className={`${styles.input} ${inputErrors.email ? layout.input_invalid : ""}`}
             type="email"
             name="email"
             id="email"
           />
+
+          {inputErrors.email && (
+            <span className={layout.field_error}>{inputErrors.email}</span>
+          )}
         </section>
 
         <section className={styles.input_wrapper}>
-          <label className={styles.input_label} htmlFor="message">
+          <label className={styles.input_label} htmlFor="mensagem">
             Mensagem <FontAwesomeIcon icon={faMessage} />
           </label>
 
           <textarea
-            className={styles.message_container}
-            name="message"
-            id="message"
+            className={`${styles.message_container} ${inputErrors.mensagem ? layout.input_invalid : ""}`}
+            name="mensagem"
+            id="mensagem"
             maxLength={1500}
             placeholder="Máximo de 1500 caracteres"
           ></textarea>
+
+          {inputErrors.mensagem && (
+            <span className={layout.field_error}>{inputErrors.mensagem}</span>
+          )}
         </section>
 
-        <button className={styles.send_message_btn} type="submit">
-          Enviar
+        {inputErrors.geral && (
+          <span className={layout.field_error}>{inputErrors.geral}</span>
+        )}
+
+        <button
+          className={styles.send_message_btn}
+          type="submit"
+          disabled={loading}
+        >
+          {loading ? "Enviando..." : "Enviar"}
           <FontAwesomeIcon icon={faPaperPlane} />
         </button>
       </form>

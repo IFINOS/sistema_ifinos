@@ -31,15 +31,17 @@ const page = () => {
     setErrors({});
 
     const form = new FormData(e.currentTarget);
-    const email = form.get("email");
+    const email = form.get("email")?.trim();
     const password = form.get("password");
 
-    if (!email) {
-      setErrors({ email: "Email é obrigatório." });
-      return;
-    }
-    if (!password) {
-      setErrors({ password: "Senha é obrigatória." });
+    const errors = {};
+    if (!email) errors.email = "Email é obrigatório.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      errors.email = "Email inválido.";
+    if (!password) errors.password = "Senha é obrigatória.";
+
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
       return;
     }
 
