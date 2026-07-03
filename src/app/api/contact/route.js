@@ -35,9 +35,6 @@ export async function POST(req) {
 
   // Adicione isso temporariamente
   const data = await res.json();
-  console.log(res);
-  console.log("Status Brevo:", res.status);
-  console.log("Resposta Brevo:", data);
 
   if (!res.ok)
     return NextResponse.json({ error: "Erro ao enviar" }, { status: 500 });
