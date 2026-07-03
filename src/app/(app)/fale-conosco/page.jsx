@@ -22,6 +22,7 @@ import { useState } from "react";
 const page = () => {
   const [inputErrors, setInputErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [formKey, setFormKey] = useState(0);
   const { user } = useUser();
 
   const validate_inputs = ({ nome, email, mensagem }) => {
@@ -33,6 +34,8 @@ const page = () => {
     if (!email) errors.email = "Email obrigatório";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
       errors.email = "Email inválido";
+    else if (user && email !== user.email)
+      errors.email = "Email diferente do cadastrado";
 
     if (!mensagem) errors.mensagem = "Mensagem obrigatória";
     else if (mensagem.length < 10) errors.mensagem = "Mensagem muito curta";
@@ -48,7 +51,13 @@ const page = () => {
     const form_data = new FormData(e.currentTarget);
     const nome = form_data.get("nome")?.trim();
     const email = form_data.get("email")?.trim();
-    const mensagem = form_data.get("mensagem");
+    const mensagem = form_data.get("mensagem")?.trim();
+
+    const errors = validate_inputs({ nome, email, mensagem });
+    if (Object.keys(errors).length > 0) {
+      setInputErrors(errors);
+      return;
+    }
 
     setLoading(true);
 
@@ -62,6 +71,7 @@ const page = () => {
       if (!res.ok) throw new Error();
 
       toast.success("Mensagem enviada com sucesso!");
+      setFormKey((prev) => prev + 1); // força o reset dos inputs no form
     } catch (e) {
       toast.error("Erro ao enviar mensagem. Tente novamente.");
     } finally {
@@ -73,7 +83,11 @@ const page = () => {
     <section className={styles.contact_container}>
       <h1 className={layout.main_app_title}>Fale Conosco</h1>
 
-      <form onSubmit={handle_submit} className={styles.contact_form}>
+      <form
+        key={formKey}
+        onSubmit={handle_submit}
+        className={styles.contact_form}
+      >
         <section className={styles.input_wrapper}>
           <label className={styles.input_label} htmlFor="nome">
             Nome <FontAwesomeIcon icon={faUser} />

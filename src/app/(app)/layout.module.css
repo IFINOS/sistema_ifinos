@@ -31,7 +31,7 @@
 .input_invalid:focus,
 .input_invalid:focus + .icon_container {
   color: var(--primary_red) !important;
-  border-color: var(--primary_red);
+  border-color: var(--primary_red) !important;
 }
 
 .field_error {

@@ -21,7 +21,7 @@ export async function POST(req) {
       "content-type": "application/json",
     },
     body: JSON.stringify({
-      sender: { name: "IFINOS", email: "noreply@smtp-brevo.com" },
+      sender: { name: "IFINOS", email: "ifinos.ifpr@gmail.com" },
       to: [{ email: "ifinos.ifpr@gmail.com" }],
       replyTo: { email: email_real, name: nome_real },
       subject: `[Fale Conosco] ${nome_real}`,
@@ -32,9 +32,6 @@ export async function POST(req) {
       `,
     }),
   });
-
-  // Adicione isso temporariamente
-  const data = await res.json();
 
   if (!res.ok)
     return NextResponse.json({ error: "Erro ao enviar" }, { status: 500 });
