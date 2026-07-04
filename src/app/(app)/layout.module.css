@@ -1,0 +1,40 @@
+.main_app_wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.4rem;
+  text-align: center;
+  padding: var(--global_pad);
+}
+
+.main_app_title {
+  font-size: clamp(2.4rem, calc(0.5926vw + 2.2889rem), 3rem);
+  font-weight: 400;
+  position: relative;
+}
+
+.main_app_title::before {
+  content: "";
+  position: absolute;
+  height: 0.4rem;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  background-color: var(--primary_green);
+}
+
+.input_invalid,
+.input_invalid + .icon_container,
+.input_invalid:focus,
+.input_invalid:focus + .icon_container {
+  color: var(--primary_red) !important;
+  border-color: var(--primary_red) !important;
+}
+
+.field_error {
+  color: var(--primary_red);
+  text-align: start;
+}

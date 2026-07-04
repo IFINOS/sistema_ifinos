@@ -27,15 +27,22 @@ const page = () => {
 
   const validate_inputs = ({ name, email, password, confirm_password }) => {
     const errors = {};
+
     if (!name || name.trim().length < 3)
-      errors.name = "Nome de usuário deve ter pelo menos 3 caracteres.";
-    if (name && name.trim().length > 30)
-      errors.name = "Nome de usuário deve ter no máximo 30 caracteres.";
+      errors.name = "Nome deve ter pelo menos 3 caracteres.";
+    else if (name.trim().length > 30)
+      errors.name = "Nome deve ter no máximo 30 caracteres.";
+
     if (!email) errors.email = "Email é obrigatório.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      errors.email = "Email inválido.";
+
     if (!password || password.length < 8)
       errors.password = "Senha deve ter pelo menos 8 caracteres.";
+
     if (password !== confirm_password)
       errors.confirm_password = "As senhas não coincidem.";
+
     return errors;
   };
 
@@ -48,8 +55,8 @@ const page = () => {
 
     const form = new FormData(e.currentTarget);
     // o get acessa o valor do "name" no input
-    const name = form.get("name");
-    const email = form.get("email");
+    const name = form.get("name")?.trim();
+    const email = form.get("email")?.trim();
     const password = form.get("password");
     const confirm_password = form.get("confirm_password");
     const remember = form.get("remember_user") === "on";
@@ -150,7 +157,7 @@ const page = () => {
 
           <section className={styles.input_wrapper}>
             <label htmlFor="name" className={styles.auth_label}>
-              Nome de Usuário
+              Nome
             </label>
 
             <section className={styles.input_content}>
