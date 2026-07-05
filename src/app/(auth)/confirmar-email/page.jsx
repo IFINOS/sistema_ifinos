@@ -5,6 +5,7 @@ import styles from "../layout.module.css";
 // Components
 import { toast } from "sonner";
 import Link from "next/link";
+import Divider from "@/app/components/Divider/Divider";
 import Loading from "@/app/components/Loading/Loading";
 
 // Hooks
@@ -78,14 +79,20 @@ const page = () => {
             validada :)
           </p>
 
-          <p className={styles  .auth_hint}>
-            Não recebeu o email? Verifique sua caixa de spam ou, se você já
-            possui uma conta com o Google,{" "}
-            <Link className={styles.auth_hint_link} href="/login">
-              entre por lá
-            </Link>
-            .
-          </p>
+          <div className={styles.auth_hint_wrapper}>
+            <Divider color="var(--primary_green)" />
+
+            <p className={styles.auth_hint}>
+              Não recebeu o email? Verifique sua caixa de spam ou, se você já
+              possui uma conta com o Google,{" "}
+              <Link className={styles.auth_hint_link} href="/login">
+                entre por lá
+              </Link>
+              .
+            </p>
+
+            <Divider color="var(--primary_green)" />
+          </div>
 
           <button
             onClick={handle_resend_email}
