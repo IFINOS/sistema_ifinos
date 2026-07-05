@@ -8,7 +8,7 @@
 }
 
 .auth_form {
-  min-height: 30rem;
+  min-height: 20rem;
   /* cima/baixo: mínimo de .8rem, máximo de 1.25rem | esquerda/direita: mínimo de 1rem, máximo de 2rem*/
   padding: clamp(0.8rem, calc(0.4444vw + 0.7167rem), 1.25rem)
     clamp(1rem, calc(0.9877vw + 0.8148rem), 2rem);
@@ -172,6 +172,20 @@
 
 .account_support_link:hover {
   color: var(--primary_green);
+}
+
+.auth_hint {
+  color: var(--dark_gray);
+  text-align: justify;
+}
+
+.auth_hint_link {
+  color: var(--primary_green);
+  text-decoration: underline;
+}
+
+.auth_hint_link:hover {
+  color: var(--primary_green_hover);
 }
 
 /* estado de erro */
