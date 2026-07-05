@@ -8,6 +8,16 @@ const nextConfig = {
   /* config options here */
   env: { NEXT_PUBLIC_SITE_VERSION: version },
   reactCompiler: true,
+  images: {
+    remotePatterns: [
+      // adicionando a permissão de pegar a url de avatar do usuároo
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        pathname: "/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

@@ -1,7 +1,8 @@
-import React from "react";
+import { redirect } from "next/navigation";
 
+// talvez fazer um grid de seleção para diferentes seções?
 const page = () => {
-  return <div>page</div>;
+  redirect("/sistema/usuarios");
 };
 
 export default page;

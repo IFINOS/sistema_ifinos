@@ -122,7 +122,18 @@ const Header = () => {
           {user ? (
             <>
               <Link href="/meu-perfil" className={styles.user_options_link}>
-                <FontAwesomeIcon icon={faUser} size="sm" />
+                {user?.user_metadata.avatar_url ? (
+                  <Image
+                    src={user.user_metadata.avatar_url}
+                    width={25}
+                    height={25}
+                    loading="lazy"
+                    alt="Avatar"
+                    style={{ objectFit: "contain", borderRadius: "50%" }}
+                  />
+                ) : (
+                  <FontAwesomeIcon icon={faUser} size="sm" />
+                )}
                 <span>{user.user_metadata.name}</span>
               </Link>
 
@@ -147,7 +158,10 @@ const Header = () => {
         </section>
       </section>
 
+      {/* ================================================================= */}
       {/* LINKS PARA MOBILE */}
+      {/* ================================================================= */}
+
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         className={`${styles.mobile_btn} ${isMenuOpen ? styles.mobile_btn_open : ""}`}
@@ -229,7 +243,18 @@ const Header = () => {
             {user ? (
               <>
                 <Link href="/login" className={styles.user_options_link}>
-                  <FontAwesomeIcon icon={faUser} size="sm" />
+                  {user?.user_metadata.avatar_url ? (
+                    <Image
+                      src={user.user_metadata.avatar_url}
+                      width={25}
+                      height={25}
+                      loading="lazy"
+                      alt="Avatar"
+                      style={{ objectFit: "contain", borderRadius: "50%" }}
+                    />
+                  ) : (
+                    <FontAwesomeIcon icon={faUser} size="sm" />
+                  )}
                   <span>{user.user_metadata.name}</span>
                 </Link>
 
