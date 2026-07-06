@@ -1,0 +1,114 @@
+.users_wrapper {
+  width: 95rem;
+  max-width: 100%;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.user_container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  border: 0.1rem solid var(--primary_green);
+  border-radius: var(--input_border_radius);
+
+  /* mínimo de .8rem, máximo de 1.25rem */
+  padding: clamp(0.8rem, calc(0.4444vw + 0.7167rem), 1.25rem);
+}
+
+.user_container_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user_name {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.admin_options_container {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.admin_option {
+  background-color: transparent;
+  border: none;
+  transition: 0.4s ease scale;
+  cursor: pointer;
+}
+
+.admin_option:hover {
+  scale: 1.1;
+}
+
+.input_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.input_content {
+  height: 3rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.icon_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  flex: 1 1 5rem;
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 0 var(--input_border_radius) var(--input_border_radius) 0;
+  border: 0.1rem solid var(--foreground);
+  border-left: none;
+}
+
+.edit_infos_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.edit_info_label {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.input_wrapper {
+  flex: 1 1 20rem;
+  max-width: 100%;
+}
+
+.edit_info_input {
+  flex: 1 1 35rem;
+  height: 3rem;
+  width: 20rem;
+  max-width: 100%;
+  padding: var(--global_input_pad);
+  border-radius: var(--input_border_radius) 0 0 var(--input_border_radius);
+  border: 0.1rem solid var(--foreground);
+  border-right: none;
+  font-size: 1rem;
+}
+
+.edit_info_input:focus {
+  outline: none;
+  border: 0.1rem solid var(--primary_green);
+  border-right: none;
+}
+
+.edit_info_input:focus + .icon_container {
+  border: 0.1rem solid var(--primary_green);
+  border-left: none;
+}
