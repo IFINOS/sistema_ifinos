@@ -4,6 +4,8 @@ import styles from "../layout.module.css";
 
 // Components
 import { toast } from "sonner";
+import Link from "next/link";
+import Divider from "@/app/components/Divider/Divider";
 import Loading from "@/app/components/Loading/Loading";
 
 // Hooks
@@ -39,12 +41,19 @@ const page = () => {
   }, []);
 
   const handle_resend_email = async () => {
+    const pendingEmail = sessionStorage.getItem("pending_email");
+
+    if (!pendingEmail) {
+      toast.error("Nenhum email encontrado. Tente criar a conta novamente.");
+      return;
+    }
+
     setLoading(true);
 
     const supabase = createClient();
     const { error } = await supabase.auth.resend({
       type: "signup",
-      email: user.email,
+      email: pendingEmail,
     });
 
     if (error) {
@@ -65,10 +74,25 @@ const page = () => {
         <>
           <h1 className={styles.auth_form_title}>Confirme seu email</h1>
 
-          <p>
+          <p style={{ fontWeight: 500 }}>
             Enviamos um email para <b>{email}</b>, acesse para ter sua conta
             validada :)
           </p>
+
+          <div className={styles.auth_hint_wrapper}>
+            <Divider color="var(--primary_green)" />
+
+            <p className={styles.auth_hint}>
+              Não recebeu o email? Verifique sua caixa de spam ou, se você já
+              possui uma conta com o Google,{" "}
+              <Link className={styles.auth_hint_link} href="/login">
+                entre por lá
+              </Link>
+              .
+            </p>
+
+            <Divider color="var(--primary_green)" />
+          </div>
 
           <button
             onClick={handle_resend_email}
@@ -77,6 +101,7 @@ const page = () => {
           >
             Reenviar Email
           </button>
+
           <span
             style={{
               fontSize: ".875rem",

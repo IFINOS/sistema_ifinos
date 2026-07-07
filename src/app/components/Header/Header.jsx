@@ -1,6 +1,7 @@
 "use client";
 // Utils
 import styles from "./Header.module.css";
+import format_name from "@/_lib/format_nickname";
 
 // Components
 import Image from "next/image";
@@ -11,6 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/context/userContext";
+import { createClient } from "@/_lib/supabase/client";
 
 // Images
 import logo from "@/imgs/logo.svg";
@@ -37,7 +39,35 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
   const [isSystemOpen, setIsSystemOpen] = useState(false);
+  const [username, setUsername] = useState("");
   const { user, logout, userRole } = useUser();
+
+  useEffect(() => {
+    const get_user_name = async () => {
+      if (!user?.id) return;
+
+      try {
+        const supabase = createClient();
+
+        const { data, error } = await supabase
+          .from("usuarios")
+          .select("*")
+          .eq("id", user.id)
+          .single();
+
+        if (error) {
+          console.error(error);
+          return;
+        }
+
+        setUsername(data.nome);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    get_user_name();
+  }, [user]);
 
   // fecha ao clicar fora :)
   useEffect(() => {
@@ -122,8 +152,23 @@ const Header = () => {
           {user ? (
             <>
               <Link href="/meu-perfil" className={styles.user_options_link}>
-                <FontAwesomeIcon icon={faUser} size="sm" />
-                <span>{user.user_metadata.name}</span>
+                {user?.user_metadata.avatar_url ? (
+                  <Image
+                    src={user.user_metadata.avatar_url}
+                    width={25}
+                    height={25}
+                    loading="lazy"
+                    alt="Avatar"
+                    style={{ objectFit: "contain", borderRadius: "50%" }}
+                  />
+                ) : (
+                  <FontAwesomeIcon icon={faUser} size="sm" />
+                )}
+                <span>
+                  {username.length > 15
+                    ? format_name(username)
+                    : username}
+                </span>
               </Link>
 
               <button onClick={() => logout()} className={styles.logout_btn}>
@@ -147,7 +192,10 @@ const Header = () => {
         </section>
       </section>
 
+      {/* ================================================================= */}
       {/* LINKS PARA MOBILE */}
+      {/* ================================================================= */}
+
       <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         className={`${styles.mobile_btn} ${isMenuOpen ? styles.mobile_btn_open : ""}`}
@@ -229,8 +277,23 @@ const Header = () => {
             {user ? (
               <>
                 <Link href="/login" className={styles.user_options_link}>
-                  <FontAwesomeIcon icon={faUser} size="sm" />
-                  <span>{user.user_metadata.name}</span>
+                  {user?.user_metadata.avatar_url ? (
+                    <Image
+                      src={user.user_metadata.avatar_url}
+                      width={25}
+                      height={25}
+                      loading="lazy"
+                      alt="Avatar"
+                      style={{ objectFit: "contain", borderRadius: "50%" }}
+                    />
+                  ) : (
+                    <FontAwesomeIcon icon={faUser} size="sm" />
+                  )}
+                  <span>
+                    {username.length > 15
+                      ? format_name(username)
+                      : username}
+                  </span>
                 </Link>
 
                 <button onClick={logout} className={styles.logout_btn}>

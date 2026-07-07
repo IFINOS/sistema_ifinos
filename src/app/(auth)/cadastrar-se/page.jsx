@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loading from "@/app/components/Loading/Loading";
+import Divider from "@/app/components/Divider/Divider";
 
 // Images
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
@@ -269,9 +270,9 @@ const page = () => {
 
           <section className={styles.auth_options_header}>
             {/* transformar o divider em componente? */}
-            <div className={styles.divider}></div>
+            <Divider color="var(--primary_cyan)" />
             <p className={styles.divider_text}>Ou</p>
-            <div className={styles.divider}></div>
+            <Divider color="var(--primary_cyan)" />
           </section>
 
           <section className={styles.auth_options_container}>
