@@ -1,0 +1,90 @@
+.input_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.input_content {
+  height: 3rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.icon_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  max-width: 5rem;
+  flex: 1 1 5rem;
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 0 var(--input_border_radius) var(--input_border_radius) 0;
+  border: 0.1rem solid var(--foreground);
+  border-left: none;
+}
+
+.input_wrapper {
+  flex: 1 1 20rem;
+  max-width: 100%;
+}
+
+.edit_info_label {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.edit_info_input {
+  flex: 1 1 35rem;
+  height: 3rem;
+  width: 20rem;
+  max-width: 100%;
+  padding: var(--global_input_pad);
+  border-radius: var(--input_border_radius) 0 0 var(--input_border_radius);
+  border: 0.1rem solid var(--foreground);
+  border-right: none;
+  font-size: 1rem;
+}
+
+.edit_info_input:focus {
+  outline: none;
+  border: 0.1rem solid var(--primary_green);
+  border-right: none;
+}
+
+.edit_info_input:focus + .icon_container {
+  border: 0.1rem solid var(--primary_green);
+  border-left: none;
+}
+
+.save_btn {
+  margin-top: 1rem;
+  flex: 1 1 15rem;
+  padding: var(--global_input_pad);
+  border-radius: var(--input_border_radius);
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  background-color: var(--primary_green);
+  transition: 0.4s ease background-color;
+  color: hsl(0, 0%, 100%);
+  cursor: pointer;
+}
+
+.save_btn:hover {
+  background-color: var(--primary_green_hover);
+}
+
+.input_invalid,
+.input_invalid + .icon_container,
+.input_invalid:focus,
+.input_invalid:focus + .icon_container {
+  color: var(--primary_red) !important;
+  border-color: var(--primary_red);
+}
+
+.field_error {
+  color: var(--primary_red);
+  text-align: start;
+}

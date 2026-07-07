@@ -1,6 +1,7 @@
 "use client";
 // Hooks
 import { useState, useEffect } from "react";
+import { createClient } from "@/_lib/supabase/client";
 
 // Utils
 import styles from "./page.module.css";
@@ -23,7 +24,6 @@ import { toast } from "sonner";
 import Loading from "@/app/components/Loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import { createClient } from "@/_lib/supabase/client";
 
 // NÃO DEIXAR CONSOLE.LOG :)
 

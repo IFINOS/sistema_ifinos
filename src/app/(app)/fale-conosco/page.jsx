@@ -17,13 +17,43 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 // Hooks
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
+import { createClient } from "@/_lib/supabase/client";
 
 const page = () => {
   const [inputErrors, setInputErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [formKey, setFormKey] = useState(0);
+  const [userData, setUserData] = useState([]);
   const { user } = useUser();
+
+  useEffect(() => {
+    if (!user) return;
+
+    const loadUserData = async () => {
+      const supabase = createClient();
+
+      try {
+        const { data, error } = await supabase
+          .from("usuarios_completos")
+          .select("nome, email")
+          .eq("id", user.id)
+          .single();
+
+        if (error) {
+          toast.error("Erro ao carregar dados do usuário");
+          return;
+        }
+
+        console.log(data);
+        setUserData(data);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    loadUserData();
+  }, [user]);
 
   const validate_inputs = ({ nome, email, mensagem }) => {
     const errors = {};
@@ -94,7 +124,7 @@ const page = () => {
           </label>
 
           <input
-            defaultValue={user ? user.user_metadata.full_name : ""}
+            defaultValue={userData ? userData.nome : ""}
             className={`${styles.input} ${inputErrors.nome ? layout.input_invalid : ""}`}
             type="text"
             name="nome"
@@ -112,7 +142,7 @@ const page = () => {
           </label>
 
           <input
-            defaultValue={user ? user.email : ""}
+            defaultValue={userData ? userData.email : ""}
             className={`${styles.input} ${inputErrors.email ? layout.input_invalid : ""}`}
             type="email"
             name="email"
