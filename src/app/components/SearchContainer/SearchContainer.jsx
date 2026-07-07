@@ -38,7 +38,7 @@ const SearchContainer = ({ on_search, placeholder, is_loading }) => {
         className={styles.search_container_button}
         type="submit"
       >
-        {is_loading ? "Pesquisando..." : "Pesquisar"}
+        {is_loading ? "Carregando..." : "Pesquisar"}
       </button>
     </form>
   );

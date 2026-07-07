@@ -32,6 +32,10 @@ export async function PATCH(request) {
       );
     }
 
+    if (nome && nome.length > 64) {
+      return NextResponse.json({error: "Nome de usuário ultrapassa o limite"}, {status: 403})
+    }
+
     // atualiza o email no auth.users se foi fornecido
     if (nome || email) {
       const { error: authError } = await supabase.auth.admin.updateUserById(
@@ -92,35 +96,3 @@ export async function PATCH(request) {
   }
 }
 
-export async function DELETE(request) {
-  try {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE_KEY,
-    );
-
-    const { searchParams } = new URL(request.url);
-    const userId = searchParams.get("userId");
-
-    if (!userId) {
-      return NextResponse.json(
-        { error: "userId é obrigatório" },
-        { status: 400 },
-      );
-    }
-
-    // deletar no auth.users já cascateia para a tabela usuarios
-    // por causa do ON DELETE CASCADE definido na tabela
-    const { error } = await supabase.auth.admin.deleteUser(userId);
-
-    console.log("delete error:", error);
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
-    return NextResponse.json({ success: true });
-  } catch (e) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
-  }
-}

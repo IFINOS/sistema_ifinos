@@ -71,8 +71,10 @@ const page = () => {
       const to = from + USERS_PER_PAGE - 1;
 
       let req = supabase
-        .from("usuarios")
+        .from("usuarios_completos")
         .select("*", { count: "exact" })
+        .filter("registro_ativo", "eq", true)
+        .order("nome", { ascending: true })
         .range(from, to);
 
       // filtra por nome se houver busca
@@ -149,6 +151,7 @@ const page = () => {
 
       toast.success("Usuário atualizado com sucesso!");
       setEditingUserId(null);
+      location.reload();
       await load_users(currentPage, searchQuery);
     } catch (e) {
       toast.error("Erro ao salvar alterações.");
@@ -162,21 +165,13 @@ const page = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        `/api/admin/usuarios?userId=${deletingUserId}`,
-        {
-          method: "DELETE",
+      const { error } = await supabase
+        .from("usuarios")
+        .update({ registro_ativo: false })
+        .eq("id", s);
 
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId: deletingUserId }),
-        },
-      );
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        toast.error(result.error ?? "Erro ao deletar usuário.");
-        return;
+      if (error) {
+        throw new Error();
       }
 
       toast.success("Usuário deletado com sucesso!");
@@ -330,6 +325,8 @@ const page = () => {
                               type="text"
                               id={`nome-${user.id}`}
                               value={editForm.nome}
+                              placeholder="Máximo de 64 caracteres"
+                              maxLength={64}
                               onChange={(e) =>
                                 setEditForm((prev) => ({
                                   ...prev,
@@ -367,7 +364,7 @@ const page = () => {
                                 }))
                               }
                             >
-                              <option value="">Selecione um grupo</option>
+                              <option value="">{user.grupo_nome}</option>
                               {roles.map((role) => (
                                 <option key={role.id} value={role.id}>
                                   {role.nome}
