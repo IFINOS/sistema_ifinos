@@ -67,31 +67,25 @@ const page = () => {
     setLoading(true);
 
     try {
-      const from = page * USERS_PER_PAGE;
-      const to = from + USERS_PER_PAGE - 1;
+      const response = await fetch(
+        `/api/admin/usuarios?page=${page}&query=${encodeURIComponent(query)}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        },
+      );
 
-      let req = supabase
-        .from("usuarios_completos")
-        .select("*", { count: "exact" })
-        .filter("registro_ativo", "eq", true)
-        .order("nome", { ascending: true })
-        .range(from, to);
+      const result = await response.json();
 
-      // filtra por nome se houver busca
-      if (query) {
-        req = req.ilike("nome", `%${query}%`);
-      }
-
-      const { data, error, count } = await req;
-
-      if (error) {
-        console.error(error);
+      if (!response.ok) {
+        toast.error(result.error ?? "Erro ao carregar usuários.");
         return;
       }
 
-      setUsers(data);
-      setTotalUsers(count ?? 0);
+      setUsers(result.users);
+      setTotalUsers(result.count ?? 0);
     } catch (e) {
+      toast.error("Erro ao carregar usuários");
       console.error(e);
     } finally {
       setLoading(false);
@@ -165,13 +159,16 @@ const page = () => {
     setLoading(true);
 
     try {
-      const { error } = await supabase
-        .from("usuarios")
-        .update({ registro_ativo: false })
-        .eq("id", s);
+      const response = await fetch(
+        `/api/admin/usuarios?userId=${deletingUserId}`,
+        { method: "DELETE" },
+      );
 
-      if (error) {
-        throw new Error();
+      const result = await response.json();
+
+      if (!response.ok) {
+        toast.error(result.error ?? "Erro ao deletar usuário");
+        return;
       }
 
       toast.success("Usuário deletado com sucesso!");
@@ -180,6 +177,7 @@ const page = () => {
       setTotalUsers((prev) => prev - 1);
     } catch (e) {
       toast.error("Erro ao deletar usuário.");
+      console.error(e);
     } finally {
       setLoading(false);
     }

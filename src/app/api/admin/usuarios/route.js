@@ -1,3 +1,4 @@
+import { createClient as createServerSupabase } from "@/_lib/supabase/server";
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
@@ -33,7 +34,10 @@ export async function PATCH(request) {
     }
 
     if (nome && nome.length > 64) {
-      return NextResponse.json({error: "Nome de usuário ultrapassa o limite"}, {status: 403})
+      return NextResponse.json(
+        { error: "Nome de usuário ultrapassa o limite" },
+        { status: 403 },
+      );
     }
 
     // atualiza o email no auth.users se foi fornecido
@@ -96,3 +100,88 @@ export async function PATCH(request) {
   }
 }
 
+export async function GET(request) {
+  try {
+    const supabaseSession = await createServerSupabase();
+
+    const {
+      data: { user },
+    } = await supabaseSession.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
+    }
+
+    const { data: grupos, error: gruposError } = await supabaseSession
+      .from("usuarios_grupos")
+      .select("grupos(nome)")
+      .eq("usuario_id", user.id);
+
+    const groupNames = grupos?.map((g) => g.grupos.nome) ?? [];
+
+    if (gruposError || !groupNames === "Administradores") {
+      return NextResponse.json({ error: "Acesso negado." }, { status: 403 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const page = Number(searchParams.get("page") ?? 0);
+    const query = searchParams.get("query") ?? "";
+
+    const from = page * 10;
+    const to = from + 9;
+
+    let req = supabase
+      .from("usuarios_completos")
+      .select("*", { count: "exact" })
+      .filter("registro_ativo", "eq", true)
+      .order("nome", { ascending: true })
+      .range(from, to);
+
+    if (query) req = req.ilike("nome", `%${query}%`);
+
+    const { data, error, count } = await req;
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ users: data, count });
+  } catch (e) {
+    return NextResponse.json({ error: e.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get("userId");
+
+    if (!userId) {
+      return NextResponse.json(
+        { error: "UserId é obrigatório!" },
+        { status: 400 },
+      );
+    }
+
+    // soft delete no auth.users, preserva os dados mas desativa a conta
+    const { data: authData, error: authError } =
+      await supabase.auth.admin.deleteUser(userId, true);
+
+    if (authError) {
+      return NextResponse.json({ error: authError.message }, { status: 500 });
+    }
+
+    const { error: dbError } = await supabase
+      .from("usuarios")
+      .update({ registro_ativo: false })
+      .eq("id", userId);
+
+    if (dbError) {
+      return NextResponse.json({ error: dbError.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (e) {
+    return NextResponse.json({ error: e.message }, { status: 500 });
+  }
+}

@@ -14,6 +14,7 @@ export const ROUTE_PERMISSIONS = {
   "/noticias/cadastrar": "member",
   "/merchandise/cadastrar": "admin",
   "/sistema": "admin",
+  "/api/admin": "admin",
 };
 
 export function getRequiredRole(pathname) {

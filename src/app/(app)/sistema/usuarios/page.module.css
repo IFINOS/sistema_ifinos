@@ -26,7 +26,9 @@
 
 .user_name {
   display: flex;
+  text-align: start;
   align-items: center;
+  padding-right: 1rem;
   gap: 1rem;
 }
 
@@ -165,7 +167,7 @@
 .modal_actions {
   display: flex;
   gap: 1rem;
-  justify-content: flex-end;
+  justify-content: flex-start;
   margin-top: 0.5rem;
 }
 

@@ -168,26 +168,6 @@
   color: var(--primary_green);
 }
 
-.auth_hint_wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.auth_hint {
-  color: var(--dark_gray);
-  text-align: justify;
-}
-
-.auth_hint_link {
-  color: var(--primary_green);
-  text-decoration: underline;
-}
-
-.auth_hint_link:hover {
-  color: var(--primary_green_hover);
-}
-
 /* estado de erro */
 
 .input_invalid,

@@ -50,6 +50,19 @@ const page = () => {
 
     const supabase = createClient();
 
+    const { data } = await supabase
+      .from("usuarios")
+      .select("registro_ativo")
+      .eq("email", email);
+
+    if (!data?.[0].registro_ativo) {
+      toast.error(
+        "Sua conta está desativada. Entre em contato com o suporte para reativação.",
+      );
+      setLoading(false);
+      return;
+    }
+
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,

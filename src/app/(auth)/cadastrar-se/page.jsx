@@ -74,7 +74,7 @@ const page = () => {
 
     const supabase = createClient();
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -89,6 +89,17 @@ const page = () => {
       } else {
         toast.error("Erro ao criar conta. Tente novamente.");
       }
+      setLoading(false);
+      return;
+    }
+
+    // Supabase não retorna "error" quando o email já existe e já foi confirmado
+    // (proteção contra email enumeration). Nesse caso, "identities" vem vazio
+    // também já resolve o problema do email já cadastrado com google :)
+    if (data?.user?.identities?.length === 0) {
+      toast.error(
+        "Este email já está cadastrado. Faça login ou recupere sua senha.",
+      );
       setLoading(false);
       return;
     }
