@@ -14,6 +14,9 @@
   font-size: clamp(2.4rem, calc(0.5926vw + 2.2889rem), 3rem);
   font-weight: 400;
   position: relative;
+  text-align: start;
+  width: fit-content;
+  margin-bottom: 1rem;
 }
 
 .main_app_title::before {
@@ -21,7 +24,7 @@
   position: absolute;
   height: 0.4rem;
   width: 100%;
-  bottom: 0;
+  bottom: -0.4rem;
   left: 0;
   background-color: var(--primary_green);
 }

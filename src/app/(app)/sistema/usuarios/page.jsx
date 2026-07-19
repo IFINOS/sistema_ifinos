@@ -202,13 +202,13 @@ const page = () => {
                 className={styles.modal_cancel_btn}
                 onClick={() => setDeletingUserId(null)}
               >
-                Cancelar
+                Não Deletar Usuário
               </button>
               <button
                 className={styles.modal_confirm_btn}
                 onClick={handle_delete}
               >
-                Deletar
+                Deletar Usuário
               </button>
             </section>
           </div>

@@ -1,0 +1,46 @@
+.projects_page_header {
+  max-width: 100%;
+  /* width: clamp(20rem, calc(49.3827vw + 10.7407rem), 70rem); */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.register_project {
+  border: 0.1rem solid var(--primary_green);
+  cursor: pointer;
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--input_border_radius);
+  transition: var(--default_transition);
+}
+
+.register_project:hover {
+  box-shadow: var(--background_effect) var(--primary_green_hover);
+  color: hsl(0, 0%, 100%);
+}
+
+.projects_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.project_details {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0.1rem solid var(--primary_cyan);
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--input_border_radius);
+  cursor: pointer;
+  transition: var(--default_transition);
+  font-weight: 500;
+}
+
+.project_details:hover {
+  box-shadow: var(--background_effect) var(--primary_cyan);
+  color: hsl(0, 0%, 100%);
+}
