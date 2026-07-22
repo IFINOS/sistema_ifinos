@@ -44,7 +44,7 @@ const SearchContainer = ({ on_search, placeholder, is_loading }) => {
   );
 };
 
-// estamos usando js e ts então foi preciso baixar uma lib chamada "prop-types" para lidar com tipagem :)
+// estamos usando js e ts então foi preciso baixar uma lib chamada "prop-types" para lidar com tipagem de props :)
 
 SearchContainer.propTypes = {
   on_search: PropTypes.func.isRequired,

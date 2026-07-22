@@ -17,7 +17,7 @@ import ProjectContainer from "@/app/components/ProjectContainer/ProjectContainer
 // Images
 import {
   faAdd,
-  faScrewdriverWrench,
+  faLightbulb,
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
@@ -53,6 +53,7 @@ const page = () => {
           data_criacao,
           tipo_projeto_id,
           status_projeto_id,
+           usuarios!criado_por (id,nome),
           tipo_projeto!inner ( id, nome ),
           status_projeto ( id, nome ),
           projetos_tags (
@@ -61,7 +62,7 @@ const page = () => {
           { count: "exact" },
         )
         .filter("registro_ativo", "eq", true)
-        .eq("tipo_projeto.nome", "Projeto")
+        .eq("tipo_projeto.nome", "Demanda")
         .order("titulo_projeto", { ascending: true })
         .range(from, to);
 
@@ -72,7 +73,7 @@ const page = () => {
       const { data, error, count } = await req;
 
       if (error) {
-        toast.error("Erro ao carregar projetos.");
+        toast.error("Erro ao carregar demandas.");
         return;
       }
 
@@ -86,7 +87,7 @@ const page = () => {
       setTotalProjects(count ?? 0);
     } catch (e) {
       toast.error(
-        "Ocorreu um erro desconhecido ao carregar os projetos. Por favor tente novamente mais tarde",
+        "Ocorreu um erro desconhecido ao carregar as demandas. Por favor tente novamente mais tarde",
       );
       console.error(e);
     } finally {
@@ -107,14 +108,14 @@ const page = () => {
     <section style={{ width: "100%", height: "100%" }}>
       <section className={styles.projects_page_header}>
         <SearchContainer
-          placeholder="Buscar projetos..."
+          placeholder="Buscar demanda..."
           is_loading={loading}
           on_search={handle_search}
         />
         {(userRole === "admin" || userRole === "professor") && (
-          <Link className={styles.register_project} href="/projetos/cadastrar">
+          <Link className={styles.register_project} href="/demandas/cadastrar">
             <FontAwesomeIcon icon={faAdd} size="sm" />
-            <span>Adicionar Projeto</span>
+            <span>Criar Demanda</span>
           </Link>
         )}
       </section>
@@ -130,15 +131,29 @@ const page = () => {
               projects.map((project) => (
                 <ProjectContainer
                   key={project.id}
-                  icon={faScrewdriverWrench}
+                  icon={faLightbulb}
                   project_obj={project}
                 >
-                  <Link
-                    href={`/projetos/${project.id}`}
-                    className={styles.project_details}
-                  >
-                    Ver detalhes
-                  </Link>
+                  <section className={styles.user_project_info}>
+                    <section className={styles.project_info}>
+                      <p className={styles.info}>
+                        Enviado por: {project.usuarios.nome}
+                      </p>
+                      <p className={styles.info}>
+                        Criado em:{" "}
+                        {new Date(project.data_criacao).toLocaleDateString(
+                          "pt-BR",
+                        )}
+                      </p>
+                    </section>
+
+                    <Link
+                      href={`/demandas/${project.id}`}
+                      className={styles.project_details}
+                    >
+                      Ver detalhes
+                    </Link>
+                  </section>
                 </ProjectContainer>
               ))
             ) : (

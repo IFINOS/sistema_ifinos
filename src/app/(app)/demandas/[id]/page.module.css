@@ -69,13 +69,13 @@
 .project_details_header {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
   flex-wrap: wrap;
+  gap: 0.8rem;
 }
 
 .delete_btn {
   background-color: var(--primary_red);
-  border: .1rem solid var(--secondary_red);
+  border: 0.1rem solid var(--secondary_red);
   border-radius: var(--input_border_radius);
   cursor: pointer;
   transition: 0.4s ease color;

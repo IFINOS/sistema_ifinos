@@ -1,0 +1,85 @@
+.multi_step_form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 40rem;
+}
+
+.progress_wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.progress_step {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0.5;
+}
+
+.progress_step_active,
+.progress_step_done {
+  opacity: 1;
+}
+
+.progress_step_number {
+  width: 1.8rem;
+  height: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--primary_cyan);
+  color: hsl(0, 0%, 100%);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.progress_step_label {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.step_content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form_nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.back_btn,
+.next_btn,
+.submit_btn {
+  padding: var(--global_input_pad);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  border-radius: var(--input_border_radius);
+  transition: 0.4s ease background-color;
+}
+
+.next_btn,
+.submit_btn {
+  margin-left: auto;
+  background-color: var(--primary_green);
+  color: hsl(0, 0%, 100%);
+}
+
+.back_btn {
+  background-color: transparent;
+  border: 0.1rem solid var(--primary_green);
+  color: var(--primary_green);
+}
+
+.submit_btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

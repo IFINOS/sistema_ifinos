@@ -47,6 +47,23 @@
   color: hsl(0, 0%, 100%);
 }
 
+.user_project_info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.project_info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.info {
+  color: var(--light_gray);
+}
+
 /* PAGINAÇÃO */
 .pagination {
   display: flex;

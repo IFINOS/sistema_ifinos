@@ -10,11 +10,14 @@ import { faReply } from "@fortawesome/free-solid-svg-icons";
 // Hooks
 import { useRouter } from "next/navigation";
 
-const BackButton = () => {
+const BackButton = ({ route }) => {
   const router = useRouter();
 
   return (
-    <button className={styles.back_btn} onClick={() => router.back()}>
+    <button
+      className={styles.back_btn}
+      onClick={() => (route ? router.push(route) : router.back())}
+    >
       <FontAwesomeIcon icon={faReply} size="lg" />
       <span>Voltar</span>
     </button>

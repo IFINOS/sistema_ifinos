@@ -140,19 +140,20 @@ const page = () => {
         <Loading />
       ) : projectData ? (
         <section className={styles.project_details_wrapper}>
-          <BackButton route="/projetos" />
+          <BackButton route="/demandas" />
 
           <section className={styles.project_details_header}>
             <h1 className={layout.main_app_title}>
               {projectData.titulo_projeto}
             </h1>
+
             {canDelete && (
               <button
                 type="button"
                 className={styles.delete_btn}
                 onClick={handle_delete}
               >
-                <FontAwesomeIcon icon={faTrash} size="xl" />
+                <FontAwesomeIcon icon={faTrash} size="lg" />
               </button>
             )}
           </section>
