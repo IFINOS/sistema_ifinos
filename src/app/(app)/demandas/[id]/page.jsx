@@ -11,20 +11,21 @@ import Loading from "@/app/components/Loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Images
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 // Hooks
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createClient } from "@/_lib/supabase/client";
-
-const supabase = createClient();
+import { useRouter } from "next/navigation";
 
 const page = () => {
+  const supabase = createClient();
   const { id } = useParams();
-  const { user, userRole, userLoading } = useUser(); // presumindo que seu context expõe isso
+  const { user, userRole, userLoading } = useUser(); 
   const [projectLoading, setProjectLoading] = useState(true);
   const [projectData, setProjectData] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     const load_project_from_id = async (id) => {
@@ -47,6 +48,7 @@ const page = () => {
             criado_por,
             tipo_projeto_id,
             status_projeto_id,
+            registro_ativo,
             tipo_projeto ( id, nome ),
             status_projeto ( id, nome ),
             projetos_tags (
@@ -60,6 +62,8 @@ const page = () => {
           )
           .eq("id", id)
           .single();
+
+        if (!data.registro_ativo) router.push("/demandas");
 
         if (error) {
           toast.error("Projeto não encontrado.");
@@ -96,6 +100,11 @@ const page = () => {
   const loading = projectLoading || userLoading;
 
   const canDelete =
+    !loading &&
+    projectData &&
+    (userRole === "admin" || projectData.criado_por === user?.id);
+
+  const canEdit =
     !loading &&
     projectData &&
     (userRole === "admin" || projectData.criado_por === user?.id);
@@ -151,9 +160,19 @@ const page = () => {
               <button
                 type="button"
                 className={styles.delete_btn}
-                onClick={handle_delete}
+                onClick={() => handle_delete(projectData.id)}
               >
                 <FontAwesomeIcon icon={faTrash} size="lg" />
+              </button>
+            )}
+
+            {canEdit && (
+              <button
+                type="button"
+                className={styles.edit_btn}
+                onClick={() => router.push(`/demandas/${id}/editar`)}
+              >
+                <FontAwesomeIcon icon={faPenToSquare} size="xl" />
               </button>
             )}
           </section>

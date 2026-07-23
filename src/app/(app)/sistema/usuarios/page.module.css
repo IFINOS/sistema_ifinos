@@ -10,9 +10,12 @@
 .user_container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 2rem;
   border: 0.1rem solid var(--primary_green);
   border-radius: var(--input_border_radius);
+  min-height: 4rem;
+  max-height: fit-content;
 
   /* mínimo de .8rem, máximo de 1.25rem */
   padding: clamp(0.8rem, calc(0.4444vw + 0.7167rem), 1.25rem);

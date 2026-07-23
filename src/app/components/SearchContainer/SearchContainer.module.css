@@ -4,6 +4,7 @@
   flex-wrap: wrap;
   gap: 0.6rem;
   flex: 0 1 40rem;
+  width: 100%;
 }
 
 .search_container_input_wrapper {

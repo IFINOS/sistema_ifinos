@@ -73,20 +73,37 @@
   flex-wrap: wrap;
 }
 
-.delete_btn {
-  background-color: var(--primary_red);
-  border: .1rem solid var(--secondary_red);
-  border-radius: var(--input_border_radius);
+.delete_btn,
+.edit_btn {
   cursor: pointer;
-  transition: 0.4s ease color;
+  transition:
+    0.4s ease color,
+    background-color;
   height: 2.5rem;
   width: 2.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.delete_btn {
+  background-color: var(--primary_red);
   color: hsl(0, 0%, 100%);
+  border: 0.1rem solid var(--secondary_red);
+  border-radius: var(--input_border_radius);
 }
 
 .delete_btn:hover {
   background-color: var(--primary_red_hover);
+}
+
+.edit_btn {
+  background-color: transparent;
+  border: 0.1rem solid var(--primary_green);
+  border-radius: var(--input_border_radius);
+}
+
+.edit_btn:hover {
+  background-color: var(--primary_green_hover);
+  color: hsl(0, 0%, 100%);
 }

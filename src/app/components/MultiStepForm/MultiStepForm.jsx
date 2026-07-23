@@ -96,6 +96,7 @@ const MultiStepForm = ({
 
         {!is_last_step ? (
           <button
+            key="next-btn"
             type="button"
             className={styles.next_btn}
             onClick={handle_next}
@@ -104,6 +105,7 @@ const MultiStepForm = ({
           </button>
         ) : (
           <button
+            key="submit-btn"
             type="submit"
             className={styles.submit_btn}
             disabled={submitting}

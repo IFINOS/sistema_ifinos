@@ -194,8 +194,7 @@ const page = () => {
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <h2 className={styles.modal_title}>Deletar usuário</h2>
             <p className={styles.modal_description}>
-              Tem certeza que deseja deletar este usuário? Esta ação não pode
-              ser desfeita.
+              Tem certeza que deseja deletar este usuário?
             </p>
             <section className={styles.modal_actions}>
               <button
@@ -215,11 +214,13 @@ const page = () => {
         </div>
       )}
 
-      <SearchContainer
-        placeholder="Buscar usuários..."
-        is_loading={loading}
-        on_search={handle_search}
-      />
+      <section style={{ width: "min(100%, 50rem)", maxWidth: "100%" }}>
+        <SearchContainer
+          placeholder="Buscar usuários..."
+          is_loading={loading}
+          on_search={handle_search}
+        />
+      </section>
 
       {loading ? (
         <Loading />

@@ -53,6 +53,7 @@ const page = () => {
           data_criacao,
           tipo_projeto_id,
           status_projeto_id,
+          registro_ativo,
            usuarios!criado_por (id,nome),
           tipo_projeto!inner ( id, nome ),
           status_projeto ( id, nome ),
