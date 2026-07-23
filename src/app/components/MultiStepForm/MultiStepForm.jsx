@@ -1,8 +1,6 @@
 "use client";
-// a ideia desse arquivo é funcionar como um layout
-// levando em conta que o multi step form irá ser reutilizado nas demandas também
 // Hooks
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Utils
 import styles from "./MultiStepForm.module.css";
@@ -20,6 +18,31 @@ const MultiStepForm = ({
 
   const is_last_step = step === steps.length - 1;
   const CurrentStep = steps[step].component;
+
+  // revalida o step atual sempre que os dados mudam, e limpa erros já corrigidos
+  useEffect(() => {
+    const validator = steps[step].validator;
+    if (!validator) return;
+
+    const current_errors = validator(formData);
+
+    setErrors((prev) => {
+      const next = { ...prev };
+      let changed = false;
+
+      for (const key of Object.keys(prev)) {
+        if (!current_errors[key]) {
+          delete next[key];
+          changed = true;
+        } else if (current_errors[key] !== prev[key]) {
+          next[key] = current_errors[key];
+          changed = true;
+        }
+      }
+
+      return changed ? next : prev;
+    });
+  }, [formData, step]);
 
   const update_field = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -46,12 +69,11 @@ const MultiStepForm = ({
   const handle_submit = async (e) => {
     e.preventDefault();
 
-    // valida o último step antes de enviar
     const validator = steps[step].validator;
-    const stepErrors = validator ? validator(formData) : {};
+    const step_errors = validator ? validator(formData) : {};
 
-    if (Object.keys(stepErrors).length > 0) {
-      setErrors(stepErrors);
+    if (Object.keys(step_errors).length > 0) {
+      setErrors(step_errors);
       return;
     }
 
