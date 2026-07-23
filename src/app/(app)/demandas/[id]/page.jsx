@@ -22,7 +22,7 @@ import { useRouter } from "next/navigation";
 const page = () => {
   const supabase = createClient();
   const { id } = useParams();
-  const { user, userRole, userLoading } = useUser(); 
+  const { user, userRole, userLoading } = useUser();
   const [projectLoading, setProjectLoading] = useState(true);
   const [projectData, setProjectData] = useState(null);
   const router = useRouter();
@@ -152,7 +152,9 @@ const page = () => {
           <BackButton route="/demandas" />
 
           <section className={styles.project_details_header}>
-            <h1 className={layout.main_app_title}>
+            <h1
+              className={`${layout.main_app_title} ${styles.project_details_title}`}
+            >
               {projectData.titulo_projeto}
             </h1>
 

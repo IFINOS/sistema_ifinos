@@ -8,6 +8,7 @@
   gap: 0.4rem;
   text-align: center;
   padding: var(--global_pad);
+  min-width: 0;
 }
 
 .main_app_title {

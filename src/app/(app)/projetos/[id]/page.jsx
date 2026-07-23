@@ -155,7 +155,9 @@ const page = () => {
           <BackButton route="/projetos" />
 
           <section className={styles.project_details_header}>
-            <h1 className={layout.main_app_title}>
+            <h1
+              className={`${layout.main_app_title} ${styles.project_details_title}`}
+            >
               {projectData.titulo_projeto}
             </h1>
 

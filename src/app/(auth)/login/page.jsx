@@ -50,20 +50,7 @@ const page = () => {
 
     const supabase = createClient();
 
-    const { data } = await supabase
-      .from("usuarios")
-      .select("registro_ativo")
-      .eq("email", email);
-
-    if (!data?.[0].registro_ativo) {
-      toast.error(
-        "Sua conta está desativada. Entre em contato com o suporte para reativação.",
-      );
-      setLoading(false);
-      return;
-    }
-
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data: authData, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -79,6 +66,23 @@ const page = () => {
       } else {
         toast.error("Erro ao fazer login. Tente novamente.");
       }
+      setLoading(false);
+      return;
+    }
+
+    // só agora, já autenticado, checamos se o registro está ativo
+    const { data: usuario, error: usuarioError } = await supabase
+      .from("usuarios")
+      .select("registro_ativo")
+      .eq("id", authData.user.id)
+      .single();
+
+    if (usuarioError || !usuario?.registro_ativo) {
+      // desfaz o login, já que a conta está desativada
+      await supabase.auth.signOut();
+      toast.error(
+        "Sua conta está desativada. Entre em contato com o suporte para reativação.",
+      );
       setLoading(false);
       return;
     }

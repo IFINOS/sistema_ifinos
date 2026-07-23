@@ -5,12 +5,31 @@
   align-items: flex-start;
   justify-content: flex-start;
   text-align: start;
+  min-width: 0;
 }
 
 .project_description {
   line-height: var(--long_text_line_height);
   margin: 2rem 0;
   font-size: 1.2rem;
+  width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.project_details_header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  min-width: 0;
+}
+
+.project_details_title {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
+  flex: 1 1 auto;
 }
 
 .project_status_wrapper {
@@ -76,7 +95,9 @@
 .delete_btn,
 .edit_btn {
   cursor: pointer;
-  transition: 0.4s ease color, background-color;
+  transition:
+    0.4s ease color,
+    background-color;
   height: 2.5rem;
   width: 2.5rem;
   display: flex;
