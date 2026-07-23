@@ -28,13 +28,15 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 1.5rem;
-  height: fit-content;
+  min-width: 0;
+  flex: 1 1 0;
 }
 
 .project_infos_header {
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
+  min-width: 0;
 }
 
 .content_header {
@@ -42,11 +44,17 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 0.6rem;
+  width: 100%;
+  min-width: 0;
 }
 
 .project_title {
   font-size: 1.6rem;
   font-weight: 400;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
+  flex: 1 1 auto;
 }
 
 .project_tags_wrapper {
@@ -72,7 +80,10 @@
 
 .project_description {
   line-height: var(--long_text_line_height);
-  font-weight: 500;
+  width: 100%;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 @media (max-width: 869px) {
