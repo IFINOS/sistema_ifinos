@@ -74,6 +74,7 @@ const page = () => {
                 type={isShowingPass ? "text" : "password"}
                 name="password"
                 placeholder="Mínimo de 8 caracteres"
+                autoComplete="new-password"
               />
               <div className={styles.icon_container}>
                 <FontAwesomeIcon
@@ -101,6 +102,7 @@ const page = () => {
                 className={`${styles.auth_input} ${errors.confirm_password ? styles.input_invalid : ""}`}
                 type={isShowingConfirmPass ? "text" : "password"}
                 name="confirm_password"
+                autoComplete="new-password"
               />
               <div className={styles.icon_container}>
                 <FontAwesomeIcon

@@ -159,6 +159,7 @@ const page = () => {
                 type={isShowingPass ? "text" : "password"}
                 name="password"
                 id="password"
+                autoComplete="current-password"
               />
 
               <div className={styles.icon_container}>
