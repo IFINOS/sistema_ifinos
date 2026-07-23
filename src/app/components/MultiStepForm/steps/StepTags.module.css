@@ -1,0 +1,59 @@
+.tags_wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.tag_chip {
+  padding: 0.6rem 1rem;
+  border-radius: var(--input_border_radius);
+  border: 0.1rem solid var(--primary_green);
+  cursor: pointer;
+  transition: var(--default_transition);
+}
+
+.tag_chip:hover {
+  background-color: var(--primary_green_hover);
+  color: hsl(0, 0%, 100%);
+}
+
+.tag_chip_selected {
+  background-color: var(--primary_green_hover);
+  color: hsl(0, 0%, 100%);
+}
+
+.create_tag_wrapper {
+  display: flex;
+}
+
+.step_input {
+  height: 3rem;
+  width: 100%;
+  padding: var(--global_input_pad);
+  border-radius: var(--input_border_radius) 0 0 var(--input_border_radius);
+  border: 0.1rem solid var(--foreground);
+  font-size: 1rem;
+  border-right: none;
+}
+
+.create_tag_btn {
+  width: 5rem;
+  padding: var(--global_input_pad);
+  border-radius: 0 var(--input_border_radius) var(--input_border_radius) 0;
+  border: 0.1rem solid var(--foreground);
+  font-size: 1rem;
+  border-left: none;
+  cursor: pointer;
+  background-color: var(--primary_green);
+  transition: var(--default_transition);
+  color: hsl(0, 0%, 100%);
+}
+
+.create_tag_btn:hover {
+  background-color: var(--primary_green_hover);
+}
+
+.step_input:focus {
+  outline: none;
+  border: 0.1rem solid var(--primary_green);
+}

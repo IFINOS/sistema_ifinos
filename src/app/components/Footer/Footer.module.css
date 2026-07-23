@@ -6,6 +6,7 @@
   display: flex;
   align-items: center;
   padding: var(--global_pad);
+  padding-bottom: 0;
 }
 
 .copy_warning {

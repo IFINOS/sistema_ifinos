@@ -79,21 +79,6 @@ const page = () => {
             validada :)
           </p>
 
-          <div className={styles.auth_hint_wrapper}>
-            <Divider color="var(--primary_green)" />
-
-            <p className={styles.auth_hint}>
-              Não recebeu o email? Verifique sua caixa de spam ou, se você já
-              possui uma conta com o Google,{" "}
-              <Link className={styles.auth_hint_link} href="/login">
-                entre por lá
-              </Link>
-              .
-            </p>
-
-            <Divider color="var(--primary_green)" />
-          </div>
-
           <button
             onClick={handle_resend_email}
             className={styles.auth_button}

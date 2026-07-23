@@ -1,0 +1,74 @@
+.step_wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  gap: 1.5rem;
+  border-radius: var(--form_border_radius);
+}
+
+.input_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.step_title {
+  font-size: 2rem;
+}
+
+.step_label {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.step_input {
+  height: 3rem;
+  width: 100%;
+  padding: var(--global_input_pad);
+  border-radius: var(--input_border_radius);
+  border: 0.1rem solid var(--foreground);
+  font-size: 1rem;
+}
+
+.step_textarea {
+  resize: none;
+  font-family: "Bai Jamburee", sans-serif;
+  width: 100%;
+  height: 20rem;
+  font-size: 1rem;
+  line-height: var(--long_text_line_height);
+  border-radius: var(--input_border_radius);
+  padding: var(--global_input_pad);
+}
+
+.step_textarea:focus,
+.step_input:focus {
+  outline: none;
+  border: 0.1rem solid var(--primary_green);
+}
+
+.char_counter {
+  font-size: 0.8rem;
+  color: hsl(0, 0%, 40%);
+  text-align: right;
+}
+
+.char_counter_limit {
+  color: var(--primary_red, hsl(0, 70%, 50%));
+  font-weight: 600;
+}
+
+/* estado de erro */
+
+.input_invalid,
+.input_invalid:focus {
+  color: var(--primary_red) !important;
+  border-color: var(--primary_red);
+}
+
+.field_error {
+  color: var(--primary_red);
+  text-align: start;
+}

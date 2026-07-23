@@ -1,0 +1,19 @@
+.back_btn {
+  padding: 0.6rem 1rem;
+  border-radius: var(--input_border_radius);
+  border: none;
+  background-color: var(--primary_green);
+  color: hsl(0, 0%, 100%);
+  margin-bottom: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  cursor: pointer;
+  transition: 0.4s ease background-color;
+}
+
+.back_btn:hover {
+  background-color: var(--primary_green_hover);
+}

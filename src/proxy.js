@@ -44,6 +44,16 @@ export async function proxy(request) {
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims;
 
+  const isApiRoute = pathname.startsWith("/api");
+
+  // helper: em rota de API, responde JSON; em página, redireciona
+  const deny = (status, redirectTo) => {
+    if (isApiRoute) {
+      return NextResponse.json({ error: "Não autorizado." }, { status });
+    }
+    return NextResponse.redirect(new URL(redirectTo, request.url));
+  };
+
   const isGuestOnly = GUEST_ONLY_ROUTES.some((route) =>
     pathname.startsWith(route),
   );
@@ -56,30 +66,19 @@ export async function proxy(request) {
   );
 
   if (isGuestOnly) {
-    if (user) return NextResponse.redirect(new URL("/home", request.url));
+    if (user) return deny(403, "/home");
     return supabaseResponse;
   }
 
   if (isSemiAuth) {
-    // confirmar-email: acessível sem sessão (supabase não cria sessão antes da confirmação)
-    // mas bloqueia quem já confirmou o email
     if (pathname.startsWith("/confirmar-email")) {
-      if (user) {
-        return NextResponse.redirect(new URL("/home", request.url));
-      }
+      if (user) return deny(403, "/home");
       return supabaseResponse;
     }
 
-    // atualizar-senha: só acessível com sessão de recuperação ativa
-    // não autenticado = login
-    // autenticado sem sessão de recuperação = home
     if (pathname.startsWith("/atualizar-senha")) {
-      if (!user) {
-        return NextResponse.redirect(new URL("/login", request.url));
-      }
-      if (!isRecoverySession) {
-        return NextResponse.redirect(new URL("/home", request.url));
-      }
+      if (!user) return deny(401, "/login");
+      if (!isRecoverySession) return deny(403, "/home");
       return supabaseResponse;
     }
   }
@@ -88,14 +87,15 @@ export async function proxy(request) {
     return supabaseResponse;
   }
 
-  // não autenticado tentando acessar rota protegida
   if (!user) {
+    if (isApiRoute) {
+      return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
+    }
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("next", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  // busca grupos do usuário e determina o role
   const { data: grupos } = await supabase
     .from("usuarios_grupos")
     .select("grupos(nome)")
@@ -104,9 +104,8 @@ export async function proxy(request) {
   const groupNames = grupos?.map((g) => g.grupos.nome) ?? [];
   const userRole = getRoleFromGroups(groupNames);
 
-  // sem permissão suficiente = volta para home
   if (!hasMinimumRole(userRole, requiredRole)) {
-    return NextResponse.redirect(new URL("/home", request.url));
+    return deny(403, "/home");
   }
 
   return supabaseResponse;

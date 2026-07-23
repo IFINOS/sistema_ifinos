@@ -10,13 +10,26 @@
 export const ROUTE_PERMISSIONS = {
   "/meu-perfil": "visitor",
   "/projetos/cadastrar": "professor",
+  "/projetos/editar": "member",
   "/demandas/cadastrar": "professor",
   "/noticias/cadastrar": "member",
   "/merchandise/cadastrar": "admin",
   "/sistema": "admin",
+  "/api/admin": "admin",
+};
+
+// rotas que terminam com um sufixo específico, independente do que vem no meio
+export const ROUTE_SUFFIX_PERMISSIONS = {
+  "/editar": "visitor", // qualquer logado pode tentar acessar; a página decide se pode editar de fato
 };
 
 export function getRequiredRole(pathname) {
+  // checa sufixo primeiro (mais específico pro caso de rotas dinâmicas tipo /projetos/[id]/editar)
+  const suffixMatch = Object.keys(ROUTE_SUFFIX_PERMISSIONS).find((suffix) =>
+    pathname.endsWith(suffix),
+  );
+  if (suffixMatch) return ROUTE_SUFFIX_PERMISSIONS[suffixMatch];
+
   // isso é uma obra de arte :0
   const match = Object.keys(ROUTE_PERMISSIONS)
     // filtra só as rotas que são prefixo do pathname atual

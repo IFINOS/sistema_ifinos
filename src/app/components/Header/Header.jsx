@@ -165,9 +165,11 @@ const Header = () => {
                   <FontAwesomeIcon icon={faUser} size="sm" />
                 )}
                 <span>
-                  {username.length > 15
-                    ? format_name(username)
-                    : username}
+                  {username
+                    ? username.length > 15
+                      ? format_name(username)
+                      : username
+                    : "Carregando..."}
                 </span>
               </Link>
 
@@ -290,9 +292,11 @@ const Header = () => {
                     <FontAwesomeIcon icon={faUser} size="sm" />
                   )}
                   <span>
-                    {username.length > 15
-                      ? format_name(username)
-                      : username}
+                    {username
+                      ? username.length > 15
+                        ? format_name(username)
+                        : username
+                      : "Carregando..."}
                   </span>
                 </Link>
 
