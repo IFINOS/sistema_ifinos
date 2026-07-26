@@ -53,6 +53,11 @@ const page = () => {
   const handle_submit = async (e) => {
     e.preventDefault();
 
+    if (!user) {
+      toast.error("É necessário fazer login para enviar sua mensagem.");
+      return;
+    }
+
     setInputErrors({});
 
     const form_data = new FormData(e.currentTarget);
