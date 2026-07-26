@@ -1,7 +1,8 @@
 "use client";
 // Utils
 import styles from "./page.module.css";
-import layout from "../../layout.module.css";
+import projectLayout from "../../layout.module.css";
+import layout from "../../../layout.module.css";
 import { useUser } from "@/context/userContext";
 
 // Components
@@ -147,24 +148,26 @@ const page = () => {
   };
 
   return (
-    <section className={styles.project_details_wrapper}>
+    <section className={projectLayout.project_details_wrapper}>
       {loading ? (
         <Loading />
       ) : projectData ? (
-        <section className={styles.project_details_wrapper}>
+        <section className={projectLayout.project_details_wrapper}>
           <BackButton route="/projetos" />
 
-          <section className={styles.project_details_header}>
+          <section className={projectLayout.project_details_header}>
             <h1
               className={`${layout.main_app_title} ${styles.project_details_title}`}
             >
               {projectData.titulo_projeto}
             </h1>
+          </section>
 
+          <section className={projectLayout.project_options}>
             {canDelete && (
               <button
                 type="button"
-                className={styles.delete_btn}
+                className={projectLayout.delete_btn}
                 onClick={() => handle_delete(projectData.id)}
               >
                 <FontAwesomeIcon icon={faTrash} size="xl" />
@@ -174,7 +177,7 @@ const page = () => {
             {canEdit && (
               <button
                 type="button"
-                className={styles.edit_btn}
+                className={projectLayout.edit_btn}
                 onClick={() => router.push(`/projetos/${id}/editar`)}
               >
                 <FontAwesomeIcon icon={faPenToSquare} size="xl" />
@@ -182,22 +185,24 @@ const page = () => {
             )}
           </section>
 
-          <section className={styles.project_tags_wrapper}>
+          <section className={projectLayout.project_tags_wrapper}>
             {projectData.tags.map((tag) => (
-              <span key={tag.id} className={styles.project_tag}>
+              <span key={tag.id} className={projectLayout.project_tag}>
                 {tag.nome}
               </span>
             ))}
           </section>
 
-          <p className={styles.project_status_wrapper}>
+          <p className={projectLayout.project_status_wrapper}>
             Status do projeto:{" "}
-            <span className={styles.project_status}>
+            <span className={projectLayout.project_status}>
               {projectData.status_projeto.nome}
             </span>
           </p>
 
-          <p className={styles.project_description}>{projectData.descricao}</p>
+          <p className={projectLayout.project_description}>
+            {projectData.descricao}
+          </p>
 
           <section className={styles.integrantes_wrapper}>
             <h2 style={{ marginBottom: ".6rem" }}>Integrantes</h2>

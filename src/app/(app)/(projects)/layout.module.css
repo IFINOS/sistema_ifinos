@@ -1,0 +1,206 @@
+.projects_page_header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.register_project {
+  flex: 0 1 15rem;
+  display: block;
+  border: 0.1rem solid var(--primary_green);
+  cursor: pointer;
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--input_border_radius);
+  transition: var(--default_transition);
+}
+
+.register_project:hover {
+  box-shadow: var(--background_effect) var(--primary_green_hover);
+  color: hsl(0, 0%, 100%);
+}
+
+.projects_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.project_details {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0.1rem solid var(--primary_cyan);
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--input_border_radius);
+  cursor: pointer;
+  transition: var(--default_transition);
+  font-weight: 500;
+}
+
+.project_details:hover {
+  box-shadow: var(--background_effect) var(--primary_cyan);
+  color: hsl(0, 0%, 100%);
+}
+
+/* PAGINAÇÃO */
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.5rem;
+}
+
+.pagination_btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--input_border_radius);
+  border: 0.1rem solid var(--primary_green);
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  transition:
+    0.2s ease background-color,
+    0.2s ease color;
+  color: var(--primary_green);
+}
+
+.pagination_btn:hover:not(:disabled) {
+  background-color: var(--primary_green);
+  color: hsl(0, 0%, 100%);
+}
+
+.pagination_btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination_btn_active {
+  background-color: var(--primary_green);
+  color: hsl(0, 0%, 100%);
+}
+
+.register_project_main_page {
+  width: 100%;
+  height: 100%;
+}
+
+.create_project_form_wrapper {
+  min-height: fit-content;
+  /* cima/baixo: mínimo de .8rem, máximo de 1.25rem | esquerda/direita: mínimo de 1rem, máximo de 2rem*/
+  padding: clamp(0.8rem, calc(0.4444vw + 0.7167rem), 1.25rem)
+    clamp(1rem, calc(0.9877vw + 0.8148rem), 2rem);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 100vw;
+}
+
+.project_details_header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  min-width: 0;
+}
+
+.project_details_title {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.project_tags_wrapper {
+  margin: 1.6rem 0 2rem 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.project_tag {
+  font-size: 0.85rem;
+  background-color: var(--primary_cyan);
+  color: hsl(0, 0%, 100%);
+  border-radius: var(--pill_border);
+  padding: 0.25rem 0.6rem;
+  font-weight: 500;
+}
+
+.project_status_wrapper {
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.project_status {
+  font-size: 1rem;
+  padding: 0.2rem 0.6rem;
+  border: 0.1rem solid var(--primary_cyan);
+  border-radius: var(--pill_border);
+}
+
+.project_description {
+  line-height: var(--long_text_line_height);
+  margin: 2rem 0;
+  font-size: 1.2rem;
+  width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.project_details_wrapper {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: start;
+  min-width: 0;
+}
+
+.project_options {
+  display: flex;
+  gap: 1rem;
+}
+
+.delete_btn,
+.edit_btn {
+  cursor: pointer;
+  transition:
+    0.4s ease color,
+    background-color;
+  height: 2.5rem;
+  width: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete_btn {
+  background-color: var(--primary_red);
+  color: hsl(0, 0%, 100%);
+  border: 0.1rem solid var(--secondary_red);
+  border-radius: var(--input_border_radius);
+}
+
+.delete_btn:hover {
+  background-color: var(--primary_red_hover);
+}
+
+.edit_btn {
+  background-color: transparent;
+  border: 0.1rem solid var(--primary_green);
+  border-radius: var(--input_border_radius);
+}
+
+.edit_btn:hover {
+  background-color: var(--primary_green_hover);
+  color: hsl(0, 0%, 100%);
+}

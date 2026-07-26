@@ -1,6 +1,6 @@
 "use client";
 // Utils
-import styles from "./page.module.css";
+import projectsLayout from "../layout.module.css";
 import { useUser } from "@/context/userContext";
 
 // Hooks
@@ -17,7 +17,7 @@ import ProjectContainer from "@/app/components/ProjectContainer/ProjectContainer
 // Images
 import {
   faAdd,
-  faLightbulb,
+  faScrewdriverWrench,
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
@@ -54,7 +54,6 @@ const page = () => {
           tipo_projeto_id,
           status_projeto_id,
           registro_ativo,
-           usuarios!criado_por (id,nome),
           tipo_projeto!inner ( id, nome ),
           status_projeto ( id, nome ),
           projetos_tags (
@@ -63,7 +62,7 @@ const page = () => {
           { count: "exact" },
         )
         .filter("registro_ativo", "eq", true)
-        .eq("tipo_projeto.nome", "Demanda")
+        .eq("tipo_projeto.nome", "Projeto")
         .order("titulo_projeto", { ascending: true })
         .range(from, to);
 
@@ -74,7 +73,7 @@ const page = () => {
       const { data, error, count } = await req;
 
       if (error) {
-        toast.error("Erro ao carregar demandas.");
+        toast.error("Erro ao carregar projetos.");
         return;
       }
 
@@ -88,7 +87,7 @@ const page = () => {
       setTotalProjects(count ?? 0);
     } catch (e) {
       toast.error(
-        "Ocorreu um erro desconhecido ao carregar as demandas. Por favor tente novamente mais tarde",
+        "Ocorreu um erro desconhecido ao carregar os projetos. Por favor tente novamente mais tarde",
       );
       console.error(e);
     } finally {
@@ -107,54 +106,40 @@ const page = () => {
 
   return (
     <section style={{ width: "100%", height: "100%" }}>
-      <section className={styles.projects_page_header}>
+      <section className={projectsLayout.projects_page_header}>
         <SearchContainer
-          placeholder="Buscar demanda..."
+          placeholder="Buscar projetos..."
           is_loading={loading}
           on_search={handle_search}
         />
         {(userRole === "admin" || userRole === "professor") && (
-          <Link className={styles.register_project} href="/demandas/cadastrar">
+          <Link className={projectsLayout.register_project} href="/projetos/cadastrar">
             <FontAwesomeIcon icon={faAdd} size="sm" />
-            <span>Criar Demanda</span>
+            <span>Adicionar Projeto</span>
           </Link>
         )}
       </section>
 
       {loading ? (
-        <section className={styles.projects_wrapper}>
+        <section className={projectsLayout.projects_wrapper}>
           <Loading />
         </section>
       ) : (
         <>
-          <section className={styles.projects_wrapper}>
+          <section className={projectsLayout.projects_wrapper}>
             {projects.length > 0 ? (
               projects.map((project) => (
                 <ProjectContainer
                   key={project.id}
-                  icon={faLightbulb}
+                  icon={faScrewdriverWrench}
                   project_obj={project}
                 >
-                  <section className={styles.user_project_info}>
-                    <section className={styles.project_info}>
-                      <p className={styles.info}>
-                        Enviado por: {project.usuarios.nome}
-                      </p>
-                      <p className={styles.info}>
-                        Criado em:{" "}
-                        {new Date(project.data_criacao).toLocaleDateString(
-                          "pt-BR",
-                        )}
-                      </p>
-                    </section>
-
-                    <Link
-                      href={`/demandas/${project.id}`}
-                      className={styles.project_details}
-                    >
-                      Ver detalhes
-                    </Link>
-                  </section>
+                  <Link
+                    href={`/projetos/${project.id}`}
+                    className={projectsLayout.project_details}
+                  >
+                    Ver detalhes
+                  </Link>
                 </ProjectContainer>
               ))
             ) : (
@@ -164,9 +149,9 @@ const page = () => {
 
           {/* PAGINAÇÃO */}
           {totalPages > 1 && (
-            <section className={styles.pagination}>
+            <section className={projectsLayout.pagination}>
               <button
-                className={styles.pagination_btn}
+                className={projectsLayout.pagination_btn}
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
                 disabled={currentPage === 0}
               >
@@ -176,8 +161,8 @@ const page = () => {
               {Array.from({ length: totalPages }, (_, i) => (
                 <button
                   key={i}
-                  className={`${styles.pagination_btn} ${
-                    currentPage === i ? styles.pagination_btn_active : ""
+                  className={`${projectsLayout.pagination_btn} ${
+                    currentPage === i ? projectsLayout.pagination_btn_active : ""
                   }`}
                   onClick={() => setCurrentPage(i)}
                 >
@@ -186,7 +171,7 @@ const page = () => {
               ))}
 
               <button
-                className={styles.pagination_btn}
+                className={projectsLayout.pagination_btn}
                 onClick={() =>
                   setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))
                 }

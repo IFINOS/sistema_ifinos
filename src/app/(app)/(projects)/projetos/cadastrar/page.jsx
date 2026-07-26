@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 // Utils
 import styles from "./page.module.css";
+import projectLayout from "../../layout.module.css";
 import layout from "../../layout.module.css";
 import { useUser } from "@/context/userContext";
 
@@ -14,10 +15,12 @@ import { toast } from "sonner";
 import MultiStepForm from "@/app/components/MultiStepForm/MultiStepForm";
 import StepInfoBasica from "@/app/components/MultiStepForm/steps/StepInfoBasica";
 import StepTags from "@/app/components/MultiStepForm/steps/StepTags";
+import StepIntegrantes from "@/app/components/MultiStepForm/steps/StepIntegrantes";
 
 // Validators
 import { validate_info_basica } from "@/app/components/MultiStepForm/validators/stepInfoBasica.validator";
 import { validate_tags } from "@/app/components/MultiStepForm/validators/stepTags.validator";
+import { validate_integrantes } from "@/app/components/MultiStepForm/validators/stepIntegrantes.validator";
 
 const STEPS = [
   {
@@ -27,6 +30,12 @@ const STEPS = [
     validator: validate_info_basica,
   },
   { key: "tags", label: "Tags", component: StepTags, validator: validate_tags },
+  {
+    key: "integrantes",
+    label: "Integrantes",
+    component: StepIntegrantes,
+    validator: validate_integrantes,
+  },
 ];
 
 const page = () => {
@@ -36,10 +45,11 @@ const page = () => {
 
   const handle_submit = async (formData) => {
     try {
+      // busca o id do tipo "Projeto" (fixo, já que essa página é só de projetos)
       const { data: tipoProjeto, error: tipoError } = await supabase
         .from("tipo_projeto")
         .select("id")
-        .eq("nome", "Demanda")
+        .eq("nome", "Projeto")
         .single();
 
       if (tipoError || !tipoProjeto) {
@@ -75,7 +85,7 @@ const page = () => {
         return;
       }
 
-      // insere as tags da demanda
+      // insere as tags do projeto
       if (formData.tags?.length > 0) {
         const { error: tagsError } = await supabase
           .from("projetos_tags")
@@ -87,33 +97,53 @@ const page = () => {
           );
 
         if (tagsError) {
-          toast.error("Demanda criada, mas houve erro ao vincular tags.");
+          toast.error("Projeto criado, mas houve erro ao vincular tags.");
         }
       }
 
-      toast.success("Demanda cadastrada com sucesso!");
-      router.push(`/demandas/${projeto.id}`);
+      // insere os integrantes
+      if (formData.integrantes?.length > 0) {
+        const { error: integrantesError } = await supabase
+          .from("usuarios_projetos")
+          .insert(
+            formData.integrantes.map((integrante) => ({
+              projeto_id: projeto.id,
+              usuario_id: integrante.id,
+              funcao: integrante.funcao,
+            })),
+          );
+
+        if (integrantesError) {
+          toast.error(
+            "Projeto criado, mas houve erro ao vincular integrantes.",
+          );
+        }
+      }
+
+      toast.success("Projeto cadastrado com sucesso!");
+      router.push(`/projetos/${projeto.id}`);
     } catch (e) {
-      toast.error("Erro desconhecido ao cadastrar demanda.");
+      toast.error("Erro desconhecido ao cadastrar projeto.");
       console.error(e);
     }
   };
 
   return (
-    <section className={styles.register_project_main_page}>
+    <section className={projectLayout.register_project_main_page}>
       <BackButton />
-      <h1 className={layout.main_app_title}>Cadastrar Demanda</h1>
+      <h1 className={layout.main_app_title}>Cadastrar Projeto</h1>
 
-      <section className={styles.create_project_form_wrapper}>
+      <section className={projectLayout.create_project_form_wrapper}>
         <MultiStepForm
           steps={STEPS}
           initial_data={{
             titulo: "",
             descricao: "",
             tags: [],
+            integrantes: [],
           }}
           on_submit={handle_submit}
-          submit_label="Cadastrar Demanda"
+          submit_label="Cadastrar Projeto"
         />
       </section>
     </section>
