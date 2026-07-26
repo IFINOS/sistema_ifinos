@@ -7,6 +7,7 @@ import { useUser } from "@/context/userContext";
 // Hooks
 import { useState, useEffect } from "react";
 import { createClient } from "@/_lib/supabase/client";
+import { useSmartLoading } from "@/_lib/hooks/useSmartLoading";
 
 // Components
 import SearchContainer from "@/app/components/SearchContainer/SearchContainer";
@@ -33,6 +34,7 @@ const page = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [totalProjects, setTotalProjects] = useState(0);
+  const showLoading = useSmartLoading();
   const { userRole } = useUser();
 
   const totalPages = Math.ceil(totalProjects / PROJECTS_PER_PAGE);
@@ -125,11 +127,11 @@ const page = () => {
         )}
       </section>
 
-      {loading ? (
+      {showLoading ? (
         <section className={projectsLayout.projects_wrapper}>
           <Loading />
         </section>
-      ) : (
+      ) : loading ? null : (
         <>
           <section className={projectsLayout.projects_wrapper}>
             {projects.length > 0 ? (
@@ -181,7 +183,9 @@ const page = () => {
                 <button
                   key={i}
                   className={`${projectsLayout.pagination_btn} ${
-                    currentPage === i ? projectsLayout.pagination_btn_active : ""
+                    currentPage === i
+                      ? projectsLayout.pagination_btn_active
+                      : ""
                   }`}
                   onClick={() => setCurrentPage(i)}
                 >

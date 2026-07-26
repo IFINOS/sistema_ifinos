@@ -4,7 +4,6 @@ import { createClient } from "@/_lib/supabase/client";
 import { useRouter } from "next/navigation";
 
 // Utils
-import styles from "./page.module.css";
 import projectLayout from "../../layout.module.css";
 import layout from "../../layout.module.css";
 import { useUser } from "@/context/userContext";

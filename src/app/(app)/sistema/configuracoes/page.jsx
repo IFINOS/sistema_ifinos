@@ -13,12 +13,14 @@ import Loading from "@/app/components/Loading/Loading";
 import styles from "./page.module.css";
 import { createClient } from "@/_lib/supabase/client";
 import { toast } from "sonner";
+import { useSmartLoading } from "@/_lib/hooks/useSmartLoading";
 
 const page = () => {
   const [inputValue, setInputValue] = useState("");
   const [inputError, setInputError] = useState("");
   const [loading, setLoading] = useState(false);
   const supabase = createClient();
+  const showLoading = useSmartLoading();
 
   useEffect(() => {
     const load_email = async () => {
@@ -90,9 +92,9 @@ const page = () => {
         textAlign: "start",
       }}
     >
-      {loading ? (
+      {showLoading ? (
         <Loading />
-      ) : (
+      ) : loading ? null : (
         <form onSubmit={handle_submit}>
           <section className={styles.input_wrapper}>
             <label htmlFor="email" className={styles.edit_info_label}>

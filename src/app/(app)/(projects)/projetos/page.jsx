@@ -6,6 +6,7 @@ import { useUser } from "@/context/userContext";
 // Hooks
 import { useState, useEffect } from "react";
 import { createClient } from "@/_lib/supabase/client";
+import { useSmartLoading } from "@/_lib/hooks/useSmartLoading";
 
 // Components
 import SearchContainer from "@/app/components/SearchContainer/SearchContainer";
@@ -32,6 +33,7 @@ const page = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [totalProjects, setTotalProjects] = useState(0);
+  const showLoading = useSmartLoading();
   const { userRole } = useUser();
 
   const totalPages = Math.ceil(totalProjects / PROJECTS_PER_PAGE);
@@ -113,19 +115,22 @@ const page = () => {
           on_search={handle_search}
         />
         {(userRole === "admin" || userRole === "professor") && (
-          <Link className={projectsLayout.register_project} href="/projetos/cadastrar">
+          <Link
+            className={projectsLayout.register_project}
+            href="/projetos/cadastrar"
+          >
             <FontAwesomeIcon icon={faAdd} size="sm" />
             <span>Adicionar Projeto</span>
           </Link>
         )}
       </section>
 
-      {loading ? (
+      {showLoading ? (
         <section className={projectsLayout.projects_wrapper}>
           <Loading />
         </section>
-      ) : (
-        <>
+      ) : loading ? null : (
+        <section>
           <section className={projectsLayout.projects_wrapper}>
             {projects.length > 0 ? (
               projects.map((project) => (
@@ -162,7 +167,9 @@ const page = () => {
                 <button
                   key={i}
                   className={`${projectsLayout.pagination_btn} ${
-                    currentPage === i ? projectsLayout.pagination_btn_active : ""
+                    currentPage === i
+                      ? projectsLayout.pagination_btn_active
+                      : ""
                   }`}
                   onClick={() => setCurrentPage(i)}
                 >
@@ -181,7 +188,7 @@ const page = () => {
               </button>
             </section>
           )}
-        </>
+        </section>
       )}
     </section>
   );

@@ -2,6 +2,7 @@
 // Hooks
 import { useState, useEffect } from "react";
 import { createClient } from "@/_lib/supabase/client";
+import { useSmartLoading } from "@/_lib/hooks/useSmartLoading";
 
 // Utils
 import styles from "./page.module.css";
@@ -47,6 +48,7 @@ const page = () => {
     nome: "",
     grupoId: "",
   });
+  const showLoading = useSmartLoading();
 
   const totalPages = Math.ceil(totalUsers / USERS_PER_PAGE);
 
@@ -222,9 +224,9 @@ const page = () => {
         />
       </section>
 
-      {loading ? (
+      {showLoading ? (
         <Loading />
-      ) : (
+      ) : loading ? null : (
         <>
           <section className={styles.users_wrapper}>
             {users.length > 0 ? (

@@ -19,14 +19,17 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createClient } from "@/_lib/supabase/client";
 import { useRouter } from "next/navigation";
+import { useSmartLoading } from "@/_lib/hooks/useSmartLoading";
 
 const page = () => {
-  const supabase = createClient();
   const { id } = useParams();
+  const supabase = createClient();
   const { user, userRole, userLoading } = useUser();
   const [projectLoading, setProjectLoading] = useState(true);
   const [projectData, setProjectData] = useState(null);
+  const [deletingProjectId, setDeletingProjectId] = useState(null);
   const router = useRouter();
+  const showLoading = useSmartLoading();
 
   useEffect(() => {
     const load_project_from_id = async (id) => {
@@ -113,7 +116,7 @@ const page = () => {
         (up) => up.usuarios?.id === user?.id,
       ));
 
-  const handle_delete = async (projetoId) => {
+  const handle_delete = async () => {
     try {
       // busca o id do status "Encerrado" (ou o nome que você usar pra "desativado")
       const { data: statusEncerrado, error: statusError } = await supabase
@@ -133,7 +136,7 @@ const page = () => {
           registro_ativo: false,
           status_projeto_id: statusEncerrado.id,
         })
-        .eq("id", projetoId);
+        .eq("id", deletingProjectId);
 
       if (error) {
         toast.error("Erro ao apagar projeto.");
@@ -141,6 +144,7 @@ const page = () => {
       }
 
       toast.success("Projeto apagado com sucesso!");
+      router.push("/projetos");
     } catch (e) {
       toast.error("Erro desconhecido ao apagar projeto.");
       console.error(e);
@@ -149,15 +153,47 @@ const page = () => {
 
   return (
     <section className={projectLayout.project_details_wrapper}>
-      {loading ? (
+      {/* MODAL DE CONFIRMAÇÃO DE DELETE */}
+      {deletingProjectId && (
+        <div
+          className={projectLayout.modal_overlay}
+          onClick={() => setDeletingProjectId(null)}
+        >
+          <div
+            className={projectLayout.modal}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className={projectLayout.modal_title}>Deletar projeto</h2>
+            <p className={projectLayout.modal_description}>
+              Tem certeza que deseja deletar este projeto?
+            </p>
+            <section className={projectLayout.modal_actions}>
+              <button
+                className={projectLayout.modal_cancel_btn}
+                onClick={() => setDeletingProjectId(null)}
+              >
+                Não Deletar Projeto
+              </button>
+              <button
+                className={projectLayout.modal_confirm_btn}
+                onClick={handle_delete}
+              >
+                Deletar Projeto
+              </button>
+            </section>
+          </div>
+        </div>
+      )}
+
+      {showLoading ? (
         <Loading />
-      ) : projectData ? (
+      ) : loading ? null : projectData ? (
         <section className={projectLayout.project_details_wrapper}>
           <BackButton route="/projetos" />
 
           <section className={projectLayout.project_details_header}>
             <h1
-              className={`${layout.main_app_title} ${styles.project_details_title}`}
+              className={`${layout.main_app_title} ${projectLayout.project_details_title}`}
             >
               {projectData.titulo_projeto}
             </h1>
@@ -168,7 +204,7 @@ const page = () => {
               <button
                 type="button"
                 className={projectLayout.delete_btn}
-                onClick={() => handle_delete(projectData.id)}
+                onClick={() => setDeletingProjectId(projectData.id)}
               >
                 <FontAwesomeIcon icon={faTrash} size="xl" />
               </button>

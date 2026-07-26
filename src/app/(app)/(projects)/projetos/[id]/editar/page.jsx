@@ -4,6 +4,7 @@ import { createClient } from "@/_lib/supabase/client";
 import { useUser } from "@/context/userContext";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useSmartLoading } from "@/_lib/hooks/useSmartLoading";
 
 // Utils
 import styles from "../../cadastrar/page.module.css";
@@ -45,7 +46,6 @@ const page = () => {
   const { id } = useParams();
   const router = useRouter();
   const { user, userRole, loading: userLoading } = useUser();
-
   const [projectLoading, setProjectLoading] = useState(true);
   const [projectData, setProjectData] = useState(null);
 
@@ -87,6 +87,7 @@ const page = () => {
   }, [id]);
 
   const loading = projectLoading || userLoading;
+  const showLoading = useSmartLoading(loading);
 
   const canEdit =
     !loading &&
@@ -196,7 +197,9 @@ const page = () => {
     }
   };
 
-  if (loading) return <Loading />;
+  if (showLoading) return <Loading />;
+
+  if (loading) return null;
 
   if (!projectData) return <p>Projeto não encontrado.</p>;
 
