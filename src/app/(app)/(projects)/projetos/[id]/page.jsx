@@ -21,15 +21,16 @@ import { createClient } from "@/_lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useSmartLoading } from "@/_lib/hooks/useSmartLoading";
 
-const page = () => {
+const supabase = createClient();
+
+const Page = () => {
   const { id } = useParams();
-  const supabase = createClient();
   const { user, userRole, userLoading } = useUser();
   const [projectLoading, setProjectLoading] = useState(true);
   const [projectData, setProjectData] = useState(null);
   const [deletingProjectId, setDeletingProjectId] = useState(null);
   const router = useRouter();
-  const showLoading = useSmartLoading();
+  const showLoading = useSmartLoading(loading);
 
   useEffect(() => {
     const load_project_from_id = async (id) => {
@@ -98,7 +99,7 @@ const page = () => {
     };
 
     load_project_from_id(id);
-  }, [id]);
+  }, [id, router]);
 
   // só considera "pronto" quando os dados do projeto E o usuário já resolveram
   const loading = projectLoading || userLoading;
@@ -265,4 +266,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -15,12 +15,13 @@ import { createClient } from "@/_lib/supabase/client";
 import { toast } from "sonner";
 import { useSmartLoading } from "@/_lib/hooks/useSmartLoading";
 
-const page = () => {
+const supabase = createClient();
+
+const Page = () => {
   const [inputValue, setInputValue] = useState("");
   const [inputError, setInputError] = useState("");
   const [loading, setLoading] = useState(false);
-  const supabase = createClient();
-  const showLoading = useSmartLoading();
+  const showLoading = useSmartLoading(loading);
 
   useEffect(() => {
     const load_email = async () => {
@@ -131,4 +132,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

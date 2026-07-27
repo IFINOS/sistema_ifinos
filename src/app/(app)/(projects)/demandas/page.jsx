@@ -5,7 +5,7 @@ import projectsLayout from "../layout.module.css";
 import { useUser } from "@/context/userContext";
 
 // Hooks
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/_lib/supabase/client";
 import { useSmartLoading } from "@/_lib/hooks/useSmartLoading";
 
@@ -27,19 +27,20 @@ import { toast } from "sonner";
 
 const PROJECTS_PER_PAGE = 10;
 
-const page = () => {
-  const supabase = createClient();
+const supabase = createClient();
+
+const Page = () => {
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [totalProjects, setTotalProjects] = useState(0);
-  const showLoading = useSmartLoading();
+  const showLoading = useSmartLoading(loading);
   const { userRole } = useUser();
 
   const totalPages = Math.ceil(totalProjects / PROJECTS_PER_PAGE);
 
-  const load_projects = async (page = 0, query = "") => {
+  const load_projects = useCallback(async (page = 0, query = "") => {
     setLoading(true);
 
     try {
@@ -97,11 +98,15 @@ const page = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []); // array vazio: a função não depende de nenhum state/prop externo (supabase é constante do módulo)
 
   useEffect(() => {
-    load_projects(currentPage, searchQuery);
-  }, [currentPage, searchQuery]);
+    const timeout = setTimeout(() => {
+      load_projects(currentPage, searchQuery);
+    }, 0);
+
+    return () => clearTimeout(timeout);
+  }, [currentPage, searchQuery, load_projects]);
 
   const handle_search = (value) => {
     setSearchQuery(value);
@@ -210,4 +215,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

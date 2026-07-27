@@ -33,7 +33,7 @@ const STEPS = [
   { key: "tags", label: "Tags", component: StepTags, validator: validate_tags },
 ];
 
-const page = () => {
+const Page = () => {
   const { id } = useParams();
   const router = useRouter();
   const { user, userRole, loading: userLoading } = useUser();
@@ -171,4 +171,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

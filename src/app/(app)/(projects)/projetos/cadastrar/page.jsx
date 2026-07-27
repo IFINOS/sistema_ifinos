@@ -36,8 +36,9 @@ const STEPS = [
   },
 ];
 
-const page = () => {
-  const supabase = createClient();
+const supabase = createClient();
+
+const Page = () => {
   const router = useRouter();
   const { user } = useUser();
 
@@ -148,4 +149,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

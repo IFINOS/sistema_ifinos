@@ -26,14 +26,15 @@ import { toast } from "sonner";
 
 const PROJECTS_PER_PAGE = 10;
 
-const page = () => {
-  const supabase = createClient();
+const supabase = createClient();
+
+const Page = () => {
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [totalProjects, setTotalProjects] = useState(0);
-  const showLoading = useSmartLoading();
+  const showLoading = useSmartLoading(loading);
   const { userRole } = useUser();
 
   const totalPages = Math.ceil(totalProjects / PROJECTS_PER_PAGE);
@@ -98,7 +99,11 @@ const page = () => {
   };
 
   useEffect(() => {
-    load_projects(currentPage, searchQuery);
+    const timeout = setTimeout(() => {
+      load_projects(currentPage, searchQuery);
+    }, 0);
+
+    return () => clearTimeout(timeout);
   }, [currentPage, searchQuery]);
 
   const handle_search = (value) => {
@@ -194,4 +199,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -33,7 +33,7 @@ const USERS_PER_PAGE = 10;
 // instância única fora do componente
 const supabase = createClient();
 
-const page = () => {
+const Page = () => {
   const [loading, setLoading] = useState(false);
   const [editingUserId, setEditingUserId] = useState(null);
   const [deletingUserId, setDeletingUserId] = useState(null);
@@ -48,7 +48,7 @@ const page = () => {
     nome: "",
     grupoId: "",
   });
-  const showLoading = useSmartLoading();
+  const showLoading = useSmartLoading(loading);
 
   const totalPages = Math.ceil(totalUsers / USERS_PER_PAGE);
 
@@ -105,7 +105,11 @@ const page = () => {
 
   // recarrega quando muda de página ou busca
   useEffect(() => {
-    load_users(currentPage, searchQuery);
+    const timeout = setTimeout(() => {
+      load_users(currentPage, searchQuery);
+    }, 0);
+
+    return () => clearTimeout(timeout);
   }, [currentPage, searchQuery]);
 
   const handle_search = (value) => {
@@ -437,4 +441,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

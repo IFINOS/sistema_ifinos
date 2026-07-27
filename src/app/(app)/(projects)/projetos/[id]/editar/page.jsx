@@ -41,7 +41,7 @@ const STEPS = [
   },
 ];
 
-const page = () => {
+const Page = () => {
   const { id } = useParams();
   const router = useRouter();
   const { user, userRole, loading: userLoading } = useUser();
@@ -233,4 +233,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

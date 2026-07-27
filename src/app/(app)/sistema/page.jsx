@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
 
 // talvez fazer um grid de seleção para diferentes seções?
-const page = () => {
+const Page = () => {
   redirect("/sistema/usuarios");
 };
 
-export default page;
+export default Page;

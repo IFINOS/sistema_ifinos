@@ -35,8 +35,10 @@ const StepIntegrantes = ({ data, errors, onChange }) => {
 
   useEffect(() => {
     if (!searchValue.trim()) {
-      setSearchResults([]);
-      return;
+      const clearTimeout_ = setTimeout(() => {
+        setSearchResults([]);
+      }, 0);
+      return () => clearTimeout(clearTimeout_);
     }
 
     const timeout = setTimeout(async () => {

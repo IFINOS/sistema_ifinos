@@ -36,7 +36,7 @@ const validate_inputs = ({ nome, email }) => {
 };
 
 // página não planejada no design mas segue os mesmos padrões de formulários do site
-const page = () => {
+const Page = () => {
   const [profileLoading, setProfileLoading] = useState(true);
   const [userData, setUserData] = useState(null);
   const { user, loading: userLoading } = useUser();
@@ -49,8 +49,10 @@ const page = () => {
     if (userLoading) return;
 
     if (!user) {
-      setProfileLoading(false);
-      return;
+      const timeout = setTimeout(() => {
+        setProfileLoading(false);
+      }, 0);
+      return () => clearTimeout(timeout);
     }
 
     const load_user_info = async () => {
@@ -295,4 +297,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

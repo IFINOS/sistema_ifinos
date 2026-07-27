@@ -20,8 +20,9 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/_lib/supabase/client";
 import { useRouter } from "next/navigation";
 
-const page = () => {
-  const supabase = createClient();
+const supabase = createClient();
+
+const Page = () => {
   const { id } = useParams();
   const { user, userRole, userLoading } = useUser();
   const [projectLoading, setProjectLoading] = useState(true);
@@ -97,7 +98,7 @@ const page = () => {
     };
 
     load_project_from_id(id);
-  }, [id]);
+  }, [id, router]);
 
   // só considera "pronto" quando os dados do projeto E o usuário já resolveram
   const loading = projectLoading || userLoading;
@@ -243,4 +244,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
