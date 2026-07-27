@@ -4,7 +4,6 @@ import { createClient } from "@/_lib/supabase/client";
 import { useRouter } from "next/navigation";
 
 // Utils
-import projectLayout from "../../layout.module.css";
 import layout from "../../layout.module.css";
 import { useUser } from "@/context/userContext";
 
@@ -128,11 +127,11 @@ const page = () => {
   };
 
   return (
-    <section className={projectLayout.register_project_main_page}>
+    <section className={layout.register_project_main_page}>
       <BackButton />
       <h1 className={layout.main_app_title}>Cadastrar Projeto</h1>
 
-      <section className={projectLayout.create_project_form_wrapper}>
+      <section className={layout.create_project_form_wrapper}>
         <MultiStepForm
           steps={STEPS}
           initial_data={{

@@ -6,7 +6,6 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 // Utils
-import styles from "../../cadastrar/page.module.css";
 import layout from "../../../layout.module.css";
 import { useSmartLoading } from "@/_lib/hooks/useSmartLoading";
 
@@ -156,11 +155,11 @@ const page = () => {
   };
 
   return (
-    <section className={styles.register_project_main_page}>
+    <section className={layout.register_project_main_page}>
       <BackButton />
       <h1 className={layout.main_app_title}>Editar Demanda</h1>
 
-      <section className={styles.create_project_form_wrapper}>
+      <section className={layout.create_project_form_wrapper}>
         <MultiStepForm
           steps={STEPS}
           initial_data={initial_data}
