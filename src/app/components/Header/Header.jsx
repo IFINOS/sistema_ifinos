@@ -278,7 +278,7 @@ const Header = () => {
           <section className={styles.mobile_user_options}>
             {user ? (
               <>
-                <Link href="/login" className={styles.user_options_link}>
+                <Link href="/meu-perfil" className={styles.user_options_link}>
                   {user?.user_metadata.avatar_url ? (
                     <Image
                       src={user.user_metadata.avatar_url}
