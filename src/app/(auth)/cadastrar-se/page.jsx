@@ -20,7 +20,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { createClient } from "@/_lib/supabase/client";
 import { useState } from "react";
 
-const page = () => {
+const Page = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [isShowingPass, setIsShowingPass] = useState(false);
@@ -308,4 +308,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

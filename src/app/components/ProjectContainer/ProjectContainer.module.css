@@ -30,6 +30,7 @@
   gap: 1.5rem;
   min-width: 0;
   flex: 1 1 0;
+  width: 100%;
 }
 
 .project_infos_header {

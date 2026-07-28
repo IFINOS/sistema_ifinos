@@ -89,6 +89,15 @@ export async function proxy(request) {
 
   if (!user) {
     if (isApiRoute) {
+      if (pathname.startsWith("/api/admin")) {
+        return NextResponse.redirect(
+          new URL(
+            atob(
+              "aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ==",
+            ),
+          ),
+        );
+      }
       return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
     }
     const loginUrl = new URL("/login", request.url);

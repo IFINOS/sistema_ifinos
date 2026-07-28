@@ -22,7 +22,7 @@ import Divider from "@/app/components/Divider/Divider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from "sonner";
 
-const page = () => {
+const Page = () => {
   const [errors, setErrors] = useState({});
   const [isShowingPass, setIsShowingPass] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -238,4 +238,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

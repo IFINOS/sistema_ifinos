@@ -1,7 +1,8 @@
 "use client";
 // Utils
 import styles from "./page.module.css";
-import layout from "../../layout.module.css";
+import projectLayout from "../../layout.module.css";
+import layout from "../../../layout.module.css";
 import { useUser } from "@/context/userContext";
 
 // Components
@@ -18,14 +19,18 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createClient } from "@/_lib/supabase/client";
 import { useRouter } from "next/navigation";
+import { useSmartLoading } from "@/_lib/hooks/useSmartLoading";
 
-const page = () => {
-  const supabase = createClient();
+const supabase = createClient();
+
+const Page = () => {
   const { id } = useParams();
   const { user, userRole, userLoading } = useUser();
   const [projectLoading, setProjectLoading] = useState(true);
   const [projectData, setProjectData] = useState(null);
+  const [deletingProjectId, setDeletingProjectId] = useState(null);
   const router = useRouter();
+  const showLoading = useSmartLoading(loading);
 
   useEffect(() => {
     const load_project_from_id = async (id) => {
@@ -63,7 +68,7 @@ const page = () => {
           .eq("id", id)
           .single();
 
-        if (!data.registro_ativo) router.push("/demandas");
+        if (!data.registro_ativo) router.push("/projetos");
 
         if (error) {
           toast.error("Projeto não encontrado.");
@@ -94,7 +99,7 @@ const page = () => {
     };
 
     load_project_from_id(id);
-  }, [id]);
+  }, [id, router]);
 
   // só considera "pronto" quando os dados do projeto E o usuário já resolveram
   const loading = projectLoading || userLoading;
@@ -107,9 +112,12 @@ const page = () => {
   const canEdit =
     !loading &&
     projectData &&
-    (userRole === "admin" || projectData.criado_por === user?.id);
+    (userRole === "admin" ||
+      projectData.usuarios_projetos?.some(
+        (up) => up.usuarios?.id === user?.id,
+      ));
 
-  const handle_delete = async (projetoId) => {
+  const handle_delete = async () => {
     try {
       // busca o id do status "Encerrado" (ou o nome que você usar pra "desativado")
       const { data: statusEncerrado, error: statusError } = await supabase
@@ -129,7 +137,7 @@ const page = () => {
           registro_ativo: false,
           status_projeto_id: statusEncerrado.id,
         })
-        .eq("id", projetoId);
+        .eq("id", deletingProjectId);
 
       if (error) {
         toast.error("Erro ao apagar projeto.");
@@ -137,6 +145,7 @@ const page = () => {
       }
 
       toast.success("Projeto apagado com sucesso!");
+      router.push("/projetos");
     } catch (e) {
       toast.error("Erro desconhecido ao apagar projeto.");
       console.error(e);
@@ -144,57 +153,93 @@ const page = () => {
   };
 
   return (
-    <section className={styles.project_details_wrapper}>
-      {loading ? (
-        <Loading />
-      ) : projectData ? (
-        <section className={styles.project_details_wrapper}>
-          <BackButton route="/demandas" />
+    <section className={projectLayout.project_details_wrapper}>
+      {/* MODAL DE CONFIRMAÇÃO DE DELETE */}
+      {deletingProjectId && (
+        <div
+          className={projectLayout.modal_overlay}
+          onClick={() => setDeletingProjectId(null)}
+        >
+          <div
+            className={projectLayout.modal}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className={projectLayout.modal_title}>Deletar projeto</h2>
+            <p className={projectLayout.modal_description}>
+              Tem certeza que deseja deletar este projeto?
+            </p>
+            <section className={projectLayout.modal_actions}>
+              <button
+                className={projectLayout.modal_cancel_btn}
+                onClick={() => setDeletingProjectId(null)}
+              >
+                Não Deletar Projeto
+              </button>
+              <button
+                className={projectLayout.modal_confirm_btn}
+                onClick={handle_delete}
+              >
+                Deletar Projeto
+              </button>
+            </section>
+          </div>
+        </div>
+      )}
 
-          <section className={styles.project_details_header}>
+      {showLoading ? (
+        <Loading />
+      ) : loading ? null : projectData ? (
+        <section className={projectLayout.project_details_wrapper}>
+          <BackButton route="/projetos" />
+
+          <section className={projectLayout.project_details_header}>
             <h1
-              className={`${layout.main_app_title} ${styles.project_details_title}`}
+              className={`${layout.main_app_title} ${projectLayout.project_details_title}`}
             >
               {projectData.titulo_projeto}
             </h1>
+          </section>
 
+          <section className={projectLayout.project_options}>
             {canDelete && (
               <button
                 type="button"
-                className={styles.delete_btn}
-                onClick={() => handle_delete(projectData.id)}
+                className={projectLayout.delete_btn}
+                onClick={() => setDeletingProjectId(projectData.id)}
               >
-                <FontAwesomeIcon icon={faTrash} size="lg" />
+                <FontAwesomeIcon icon={faTrash} size="xl" />
               </button>
             )}
 
             {canEdit && (
               <button
                 type="button"
-                className={styles.edit_btn}
-                onClick={() => router.push(`/demandas/${id}/editar`)}
+                className={projectLayout.edit_btn}
+                onClick={() => router.push(`/projetos/${id}/editar`)}
               >
                 <FontAwesomeIcon icon={faPenToSquare} size="xl" />
               </button>
             )}
           </section>
 
-          <section className={styles.project_tags_wrapper}>
+          <section className={projectLayout.project_tags_wrapper}>
             {projectData.tags.map((tag) => (
-              <span key={tag.id} className={styles.project_tag}>
+              <span key={tag.id} className={projectLayout.project_tag}>
                 {tag.nome}
               </span>
             ))}
           </section>
 
-          <p className={styles.project_status_wrapper}>
+          <p className={projectLayout.project_status_wrapper}>
             Status do projeto:{" "}
-            <span className={styles.project_status}>
+            <span className={projectLayout.project_status}>
               {projectData.status_projeto.nome}
             </span>
           </p>
 
-          <p className={styles.project_description}>{projectData.descricao}</p>
+          <p className={projectLayout.project_description}>
+            {projectData.descricao}
+          </p>
 
           <section className={styles.integrantes_wrapper}>
             <h2 style={{ marginBottom: ".6rem" }}>Integrantes</h2>
@@ -221,4 +266,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -4,9 +4,9 @@ import { createClient } from "@/_lib/supabase/client";
 import { useUser } from "@/context/userContext";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useSmartLoading } from "@/_lib/hooks/useSmartLoading";
 
 // Utils
-import styles from "../../cadastrar/page.module.css";
 import layout from "../../../layout.module.css";
 
 // Components
@@ -41,11 +41,10 @@ const STEPS = [
   },
 ];
 
-const page = () => {
+const Page = () => {
   const { id } = useParams();
   const router = useRouter();
   const { user, userRole, loading: userLoading } = useUser();
-
   const [projectLoading, setProjectLoading] = useState(true);
   const [projectData, setProjectData] = useState(null);
 
@@ -87,6 +86,7 @@ const page = () => {
   }, [id]);
 
   const loading = projectLoading || userLoading;
+  const showLoading = useSmartLoading(loading);
 
   const canEdit =
     !loading &&
@@ -196,7 +196,9 @@ const page = () => {
     }
   };
 
-  if (loading) return <Loading />;
+  if (showLoading) return <Loading />;
+
+  if (loading) return null;
 
   if (!projectData) return <p>Projeto não encontrado.</p>;
 
@@ -215,11 +217,11 @@ const page = () => {
   };
 
   return (
-    <section className={styles.register_project_main_page}>
+    <section className={layout.register_project_main_page}>
       <BackButton />
       <h1 className={layout.main_app_title}>Editar Projeto</h1>
 
-      <section className={styles.create_project_form_wrapper}>
+      <section className={layout.create_project_form_wrapper}>
         <MultiStepForm
           steps={STEPS}
           initial_data={initial_data}
@@ -231,4 +233,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

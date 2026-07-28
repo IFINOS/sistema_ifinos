@@ -4,7 +4,6 @@ import { createClient } from "@/_lib/supabase/client";
 import { useRouter } from "next/navigation";
 
 // Utils
-import styles from "./page.module.css";
 import layout from "../../layout.module.css";
 import { useUser } from "@/context/userContext";
 
@@ -37,8 +36,9 @@ const STEPS = [
   },
 ];
 
-const page = () => {
-  const supabase = createClient();
+const supabase = createClient();
+
+const Page = () => {
   const router = useRouter();
   const { user } = useUser();
 
@@ -128,11 +128,11 @@ const page = () => {
   };
 
   return (
-    <section className={styles.register_project_main_page}>
+    <section className={layout.register_project_main_page}>
       <BackButton />
       <h1 className={layout.main_app_title}>Cadastrar Projeto</h1>
 
-      <section className={styles.create_project_form_wrapper}>
+      <section className={layout.create_project_form_wrapper}>
         <MultiStepForm
           steps={STEPS}
           initial_data={{
@@ -149,4 +149,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

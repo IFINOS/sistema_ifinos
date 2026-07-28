@@ -1,0 +1,23 @@
+.integrante_container {
+  padding: 0.6rem 0.8rem;
+  background-color: var(--primary_cyan);
+  color: hsl(0, 0%, 100%);
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  height: 2.6rem;
+  border-radius: var(--input_border_radius);
+}
+
+.integrante_divider {
+  width: 1px;
+  height: 100%;
+  background-color: var(--light_gray);
+}
+
+.integrantes_list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}

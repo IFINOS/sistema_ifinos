@@ -4,7 +4,6 @@ import styles from "../layout.module.css";
 
 // Components
 import { toast } from "sonner";
-import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loading from "@/app/components/Loading/Loading";
 
@@ -15,7 +14,7 @@ import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { createClient } from "@/_lib/supabase/client";
 import { useState } from "react";
 
-const page = () => {
+const Page = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -94,4 +93,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

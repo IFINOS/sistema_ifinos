@@ -19,7 +19,7 @@ import {
 // Hooks
 import { useEffect, useState } from "react";
 
-const page = () => {
+const Page = () => {
   const [inputErrors, setInputErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [formKey, setFormKey] = useState(0);
@@ -29,7 +29,11 @@ const page = () => {
   useEffect(() => {
     if (!user) return;
 
-    setUserData(user);
+    const timeout = setTimeout(() => {
+      setUserData(user);
+    }, 0);
+
+    return () => clearTimeout(timeout);
   }, [user]);
 
   const validate_inputs = ({ nome, email, mensagem }) => {
@@ -52,6 +56,11 @@ const page = () => {
 
   const handle_submit = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      toast.error("É necessário fazer login para enviar sua mensagem.");
+      return;
+    }
 
     setInputErrors({});
 
@@ -166,4 +175,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

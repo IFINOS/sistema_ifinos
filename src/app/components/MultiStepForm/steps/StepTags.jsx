@@ -11,8 +11,9 @@ import PropTypes from "prop-types";
 // Components
 import { toast } from "sonner";
 
+const supabase = createClient();
+
 const StepTags = ({ data, errors, onChange }) => {
-  const supabase = createClient();
   const [availableTags, setAvailableTags] = useState([]);
   const [newTagName, setNewTagName] = useState("");
   const [creating, setCreating] = useState(false);

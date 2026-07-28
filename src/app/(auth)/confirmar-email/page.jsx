@@ -12,7 +12,7 @@ import Loading from "@/app/components/Loading/Loading";
 import { createClient } from "@/_lib/supabase/client";
 import { useState, useEffect } from "react";
 
-const page = () => {
+const Page = () => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [user, setUser] = useState(null);
@@ -21,12 +21,17 @@ const page = () => {
 
   useEffect(() => {
     const email = sessionStorage.getItem("pending_email");
-    if (email) {
-      setEmail(email);
-    } else {
-      // sem pending_email, provavelmente acessou direto — redireciona
-      window.location.href = "/home";
-    }
+
+    const timeout = setTimeout(() => {
+      if (email) {
+        setEmail(email);
+      } else {
+        // sem pending_email, provavelmente acessou direto — redireciona
+        window.location.href = "/home";
+      }
+    }, 0);
+
+    return () => clearTimeout(timeout);
   }, []);
 
   useEffect(() => {
@@ -103,4 +108,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

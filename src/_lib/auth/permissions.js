@@ -16,6 +16,7 @@ export const ROUTE_PERMISSIONS = {
   "/merchandise/cadastrar": "admin",
   "/sistema": "admin",
   "/api/admin": "admin",
+  "/api/perfil": "visitor",
 };
 
 // rotas que terminam com um sufixo específico, independente do que vem no meio

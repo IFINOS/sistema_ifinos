@@ -2,7 +2,7 @@
 import styles from "./page.module.css";
 import layout from "../layout.module.css";
 
-const page = () => {
+const Page = () => {
   return (
     <section className={styles.about_texts_container}>
       <h1 className={layout.main_app_title}>Sobre o IFINOS</h1>
@@ -70,4 +70,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

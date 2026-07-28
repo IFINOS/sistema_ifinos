@@ -6,8 +6,8 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 // Utils
-import styles from "../../cadastrar/page.module.css";
 import layout from "../../../layout.module.css";
+import { useSmartLoading } from "@/_lib/hooks/useSmartLoading";
 
 // Components
 import BackButton from "@/app/components/BackButton/BackButton";
@@ -33,11 +33,10 @@ const STEPS = [
   { key: "tags", label: "Tags", component: StepTags, validator: validate_tags },
 ];
 
-const page = () => {
+const Page = () => {
   const { id } = useParams();
   const router = useRouter();
   const { user, userRole, loading: userLoading } = useUser();
-
   const [projectLoading, setProjectLoading] = useState(true);
   const [projectData, setProjectData] = useState(null);
 
@@ -79,6 +78,8 @@ const page = () => {
   }, [id]);
 
   const loading = projectLoading || userLoading;
+  const showLoading = useSmartLoading(loading);
+  
   const canEdit =
     !loading &&
     projectData &&
@@ -137,7 +138,9 @@ const page = () => {
     }
   };
 
-  if (loading) return <Loading />;
+  if (showLoading) return <Loading />;
+
+  if (loading) return null;
 
   if (!projectData) return <p>Demanda não encontrada.</p>;
 
@@ -152,11 +155,11 @@ const page = () => {
   };
 
   return (
-    <section className={styles.register_project_main_page}>
+    <section className={layout.register_project_main_page}>
       <BackButton />
       <h1 className={layout.main_app_title}>Editar Demanda</h1>
 
-      <section className={styles.create_project_form_wrapper}>
+      <section className={layout.create_project_form_wrapper}>
         <MultiStepForm
           steps={STEPS}
           initial_data={initial_data}
@@ -168,4 +171,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

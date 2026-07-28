@@ -26,23 +26,27 @@ const MultiStepForm = ({
 
     const current_errors = validator(formData);
 
-    setErrors((prev) => {
-      const next = { ...prev };
-      let changed = false;
+    const timeout = setTimeout(() => {
+      setErrors((prev) => {
+        const next = { ...prev };
+        let changed = false;
 
-      for (const key of Object.keys(prev)) {
-        if (!current_errors[key]) {
-          delete next[key];
-          changed = true;
-        } else if (current_errors[key] !== prev[key]) {
-          next[key] = current_errors[key];
-          changed = true;
+        for (const key of Object.keys(prev)) {
+          if (!current_errors[key]) {
+            delete next[key];
+            changed = true;
+          } else if (current_errors[key] !== prev[key]) {
+            next[key] = current_errors[key];
+            changed = true;
+          }
         }
-      }
 
-      return changed ? next : prev;
-    });
-  }, [formData, step]);
+        return changed ? next : prev;
+      });
+    }, 0);
+
+    return () => clearTimeout(timeout);
+  }, [formData, step, steps]);
 
   const update_field = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
