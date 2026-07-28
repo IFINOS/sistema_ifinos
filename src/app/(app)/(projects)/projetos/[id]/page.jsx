@@ -30,7 +30,7 @@ const Page = () => {
   const [projectData, setProjectData] = useState(null);
   const [deletingProjectId, setDeletingProjectId] = useState(null);
   const router = useRouter();
-  const showLoading = useSmartLoading(loading);
+  const showLoading = useSmartLoading(projectLoading);
 
   useEffect(() => {
     const load_project_from_id = async (id) => {
