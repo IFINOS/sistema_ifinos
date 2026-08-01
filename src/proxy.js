@@ -47,9 +47,13 @@ export async function proxy(request) {
   const isApiRoute = pathname.startsWith("/api");
 
   // helper: em rota de API, responde JSON; em página, redireciona
-  const deny = (status, redirectTo) => {
+  const deny = (redirectTo) => {
     if (isApiRoute) {
-      return NextResponse.json({ error: "Não autorizado." }, { status });
+      return NextResponse.redirect(
+        new URL(
+          atob("aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ=="),
+        ),
+      );
     }
     return NextResponse.redirect(new URL(redirectTo, request.url));
   };
@@ -98,7 +102,12 @@ export async function proxy(request) {
           ),
         );
       }
-      return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
+
+      return NextResponse.redirect(
+        new URL(
+          atob("aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ=="),
+        ),
+      );
     }
     const loginUrl = new URL("/login", request.url);
     loginUrl.searchParams.set("next", pathname);

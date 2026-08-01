@@ -109,7 +109,11 @@ export async function GET(request) {
     } = await supabaseSession.auth.getUser();
 
     if (!user) {
-      return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
+      return NextResponse.redirect(
+        new URL(
+          atob("aHR0cHM6Ly93d3cueW91dHViZS5jb20vd2F0Y2g/dj1kUXc0dzlXZ1hjUQ=="),
+        ),
+      );
     }
 
     const { data: grupos, error: gruposError } = await supabaseSession

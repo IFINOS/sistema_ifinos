@@ -3,9 +3,11 @@
 import styles from "./page.module.css";
 import layout from "../layout.module.css";
 import { useUser } from "@/context/userContext";
+import { useSmartLoading } from "@/_lib/hooks/useSmartLoading";
 
 // Components
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Loading from "@/app/components/Loading/Loading";
 import { toast } from "sonner";
 
 // Images
@@ -18,19 +20,52 @@ import {
 
 // Hooks
 import { useEffect, useState } from "react";
+import { createClient } from "@/_lib/supabase/client";
+
+const supabase = createClient();
 
 const Page = () => {
   const [inputErrors, setInputErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [formKey, setFormKey] = useState(0);
   const [userData, setUserData] = useState([]);
+  const [username, setUsername] = useState("");
   const { user } = useUser();
+  const showLoading = useSmartLoading(loading);
+
+  const get_username = async (id) => {
+    if (!id) return;
+
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("usuarios")
+        .select("nome")
+        .eq("id", id)
+        .single();
+
+      if (error) {
+        toast.error("Não foi possível encontrar o seu nome de usuário.");
+        return;
+      }
+
+      setUsername(data.nome);
+    } catch (e) {
+      toast.error(
+        "Ocorreu um erro desconhecido ao buscar o seu nome de usuário. Tente novamente.",
+      );
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!user) return;
 
     const timeout = setTimeout(() => {
       setUserData(user);
+      get_username(user.id);
     }, 0);
 
     return () => clearTimeout(timeout);
@@ -97,80 +132,90 @@ const Page = () => {
 
   return (
     <section className={styles.contact_container}>
-      <h1 className={layout.main_app_title}>Fale Conosco</h1>
-
-      <form
-        key={formKey}
-        onSubmit={handle_submit}
-        className={styles.contact_form}
-      >
-        <section className={styles.input_wrapper}>
-          <label className={styles.input_label} htmlFor="nome">
-            Nome <FontAwesomeIcon icon={faUser} />
-          </label>
-
-          <input
-            defaultValue={userData ? userData.user_metadata?.full_name : ""}
-            className={`${styles.input} ${inputErrors.nome ? layout.input_invalid : ""}`}
-            type="text"
-            name="nome"
-            id="nome"
-          />
-
-          {inputErrors.nome && (
-            <span className={layout.field_error}>{inputErrors.nome}</span>
-          )}
+      {showLoading ? (
+        <section className={styles.loading_wrapper}>
+          <Loading />
         </section>
+      ) : loading ? null : (
+        <section className={styles.contact_container}>
+          <h1 className={layout.main_app_title}>Fale Conosco</h1>
 
-        <section className={styles.input_wrapper}>
-          <label className={styles.input_label} htmlFor="email">
-            Email <FontAwesomeIcon icon={faEnvelope} />
-          </label>
+          <form
+            key={formKey}
+            onSubmit={handle_submit}
+            className={styles.contact_form}
+          >
+            <section className={styles.input_wrapper}>
+              <label className={styles.input_label} htmlFor="nome">
+                Nome <FontAwesomeIcon icon={faUser} />
+              </label>
 
-          <input
-            defaultValue={userData ? userData.email : ""}
-            className={`${styles.input} ${inputErrors.email ? layout.input_invalid : ""}`}
-            type="email"
-            name="email"
-            id="email"
-          />
+              <input
+                defaultValue={username ? username : ""}
+                className={`${styles.input} ${inputErrors.nome ? layout.input_invalid : ""}`}
+                type="text"
+                name="nome"
+                id="nome"
+              />
 
-          {inputErrors.email && (
-            <span className={layout.field_error}>{inputErrors.email}</span>
-          )}
+              {inputErrors.nome && (
+                <span className={layout.field_error}>{inputErrors.nome}</span>
+              )}
+            </section>
+
+            <section className={styles.input_wrapper}>
+              <label className={styles.input_label} htmlFor="email">
+                Email <FontAwesomeIcon icon={faEnvelope} />
+              </label>
+
+              <input
+                defaultValue={userData ? userData.email : ""}
+                className={`${styles.input} ${inputErrors.email ? layout.input_invalid : ""}`}
+                type="email"
+                name="email"
+                id="email"
+              />
+
+              {inputErrors.email && (
+                <span className={layout.field_error}>{inputErrors.email}</span>
+              )}
+            </section>
+
+            <section className={styles.input_wrapper}>
+              <label className={styles.input_label} htmlFor="mensagem">
+                Mensagem <FontAwesomeIcon icon={faMessage} />
+              </label>
+
+              <textarea
+                className={`${styles.message_container} ${inputErrors.mensagem ? layout.input_invalid : ""}`}
+                name="mensagem"
+                id="mensagem"
+                maxLength={1500}
+                placeholder="Máximo de 1500 caracteres"
+              ></textarea>
+
+              {inputErrors.mensagem && (
+                <span className={layout.field_error}>
+                  {inputErrors.mensagem}
+                </span>
+              )}
+            </section>
+
+            {inputErrors.geral && (
+              <span className={layout.field_error}>{inputErrors.geral}</span>
+            )}
+
+            <button
+              className={styles.send_message_btn}
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? "Enviando..." : "Enviar"}
+              <FontAwesomeIcon icon={faPaperPlane} />
+            </button>
+          </form>
         </section>
-
-        <section className={styles.input_wrapper}>
-          <label className={styles.input_label} htmlFor="mensagem">
-            Mensagem <FontAwesomeIcon icon={faMessage} />
-          </label>
-
-          <textarea
-            className={`${styles.message_container} ${inputErrors.mensagem ? layout.input_invalid : ""}`}
-            name="mensagem"
-            id="mensagem"
-            maxLength={1500}
-            placeholder="Máximo de 1500 caracteres"
-          ></textarea>
-
-          {inputErrors.mensagem && (
-            <span className={layout.field_error}>{inputErrors.mensagem}</span>
-          )}
-        </section>
-
-        {inputErrors.geral && (
-          <span className={layout.field_error}>{inputErrors.geral}</span>
-        )}
-
-        <button
-          className={styles.send_message_btn}
-          type="submit"
-          disabled={loading}
-        >
-          {loading ? "Enviando..." : "Enviar"}
-          <FontAwesomeIcon icon={faPaperPlane} />
-        </button>
-      </form>
+      )}
     </section>
   );
 };

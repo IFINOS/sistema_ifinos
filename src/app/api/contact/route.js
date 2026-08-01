@@ -11,6 +11,15 @@ export async function POST(req) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (!user) {
+    return NextResponse.json(
+      {
+        error: "É necessário fazer login para enviar sua mensagem. ",
+      },
+      { status: 403 },
+    );
+  }
+
   const email_real = user ? user.email : email;
   const nome_real = user ? user.user_metadata.full_name : nome;
 
