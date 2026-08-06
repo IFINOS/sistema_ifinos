@@ -150,6 +150,16 @@
   border-radius: var(--pill_border);
 }
 
+.created_by {
+  font-size: 1.2rem;
+  margin: 1rem 0;
+  font-weight: 500;
+}
+
+.created_by_name {
+  color: var(--primary_red);
+}
+
 .project_description {
   line-height: var(--long_text_line_height);
   margin: 2rem 0;

@@ -50,19 +50,11 @@ const Page = () => {
             descricao,
             data_criacao,
             criado_por,
-            tipo_projeto_id,
             status_projeto_id,
             registro_ativo,
-            tipo_projeto ( id, nome ),
             status_projeto ( id, nome ),
-            projetos_tags (
-              tags ( id, nome )
-            ),
-            usuarios_projetos (
-              funcao,
-              usuarios ( id, nome, avatar_url )
-            )
-          `,
+            projetos_tags ( tags ( id, nome ) ),
+            usuarios!criado_por ( id, nome )`,
           )
           .eq("id", id)
           .single();
@@ -79,11 +71,7 @@ const Page = () => {
           tags: (data.projetos_tags ?? []).flatMap((pt) =>
             Array.isArray(pt.tags) ? pt.tags : pt.tags ? [pt.tags] : [],
           ),
-          integrantes:
-            data.usuarios_projetos?.map((up) => ({
-              ...up.usuarios,
-              funcao: up.funcao,
-            })) ?? [],
+          criador: data.usuarios,
         };
 
         setProjectData(flattened);
@@ -226,8 +214,15 @@ const Page = () => {
             ))}
           </section>
 
+          <p className={projectLayout.created_by}>
+            Demanda criada por:{" "}
+            <span className={projectLayout.created_by_name}>
+              {projectData.criador?.nome}
+            </span>
+          </p>
+
           <p className={projectLayout.project_status_wrapper}>
-            Status do projeto:{" "}
+            Status da demanda:{" "}
             <span className={projectLayout.project_status}>
               {projectData.status_projeto.nome}
             </span>

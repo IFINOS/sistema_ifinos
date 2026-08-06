@@ -11,6 +11,7 @@ const Footer = () => {
   return (
     <footer className={styles.footer_wrapper}>
       <p className={styles.site_version}>
+        versão: {" "}
         {process.env.NEXT_PUBLIC_SITE_VERSION}
       </p>
       <p className={styles.copy_warning}>
