@@ -1,4 +1,5 @@
-.projects_page_header {
+.projects_page_header,
+.news_page_header {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -7,7 +8,8 @@
   gap: 1rem;
 }
 
-.register_project {
+.register_project,
+.register_news {
   flex: 0 1 15rem;
   display: block;
   border: 0.1rem solid var(--primary_green);
@@ -17,12 +19,14 @@
   transition: var(--default_transition);
 }
 
-.register_project:hover {
+.register_project:hover,
+.register_news:hover {
   box-shadow: var(--background_effect) var(--primary_green_hover);
   color: hsl(0, 0%, 100%);
 }
 
-.projects_wrapper {
+.projects_wrapper,
+.news_wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
