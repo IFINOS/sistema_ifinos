@@ -24,11 +24,13 @@ const supabase = createClient();
 
 const Page = () => {
   const { id } = useParams();
-  const { user, userRole, userLoading } = useUser();
+  const { user, userRole, loading: userLoading } = useUser();
   const [projectLoading, setProjectLoading] = useState(true);
   const [projectData, setProjectData] = useState(null);
   const [deletingProjectId, setDeletingProjectId] = useState(null);
-  const showLoading = useSmartLoading();
+  // só considera "pronto" quando os dados do projeto E o usuário já resolveram
+  const loading = projectLoading || userLoading;
+  const showLoading = useSmartLoading(loading);
   const router = useRouter();
 
   useEffect(() => {
@@ -59,12 +61,12 @@ const Page = () => {
           .eq("id", id)
           .single();
 
-        if (!data.registro_ativo) router.push("/demandas");
-
         if (error) {
           toast.error("Projeto não encontrado.");
           return;
         }
+
+        if (!data.registro_ativo) router.push("/demandas");
 
         const flattened = {
           ...data,
@@ -87,9 +89,6 @@ const Page = () => {
 
     load_project_from_id(id);
   }, [id, router]);
-
-  // só considera "pronto" quando os dados do projeto E o usuário já resolveram
-  const loading = projectLoading || userLoading;
 
   const canDelete =
     !loading &&

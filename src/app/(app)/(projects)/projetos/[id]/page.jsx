@@ -15,22 +15,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 // Hooks
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createClient } from "@/_lib/supabase/client";
-import { useRouter } from "next/navigation";
 import { useSmartLoading } from "@/_lib/hooks/useSmartLoading";
 
 const supabase = createClient();
 
 const Page = () => {
   const { id } = useParams();
-  const { user, userRole, userLoading } = useUser();
+  const { user, userRole, loading: userLoading } = useUser();
   const [projectLoading, setProjectLoading] = useState(true);
   const [projectData, setProjectData] = useState(null);
   const [deletingProjectId, setDeletingProjectId] = useState(null);
   const router = useRouter();
-  const showLoading = useSmartLoading(projectLoading);
+
+  // só considera "pronto" quando os dados do projeto E o usuário já resolveram
+  const loading = projectLoading || userLoading;
+  const showLoading = useSmartLoading(loading);
 
   useEffect(() => {
     const load_project_from_id = async (id) => {
@@ -51,10 +53,8 @@ const Page = () => {
             descricao,
             data_criacao,
             criado_por,
-            tipo_projeto_id,
             status_projeto_id,
             registro_ativo,
-            tipo_projeto ( id, nome ),
             status_projeto ( id, nome ),
             projetos_tags (
               tags ( id, nome )
@@ -68,10 +68,15 @@ const Page = () => {
           .eq("id", id)
           .single();
 
-        if (!data.registro_ativo) router.push("/projetos");
-
+        // erro precisa ser checado antes de acessar qualquer campo de "data",
+        // senão "data" pode ser null e quebra ao ler data.registro_ativo
         if (error) {
           toast.error("Projeto não encontrado.");
+          return;
+        }
+
+        if (!data.registro_ativo) {
+          router.push("/projetos");
           return;
         }
 
@@ -101,9 +106,6 @@ const Page = () => {
     load_project_from_id(id);
   }, [id, router]);
 
-  // só considera "pronto" quando os dados do projeto E o usuário já resolveram
-  const loading = projectLoading || userLoading;
-
   const canDelete =
     !loading &&
     projectData &&
@@ -119,7 +121,7 @@ const Page = () => {
 
   const handle_delete = async () => {
     try {
-      // busca o id do status "Encerrado" (ou o nome que você usar pra "desativado")
+      // busca o id do status "Em pausa" (usado como estado de "desativado")
       const { data: statusEncerrado, error: statusError } = await supabase
         .from("status_projeto")
         .select("id")
