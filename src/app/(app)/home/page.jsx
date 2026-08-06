@@ -11,15 +11,10 @@ import Loading from "@/app/components/Loading/Loading";
 import { toast } from "sonner";
 import Link from "next/link";
 import NewsContainer from "@/app/components/NewsContainer/NewsContainer";
+import Pagination from "@/app/components/Pagination/Pagination";
 
 // Images
-import {
-  faAdd,
-  faChevronLeft,
-  faChevronRight,
-  faPen,
-  faTrashCan,
-} from "@fortawesome/free-solid-svg-icons";
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 // Hooks
 import { useSmartLoading } from "@/_lib/hooks/useSmartLoading";
@@ -135,37 +130,12 @@ const Page = () => {
           )}
 
           {totalPages > 1 && (
-            <section className={layout.pagination}>
-              <button
-                className={layout.pagination_btn}
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
-                disabled={currentPage === 0}
-              >
-                <FontAwesomeIcon icon={faChevronLeft} />
-              </button>
-
-              {Array.from({ length: totalPages }, (_, i) => (
-                <button
-                  key={i}
-                  className={`${layout.pagination_btn} ${
-                    currentPage === i ? layout.pagination_btn_active : ""
-                  }`}
-                  onClick={() => setCurrentPage(i)}
-                >
-                  {i + 1}
-                </button>
-              ))}
-
-              <button
-                className={layout.pagination_btn}
-                onClick={() =>
-                  setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))
-                }
-                disabled={currentPage === totalPages - 1}
-              >
-                <FontAwesomeIcon icon={faChevronRight} />
-              </button>
-            </section>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+              
+            />
           )}
         </section>
       )}

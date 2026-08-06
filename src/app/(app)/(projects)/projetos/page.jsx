@@ -15,6 +15,7 @@ import Link from "next/link";
 import Loading from "@/app/components/Loading/Loading";
 import ProjectContainer from "@/app/components/ProjectContainer/ProjectContainer";
 import { toast } from "sonner";
+import Pagination from "@/app/components/Pagination/Pagination";
 
 // Images
 import {
@@ -158,41 +159,11 @@ const Page = () => {
 
             {/* PAGINAÇÃO */}
             {totalPages > 1 && (
-              <section className={projectsLayout.pagination}>
-                <button
-                  className={projectsLayout.pagination_btn}
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.max(prev - 1, 0))
-                  }
-                  disabled={currentPage === 0}
-                >
-                  <FontAwesomeIcon icon={faChevronLeft} />
-                </button>
-
-                {Array.from({ length: totalPages }, (_, i) => (
-                  <button
-                    key={i}
-                    className={`${projectsLayout.pagination_btn} ${
-                      currentPage === i
-                        ? projectsLayout.pagination_btn_active
-                        : ""
-                    }`}
-                    onClick={() => setCurrentPage(i)}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
-
-                <button
-                  className={projectsLayout.pagination_btn}
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))
-                  }
-                  disabled={currentPage === totalPages - 1}
-                >
-                  <FontAwesomeIcon icon={faChevronRight} />
-                </button>
-              </section>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
             )}
           </section>
         </section>
