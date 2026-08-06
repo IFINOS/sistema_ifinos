@@ -18,15 +18,10 @@ import ProjectContainer from "@/app/components/ProjectContainer/ProjectContainer
 import Pagination from "@/app/components/Pagination/Pagination";
 
 // Images
-import {
-  faAdd,
-  faLightbulb,
-  faChevronLeft,
-  faChevronRight,
-} from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faLightbulb } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "sonner";
 
-const PROJECTS_PER_PAGE = 10;
+const PROJECTS_PER_PAGE = 6;
 
 const supabase = createClient();
 

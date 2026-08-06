@@ -18,14 +18,9 @@ import { toast } from "sonner";
 import Pagination from "@/app/components/Pagination/Pagination";
 
 // Images
-import {
-  faAdd,
-  faScrewdriverWrench,
-  faChevronLeft,
-  faChevronRight,
-} from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faScrewdriverWrench } from "@fortawesome/free-solid-svg-icons";
 
-const PROJECTS_PER_PAGE = 10;
+const PROJECTS_PER_PAGE = 6;
 
 const supabase = createClient();
 
