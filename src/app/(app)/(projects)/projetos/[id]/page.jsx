@@ -55,6 +55,7 @@ const Page = () => {
             criado_por,
             status_projeto_id,
             registro_ativo,
+            linha_de_pesquisa_id (nome),
             status_projeto ( id, nome ),
             projetos_tags (
               tags ( id, nome )
@@ -224,20 +225,33 @@ const Page = () => {
             )}
           </section>
 
-          <section className={projectLayout.project_tags_wrapper}>
-            {projectData.tags.map((tag) => (
-              <span key={tag.id} className={projectLayout.project_tag}>
-                {tag.nome}
-              </span>
-            ))}
-          </section>
-
           <p className={projectLayout.project_status_wrapper}>
             Status do projeto:{" "}
             <span className={projectLayout.project_status}>
               {projectData.status_projeto.nome}
             </span>
           </p>
+
+          <section className={styles.project_tags}>
+            <p>Tags atribuídas:</p>
+
+            <section className={projectLayout.project_tags_wrapper}>
+              {projectData.tags.map((tag) => (
+                <span key={tag.id} className={projectLayout.project_tag}>
+                  {tag.nome}
+                </span>
+              ))}
+            </section>
+          </section>
+
+          {projectData.linha_de_pesquisa_id && (
+            <p className={styles.linha_pesquisa_wrapper}>
+              Linha de pesquisa:{" "}
+              <span className={styles.linha_pesquisa}>
+                {projectData.linha_de_pesquisa_id.nome}
+              </span>
+            </p>
+          )}
 
           <p className={projectLayout.project_description}>
             {projectData.descricao}

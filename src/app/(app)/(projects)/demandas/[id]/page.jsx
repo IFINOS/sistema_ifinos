@@ -205,6 +205,13 @@ const Page = () => {
             )}
           </section>
 
+          <p className={projectLayout.project_status_wrapper}>
+            Status da demanda:{" "}
+            <span className={projectLayout.project_status}>
+              {projectData.status_projeto.nome}
+            </span>
+          </p>
+
           <section className={projectLayout.project_tags_wrapper}>
             {projectData.tags.map((tag) => (
               <span key={tag.id} className={projectLayout.project_tag}>
@@ -217,13 +224,6 @@ const Page = () => {
             Demanda criada por:{" "}
             <span className={projectLayout.created_by_name}>
               {projectData.criador?.nome}
-            </span>
-          </p>
-
-          <p className={projectLayout.project_status_wrapper}>
-            Status da demanda:{" "}
-            <span className={projectLayout.project_status}>
-              {projectData.status_projeto.nome}
             </span>
           </p>
 

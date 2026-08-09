@@ -11,7 +11,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Divider from "@/app/components/Divider/Divider";
 
 // Images
-import { faUser, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUser,
+  faEnvelope,
+  faFloppyDisk,
+} from "@fortawesome/free-solid-svg-icons";
 
 // Hooks
 import { useSmartLoading } from "@/_lib/hooks/useSmartLoading";
@@ -273,6 +277,7 @@ const Page = () => {
               type="submit"
               disabled={submitting}
             >
+              <FontAwesomeIcon icon={faFloppyDisk} size="lg" />
               {submitting ? "Salvando..." : "Salvar"}
             </button>
           </form>

@@ -1,0 +1,32 @@
+.linhas_list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-height: 20rem;
+  overflow-y: auto;
+  margin-top: 0.8rem;
+}
+
+.linha_item {
+  text-align: start;
+  padding: 0.8rem 1rem;
+  border: 0.1rem solid var(--light_gray);
+  border-radius: var(--input_border_radius);
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  transition:
+    0.3s ease background-color,
+    0.3s ease border-color;
+}
+
+.linha_item:hover {
+  border-color: var(--primary_cyan);
+}
+
+.linha_item_selected {
+  background-color: var(--primary_cyan);
+  border-color: var(--primary_cyan);
+  color: hsl(0, 0%, 100%);
+  font-weight: 500;
+}

@@ -85,7 +85,6 @@
 }
 
 .project_tags_wrapper {
-  margin: 1.6rem 0 2rem 0;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -102,6 +101,7 @@
 }
 
 .project_status_wrapper {
+  margin: 1rem 0;
   font-weight: 500;
   font-size: 1.2rem;
 }

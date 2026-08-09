@@ -14,11 +14,13 @@ import MultiStepForm from "@/app/components/MultiStepForm/MultiStepForm";
 import StepInfoBasica from "@/app/components/MultiStepForm/steps/StepInfoBasica";
 import StepTags from "@/app/components/MultiStepForm/steps/StepTags";
 import StepIntegrantes from "@/app/components/MultiStepForm/steps/StepIntegrantes";
+import StepLinhaPesquisa from "@/app/components/MultiStepForm/steps/StepLinhaDePesquisa";
 
 // Validators
 import { validate_info_basica } from "@/app/components/MultiStepForm/validators/stepInfoBasica.validator";
 import { validate_tags } from "@/app/components/MultiStepForm/validators/stepTags.validator";
 import { validate_integrantes } from "@/app/components/MultiStepForm/validators/stepIntegrantes.validator";
+import { validate_linha_pesquisa } from "@/app/components/MultiStepForm/validators/stepLinhaDePesquisa.validator";
 
 const STEPS = [
   {
@@ -26,6 +28,12 @@ const STEPS = [
     label: "Informações",
     component: StepInfoBasica,
     validator: validate_info_basica,
+  },
+  {
+    key: "linha",
+    label: "Linha de Pesquisa",
+    component: StepLinhaPesquisa,
+    validator: validate_linha_pesquisa,
   },
   { key: "tags", label: "Tags", component: StepTags, validator: validate_tags },
   {
@@ -73,6 +81,7 @@ const Page = () => {
           titulo_projeto: formData.titulo,
           descricao: formData.descricao,
           tipo_projeto_id: tipoProjeto.id,
+          linha_de_pesquisa_id: formData.linha_pesquisa?.id,
           status_projeto_id: statusAtivo.id,
           criado_por: user.id,
         })
@@ -138,6 +147,7 @@ const Page = () => {
           initial_data={{
             titulo: "",
             descricao: "",
+            linha_pesquisa: null,
             tags: [],
             integrantes: [],
           }}

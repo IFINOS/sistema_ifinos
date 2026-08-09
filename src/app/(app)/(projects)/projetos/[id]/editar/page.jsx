@@ -17,11 +17,13 @@ import MultiStepForm from "@/app/components/MultiStepForm/MultiStepForm";
 import StepInfoBasica from "@/app/components/MultiStepForm/steps/StepInfoBasica";
 import StepTags from "@/app/components/MultiStepForm/steps/StepTags";
 import StepIntegrantes from "@/app/components/MultiStepForm/steps/StepIntegrantes";
+import StepLinhaPesquisa from "@/app/components/MultiStepForm/steps/StepLinhaDePesquisa";
 
 // Validators
 import { validate_info_basica } from "@/app/components/MultiStepForm/validators/stepInfoBasica.validator";
 import { validate_tags } from "@/app/components/MultiStepForm/validators/stepTags.validator";
 import { validate_integrantes } from "@/app/components/MultiStepForm/validators/stepIntegrantes.validator";
+import { validate_linha_pesquisa } from "@/app/components/MultiStepForm/validators/stepLinhaDePesquisa.validator";
 
 const supabase = createClient();
 
@@ -31,6 +33,12 @@ const STEPS = [
     label: "Informações",
     component: StepInfoBasica,
     validator: validate_info_basica,
+  },
+  {
+    key: "linha",
+    label: "Linha de Pesquisa",
+    component: StepLinhaPesquisa,
+    validator: validate_linha_pesquisa,
   },
   { key: "tags", label: "Tags", component: StepTags, validator: validate_tags },
   {
@@ -57,13 +65,14 @@ const Page = () => {
           .from("projetos")
           .select(
             `
-            id,
-            titulo_projeto,
-            descricao,
-            criado_por,
-            projetos_tags ( tags ( id, nome ) ),
-            usuarios_projetos ( funcao, usuarios ( id, nome, avatar_url ) )
-          `,
+              id,
+              titulo_projeto,
+              descricao,
+              criado_por,
+              linha_de_pesquisa_id (id, nome),
+              projetos_tags ( tags ( id, nome ) ),
+              usuarios_projetos ( funcao, usuarios ( id, nome, avatar_url ) )
+            `,
           )
           .eq("id", id)
           .single();
@@ -104,6 +113,7 @@ const Page = () => {
         .update({
           titulo_projeto: formData.titulo,
           descricao: formData.descricao,
+          linha_de_pesquisa_id: formData.linha_pesquisa?.id ?? null,
         })
         .eq("id", id);
 
@@ -214,6 +224,7 @@ const Page = () => {
       ...up.usuarios,
       funcao: up.funcao,
     })),
+    linha_pesquisa: projectData.linha_de_pesquisa_id ?? null,
   };
 
   return (

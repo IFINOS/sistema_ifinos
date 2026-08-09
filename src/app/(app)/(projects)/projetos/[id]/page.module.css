@@ -1,3 +1,23 @@
+.project_tags {
+  margin: 2rem 0;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.linha_pesquisa_wrapper {
+  margin: 1rem 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.linha_pesquisa {
+  color: var(--primary_red);
+}
+
 .integrante_container {
   padding: 0.6rem 0.8rem;
   background-color: var(--primary_cyan);

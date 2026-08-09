@@ -140,80 +140,84 @@ const Page = () => {
         <section className={styles.contact_container}>
           <h1 className={layout.main_app_title}>Fale Conosco</h1>
 
-          <form
-            key={formKey}
-            onSubmit={handle_submit}
-            className={styles.contact_form}
-          >
-            <section className={styles.input_wrapper}>
-              <label className={styles.input_label} htmlFor="nome">
-                Nome <FontAwesomeIcon icon={faUser} />
-              </label>
-
-              <input
-                defaultValue={username ? username : ""}
-                className={`${styles.input} ${inputErrors.nome ? layout.input_invalid : ""}`}
-                type="text"
-                name="nome"
-                id="nome"
-              />
-
-              {inputErrors.nome && (
-                <span className={layout.field_error}>{inputErrors.nome}</span>
-              )}
-            </section>
-
-            <section className={styles.input_wrapper}>
-              <label className={styles.input_label} htmlFor="email">
-                Email <FontAwesomeIcon icon={faEnvelope} />
-              </label>
-
-              <input
-                defaultValue={userData ? userData.email : ""}
-                className={`${styles.input} ${inputErrors.email ? layout.input_invalid : ""}`}
-                type="email"
-                name="email"
-                id="email"
-              />
-
-              {inputErrors.email && (
-                <span className={layout.field_error}>{inputErrors.email}</span>
-              )}
-            </section>
-
-            <section className={styles.input_wrapper}>
-              <label className={styles.input_label} htmlFor="mensagem">
-                Mensagem <FontAwesomeIcon icon={faMessage} />
-              </label>
-
-              <textarea
-                className={`${styles.message_container} ${inputErrors.mensagem ? layout.input_invalid : ""}`}
-                name="mensagem"
-                id="mensagem"
-                maxLength={1500}
-                placeholder="Máximo de 1500 caracteres"
-              ></textarea>
-
-              {inputErrors.mensagem && (
-                <span className={layout.field_error}>
-                  {inputErrors.mensagem}
-                </span>
-              )}
-            </section>
-
-            {inputErrors.geral && (
-              <span className={layout.field_error}>{inputErrors.geral}</span>
-            )}
-
-            <button
-              className={styles.send_message_btn}
-              type="submit"
-              disabled={loading}
+          <section className={styles.form_wrapper}>
+            <form
+              key={formKey}
+              onSubmit={handle_submit}
+              className={styles.contact_form}
             >
-              {loading ? "Enviando..." : "Enviar"}
-              <FontAwesomeIcon icon={faPaperPlane} />
-            </button>
-          </form>
+              <section className={styles.input_wrapper}>
+                <label className={styles.input_label} htmlFor="nome">
+                  Nome <FontAwesomeIcon icon={faUser} />
+                </label>
+
+                <input
+                  defaultValue={username ? username : ""}
+                  className={`${styles.input} ${inputErrors.nome ? layout.input_invalid : ""}`}
+                  type="text"
+                  name="nome"
+                  id="nome"
+                />
+
+                {inputErrors.nome && (
+                  <span className={layout.field_error}>{inputErrors.nome}</span>
+                )}
+              </section>
+
+              <section className={styles.input_wrapper}>
+                <label className={styles.input_label} htmlFor="email">
+                  Email <FontAwesomeIcon icon={faEnvelope} />
+                </label>
+
+                <input
+                  defaultValue={userData ? userData.email : ""}
+                  className={`${styles.input} ${inputErrors.email ? layout.input_invalid : ""}`}
+                  type="email"
+                  name="email"
+                  id="email"
+                />
+
+                {inputErrors.email && (
+                  <span className={layout.field_error}>
+                    {inputErrors.email}
+                  </span>
+                )}
+              </section>
+
+              <section className={styles.input_wrapper}>
+                <label className={styles.input_label} htmlFor="mensagem">
+                  Mensagem <FontAwesomeIcon icon={faMessage} />
+                </label>
+
+                <textarea
+                  className={`${styles.message_container} ${inputErrors.mensagem ? layout.input_invalid : ""}`}
+                  name="mensagem"
+                  id="mensagem"
+                  maxLength={1500}
+                  placeholder="Máximo de 1500 caracteres"
+                ></textarea>
+
+                {inputErrors.mensagem && (
+                  <span className={layout.field_error}>
+                    {inputErrors.mensagem}
+                  </span>
+                )}
+              </section>
+
+              {inputErrors.geral && (
+                <span className={layout.field_error}>{inputErrors.geral}</span>
+              )}
+
+              <button
+                className={styles.send_message_btn}
+                type="submit"
+                disabled={loading}
+              >
+                {loading ? "Enviando..." : "Enviar"}
+                <FontAwesomeIcon icon={faPaperPlane} />
+              </button>
+            </form>
+          </section>
         </section>
       )}
     </section>
