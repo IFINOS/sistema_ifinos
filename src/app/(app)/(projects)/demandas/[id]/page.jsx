@@ -62,7 +62,7 @@ const Page = () => {
           .single();
 
         if (error) {
-          toast.error("Projeto não encontrado.");
+          toast.error("Demanda não encontrado.");
           return;
         }
 
@@ -123,14 +123,14 @@ const Page = () => {
         .eq("id", deletingProjectId);
 
       if (error) {
-        toast.error("Erro ao apagar projeto.");
+        toast.error("Erro ao apagar demanda.");
         return;
       }
 
-      toast.success("Projeto apagado com sucesso!");
+      toast.success("Demanda excluída com sucesso!");
       router.push("/demandas");
     } catch (e) {
-      toast.error("Erro desconhecido ao apagar projeto.");
+      toast.error("Erro desconhecido ao apagar demanda.");
       console.error(e);
     }
   };
@@ -232,7 +232,7 @@ const Page = () => {
           </p>
         </section>
       ) : (
-        <p>Projeto não encontrado.</p>
+        <p>Demanda não encontrada.</p>
       )}
     </section>
   );

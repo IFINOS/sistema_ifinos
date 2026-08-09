@@ -84,8 +84,6 @@ const Page = () => {
     }
   }, []);
 
-  const handle_delete = () => {};
-
   useEffect(() => {
     const timeout = setTimeout(() => {
       load_news(currentPage, searchQuery);
@@ -108,9 +106,9 @@ const Page = () => {
           on_search={handle_search}
         />
         {(userRole === "admin" || userRole === "professor") && (
-          <Link className={layout.register_news} href="/noticias/cadastrar">
+          <Link className={layout.register_news} href="/home/publicar">
             <FontAwesomeIcon icon={faAdd} size="sm" />
-            <span>Criar Notícia</span>
+            <span>Publicar Notícia</span>
           </Link>
         )}
       </section>
@@ -134,7 +132,6 @@ const Page = () => {
               currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={setCurrentPage}
-              
             />
           )}
         </section>

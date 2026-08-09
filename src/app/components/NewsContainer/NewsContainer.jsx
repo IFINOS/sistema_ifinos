@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const NewsContainer = ({ news_obj }) => {
   const limit_description = (text) => {
-    return text.length > 200 ? text.slice(0, 200) : text;
+    return text.length > 200 ? text.slice(0, 200) + "..." : text;
   };
 
   const format_date = (date) => {
@@ -31,7 +31,7 @@ const NewsContainer = ({ news_obj }) => {
             {limit_description(news_obj.resumo)}
             <Link href={`/home/${news_obj.id}`} className={styles.read_more}>
               {" "}
-              Ler mais...
+              Ler mais
             </Link>
           </p>
         ) : (

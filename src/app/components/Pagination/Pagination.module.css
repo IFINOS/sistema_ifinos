@@ -8,8 +8,8 @@
 }
 
 .pagination_btn {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: clamp(2.2rem, calc(0.2963vw + 2.1444rem), 2.5rem);
+  height: clamp(2.2rem, calc(0.2963vw + 2.1444rem), 2.5rem);
   border-radius: var(--input_border_radius);
   border: 0.1rem solid var(--primary_green);
   background-color: transparent;

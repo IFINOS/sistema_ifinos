@@ -1,0 +1,61 @@
+.upload_dropzone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 2.5rem 1rem;
+  border: 0.15rem dashed var(--light_gray);
+  border-radius: var(--input_border_radius);
+  cursor: pointer;
+  color: var(--dark_gray);
+  transition: 0.3s ease border-color, 0.3s ease color;
+}
+
+.upload_dropzone:hover {
+  border-color: var(--primary_cyan);
+  color: var(--primary_cyan);
+}
+
+.upload_input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.preview_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.preview_image {
+  width: 100%;
+  max-width: 30rem;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--input_border_radius);
+}
+
+.remove_btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  border: 0.1rem solid var(--primary_red);
+  border-radius: var(--input_border_radius);
+  background-color: transparent;
+  color: var(--primary_red);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.3s ease background-color, 0.3s ease color;
+}
+
+.remove_btn:hover {
+  background-color: var(--primary_red);
+  color: hsl(0, 0%, 100%);
+}
