@@ -27,6 +27,10 @@
   flex: 1 1 auto;
 }
 
+.title:hover {
+  color: var(--primary_red);
+}
+
 .date {
   margin-top: 0.6rem;
   color: var(--light_gray);
@@ -40,6 +44,7 @@
   word-break: break-word;
   min-width: 0;
   flex: 1 1 auto;
+  white-space: pre-line;
 }
 
 .read_more {

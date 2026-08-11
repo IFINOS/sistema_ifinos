@@ -1,7 +1,6 @@
 "use client";
 // Utils
 import layout from "../(projects)/layout.module.css";
-import styles from "./page.module.css";
 import { useUser } from "@/context/userContext";
 
 // Components
