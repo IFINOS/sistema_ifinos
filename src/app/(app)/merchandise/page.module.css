@@ -1,0 +1,118 @@
+.merchandise_page_wrapper {
+    height: 100%;
+    width: 100%;
+}
+
+.products_container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    width: 100%;
+}
+
+.products_container:has(> :last-child:nth-child(3)){
+    justify-content: space-between;
+}
+
+.product {
+    width: 25rem;
+    height: 30rem;
+    padding: 1rem .8rem;
+    box-shadow: var(--input_box_shadow);
+    border-radius: var(--form_border_radius);
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+}
+
+.product_name {
+    font-weight: 400;
+    font-size: 1.25rem;
+}
+
+.product_price {
+    margin-top: .6rem;
+    font-weight: 400;
+    font-size: 1.4rem;
+}
+
+.image_wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 40rem;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--input_border_radius);
+  overflow: hidden;
+  background-color: transparent;
+}
+
+.product_unities_wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.unity {
+    padding: .2rem .6rem;
+    border-radius: var(--input_border_radius);
+    cursor: pointer;
+    transition: var(--default_transition);
+    border: .1rem solid var(--light_gray);
+}
+
+.unity:hover {
+    background-color: var(--primary_green);
+}
+
+.unity_selected {
+    background-color: var(--primary_green);
+}
+
+.user_options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product_quantity {
+    font-size: 1.5rem;
+    border-bottom: .1rem solid var(--primary_green);
+}
+
+.quantity_button {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: .4rem;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--primary_green_hover);
+    color: hsl(0, 0%, 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--default_transition);
+}
+
+.quantity_button:hover {
+    background-color: var(--primary_green);
+}
+
+.add_to_cart {
+    background-color: var(--primary_green);
+    color: hsl(0, 0%, 100%);
+    padding: .8rem;
+    cursor: pointer;
+    border-radius: var(--input_border_radius);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+    border: none;
+    transition: var(--default_transition);
+}
+
+.add_to_cart:hover {
+    background-color: var(--primary_green_hover);
+}

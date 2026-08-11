@@ -91,7 +91,6 @@
   border-radius: var(--input_border_radius);
   overflow: hidden;
   background-color: transparent;
-  /* box-shadow: var(--input_box_shadow); */
 }
 
 .article {
