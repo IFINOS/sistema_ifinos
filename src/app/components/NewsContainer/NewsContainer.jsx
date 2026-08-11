@@ -21,7 +21,9 @@ const NewsContainer = ({ news_obj }) => {
   return (
     <section className={styles.news_container}>
       <header className={styles.news_header}>
-        <h2 className={styles.title}>{news_obj.titulo_publicacao}</h2>
+        <Link href={`home/${news_obj.id}`}>
+          <h2 className={styles.title}>{news_obj.titulo_publicacao}</h2>
+        </Link>
         <p className={styles.date}>{format_date(news_obj.data_publicacao)}</p>
       </header>
 
