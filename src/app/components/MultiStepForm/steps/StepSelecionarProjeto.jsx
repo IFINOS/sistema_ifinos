@@ -35,17 +35,29 @@ const StepSelecionarProjeto = ({ data, errors, onChange }) => {
             `
             id,
             titulo_projeto,
+            tipo_projeto_id,
+            registro_ativo,
+            tipo_projeto!inner (id, nome),
             usuarios_projetos!inner ( usuario_id )
           `,
           )
+          .eq("tipo_projeto", "Projeto")
           .filter("registro_ativo", "eq", true)
           .order("titulo_projeto", { ascending: true });
 
         if (userRole === "admin") {
           req = supabase
             .from("projetos")
-            .select("id, titulo_projeto")
-            .filter("registro_ativo", "eq", true)
+            .select(
+              `
+              id,
+              titulo_projeto,
+              tipo_projeto_id,
+              tipo_projeto!inner (id, nome),
+              usuarios_projetos!inner ( usuario_id )
+            `,
+            )
+            .eq("tipo_projeto.nome", "Projeto")
             .order("titulo_projeto", { ascending: true });
         } else {
           req = req.eq("usuarios_projetos.usuario_id", user.id);
