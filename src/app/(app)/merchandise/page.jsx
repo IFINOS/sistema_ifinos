@@ -27,6 +27,8 @@ const Page = () => {
   const [loading, setLoading] = useState(true);
   const [merchandise, setMerchandise] = useState([]);
   const [unitySelected, setUnitySelected] = useState(0);
+  const [shoppingCart, setShoppingCart] = useState({});
+  const [totalUnity, setTotalUnity] = useState(0);
   const showLoading = useSmartLoading(loading);
 
   const load_merchandise = useCallback(async () => {
@@ -53,6 +55,14 @@ const Page = () => {
     }
   }, []);
 
+  const add_to_cart = (quant) => {
+    setShoppingCart((prev) => ({
+      ...prev,
+      name: quant,
+    }));
+    console.log(setShoppingCart);
+  };
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       load_merchandise();
@@ -71,6 +81,7 @@ const Page = () => {
         <section className={styles.merchandise_page_wrapper}>
           <section className={styles.products_container}>
             {merchandise?.map((produto) => (
+              
               <section key={produto.id} className={styles.product}>
                 <section className={styles.image_wrapper}>
                   <Image
@@ -108,18 +119,30 @@ const Page = () => {
                 <Divider color="var(--foreground)" />
 
                 <section className={styles.user_options}>
-                  <button className={styles.quantity_button}>
+                  <button
+                    className={styles.quantity_button}
+                    onClick={() => {
+                      if (totalUnity <= 0) return;
+                      setTotalUnity(totalUnity - 1);
+                    }}
+                  >
                     <FontAwesomeIcon icon={faMinus} size="lg" />
                   </button>
 
-                  <p className={styles.product_quantity}>0</p>
+                  <p className={styles.product_quantity}>{totalUnity}</p>
 
-                  <button className={styles.quantity_button}>
+                  <button
+                    className={styles.quantity_button}
+                    onClick={() => setTotalUnity(totalUnity + 1)}
+                  >
                     <FontAwesomeIcon icon={faPlus} size="lg" />
                   </button>
                 </section>
 
-                <button className={styles.add_to_cart}>
+                <button
+                  className={styles.add_to_cart}
+                  onClick={() => add_to_cart(produto.nome)}
+                >
                   <FontAwesomeIcon icon={faShoppingCart} size="sm" />
                   <span>Adicionar ao Carrinho</span>
                 </button>

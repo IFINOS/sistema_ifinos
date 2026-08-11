@@ -60,11 +60,8 @@
     border: .1rem solid var(--light_gray);
 }
 
-.unity:hover {
-    background-color: var(--primary_green);
-}
-
-.unity_selected {
+.unity:hover,
+.unity_selected  {
     background-color: var(--primary_green);
 }
 
@@ -85,7 +82,7 @@
     padding: .4rem;
     border-radius: 50%;
     border: none;
-    background-color: var(--primary_green_hover);
+    background-color: var(--primary_green);
     color: hsl(0, 0%, 100%);
     display: flex;
     align-items: center;
@@ -95,7 +92,7 @@
 }
 
 .quantity_button:hover {
-    background-color: var(--primary_green);
+    background-color: var(--primary_green_hover);
 }
 
 .add_to_cart {
