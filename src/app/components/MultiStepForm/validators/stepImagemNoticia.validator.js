@@ -1,9 +1,7 @@
-export const validate_imagem_noticia = (data) => {
+export const validate_imagem_noticia = () => {
   const errors = {};
 
-  if (!data.img_url) {
-    errors.img_url = "Envie uma imagem de capa para a notícia.";
-  }
-
+  //  por hora não é necessário lidar com erros no upload da imagem
+  
   return errors;
 };
