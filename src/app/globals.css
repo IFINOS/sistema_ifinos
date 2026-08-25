@@ -3,6 +3,8 @@
 :root {
   /* cores */
   --background: hsl(60, 5%, 95%);
+
+  --background: #f3f3f2;
   --foreground: hsl(0, 0%, 15%);
   --dark_gray: hsl(0, 0%, 29%);
   --light_gray: hsl(0, 0%, 55%);

@@ -13,7 +13,7 @@ export const ROUTE_PERMISSIONS = {
   "/projetos/editar": "member",
   "/demandas/cadastrar": "professor",
   "/noticias/cadastrar": "member",
-  "/merchandise/cadastrar": "admin",
+  "/merchandise/gerenciar": "professor",
   "/sistema": "admin",
   "/api/admin": "admin",
   "/api/perfil": "visitor",

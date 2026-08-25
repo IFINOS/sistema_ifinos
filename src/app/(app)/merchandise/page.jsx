@@ -21,13 +21,14 @@ import {
 import Image from "next/image";
 import Loading from "@/app/components/Loading/Loading";
 import { toast } from "sonner";
+import Link from "next/link";
 import Divider from "@/app/components/Divider/Divider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const supabase = createClient();
 
 const Page = () => {
-  const { user } = useUser();
+  const { user, userRole } = useUser();
   const [loading, setLoading] = useState(true);
   const [merchandise, setMerchandise] = useState([]);
   const showLoading = useSmartLoading(loading);
@@ -110,8 +111,8 @@ const Page = () => {
     (item) => item.quantidade > 0,
   );
 
-  const total = itensDoCarrinho.reduce(
-    (acc, item) => acc + Number(item.produto.valor) * item.quantidade,
+  const total_unities = itensDoCarrinho.reduce(
+    (soma, produto) => soma + produto.quantidade,
     0,
   );
 
@@ -140,6 +141,11 @@ const Page = () => {
 
     return newErrors;
   };
+
+  const total_count = itensDoCarrinho.reduce(
+    (acc, item) => acc + Number(item.produto.valor) * item.quantidade,
+    0,
+  );
 
   const handle_submit = async (e) => {
     e.preventDefault();
@@ -208,7 +214,7 @@ const Page = () => {
               quantidade: item.quantidade,
               valor: item.produto.valor,
             })),
-            total,
+            total_count,
           }),
         });
       } catch (emailErr) {
@@ -277,11 +283,6 @@ const Page = () => {
     );
   };
 
-  const total_count = cart.reduce(
-    (acc, item) => acc + Number(item.produto.valor) * item.quantidade,
-    0,
-  );
-
   return (
     <section style={{ width: "100%", height: "100%" }}>
       {showLoading ? (
@@ -290,6 +291,24 @@ const Page = () => {
         </section>
       ) : loading ? null : (
         <section className={styles.merchandise_page_wrapper}>
+          <section className={styles.merchandise_options}>
+            <Link
+              href="/merchandise/meus-pedidos"
+              className={styles.orders_link}
+            >
+              Meus Pedidos
+            </Link>
+
+            {(userRole === "admin" || userRole === "professor") && (
+              <Link
+                className={styles.manage_products_link}
+                href="/merchandise/gerenciar"
+              >
+                Gerenciar Produtos
+              </Link>
+            )}
+          </section>
+
           <section className={styles.products_container}>
             {merchandise?.map((produto) => {
               const selecao = selecaoAtual[produto.id] ?? {
@@ -445,9 +464,17 @@ const Page = () => {
 
                 <Divider color="var(--foreground)" />
 
-                <p className={styles.cart_summary_total}>
-                  Total: R$ {total_count.toFixed(2)}
-                </p>
+                <section className={styles.cart_summary_wrapper}>
+                  <p className={styles.cart_summary_total}>
+                    Total: R$ {total_count.toFixed(2)}
+                  </p>
+
+                  <p className={styles.cart_unities_total}>
+                    {total_unities > 1
+                      ? `${total_unities} Unidades`
+                      : `${total_unities} Unidade`}
+                  </p>
+                </section>
               </section>
             </section>
           )}

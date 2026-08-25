@@ -64,6 +64,7 @@
 .unity:hover,
 .unity_selected {
   background-color: var(--primary_green);
+  color: hsl(0, 0%, 100%);
 }
 
 .user_options {
@@ -236,6 +237,54 @@
 
 .cart_summary_item_img {
   width: 6rem;
+}
+
+.cart_summary_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cart_summary_total,
+.cart_unities_total {
+  font-size: 1.4rem;
+}
+
+.cart_unities_total {
+  font-weight: 600;
+}
+
+.merchandise_options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.orders_link {
+  text-decoration: underline;
+}
+
+.orders_link:hover {
+  color: var(--light_gray);
+}
+
+.manage_products_link {
+  padding: var(--global_input_pad);
+  border-radius: var(--input_border_radius);
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  background-color: var(--primary_green);
+  transition: 0.4s ease background-color;
+  color: hsl(0, 0%, 100%);
+  cursor: pointer;
+}
+
+.manage_products_link:hover {
+  background-color: var(--primary_green_hover);
 }
 
 .order_form {
