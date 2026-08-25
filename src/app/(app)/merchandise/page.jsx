@@ -14,6 +14,7 @@ import {
   faMinus,
   faPlus,
   faShoppingCart,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 
 // Components
@@ -31,7 +32,10 @@ const Page = () => {
   const [merchandise, setMerchandise] = useState([]);
   const showLoading = useSmartLoading(loading);
 
-  const [cart, setCart] = useState({});
+  const [cart, setCart] = useState([]);
+  // seleção temporária por produto, antes de "adicionar ao carrinho"
+  // { [produtoId]: { unidade, quantidade } }
+  const [selecaoAtual, setSelecaoAtual] = useState({});
 
   const [formData, setFormData] = useState({
     nome: "",
@@ -58,14 +62,14 @@ const Page = () => {
 
       setMerchandise(data ?? []);
 
-      setCart((prev) => {
+      // inicializa a seleção temporária de cada produto
+      setSelecaoAtual((prev) => {
         const next = { ...prev };
         for (const produto of data ?? []) {
           if (!next[produto.id]) {
             next[produto.id] = {
-              produto,
               unidade: produto.unidades?.[0] ?? null,
-              quantidade: 0,
+              quantidade: 1,
             };
           }
         }
@@ -87,17 +91,17 @@ const Page = () => {
     return () => clearTimeout(timeout);
   }, [load_merchandise]);
 
-  const set_unidade = (produtoId, unidade) => {
-    setCart((prev) => ({
+  const set_unidade_selecionada = (produtoId, unidade) => {
+    setSelecaoAtual((prev) => ({
       ...prev,
       [produtoId]: { ...prev[produtoId], unidade },
     }));
   };
 
-  const set_quantidade = (produtoId, quantidade) => {
-    setCart((prev) => ({
+  const set_quantidade_selecionada = (produtoId, quantidade) => {
+    setSelecaoAtual((prev) => ({
       ...prev,
-      [produtoId]: { ...prev[produtoId], quantidade: Math.max(quantidade, 0) },
+      [produtoId]: { ...prev[produtoId], quantidade: Math.max(quantidade, 1) },
     }));
   };
 
@@ -143,7 +147,6 @@ const Page = () => {
     const validationErrors = validate_form();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      toast.error("Confira os campos destacados antes de enviar.");
       return;
     }
 
@@ -230,6 +233,55 @@ const Page = () => {
     }
   };
 
+  const add_to_cart = (produto) => {
+    const selecao = selecaoAtual[produto.id];
+    if (!selecao?.unidade) {
+      toast.error("Selecione um tamanho antes de adicionar.");
+      return;
+    }
+
+    setCart((prev) => {
+      // se já existe uma linha com o mesmo produto + tamanho, soma a quantidade
+      const indexExistente = prev.findIndex(
+        (item) =>
+          item.produto.id === produto.id && item.unidade === selecao.unidade,
+      );
+
+      if (indexExistente >= 0) {
+        const atualizado = [...prev];
+        atualizado[indexExistente] = {
+          ...atualizado[indexExistente],
+          quantidade:
+            atualizado[indexExistente].quantidade + selecao.quantidade,
+        };
+        return atualizado;
+      }
+
+      return [
+        ...prev,
+        { produto, unidade: selecao.unidade, quantidade: selecao.quantidade },
+      ];
+    });
+
+    setSelecaoAtual((prev) => ({
+      ...prev,
+      [produto.id]: { ...prev[produto.id], quantidade: 1 },
+    }));
+  };
+
+  const remove_from_cart = (produtoId, unidade) => {
+    setCart((prev) =>
+      prev.filter(
+        (item) => !(item.produto.id === produtoId && item.unidade === unidade),
+      ),
+    );
+  };
+
+  const total_count = cart.reduce(
+    (acc, item) => acc + Number(item.produto.valor) * item.quantidade,
+    0,
+  );
+
   return (
     <section style={{ width: "100%", height: "100%" }}>
       {showLoading ? (
@@ -240,12 +292,11 @@ const Page = () => {
         <section className={styles.merchandise_page_wrapper}>
           <section className={styles.products_container}>
             {merchandise?.map((produto) => {
-              const item = cart[produto.id] ?? {
-                unidade: produto.unidades?.[0] ?? null,
-                quantidade: 0,
+              const selecao = selecaoAtual[produto.id] ?? {
+                unidade: null,
+                quantidade: 1,
               };
 
-              /* ainda não componentizei pois podem haver outros produtos no fututor */
               return (
                 <section key={produto.id} className={styles.product}>
                   <section className={styles.image_wrapper}>
@@ -271,9 +322,13 @@ const Page = () => {
                         key={unidade}
                         type="button"
                         className={`${styles.unity} ${
-                          item.unidade === unidade ? styles.unity_selected : ""
+                          selecao.unidade === unidade
+                            ? styles.unity_selected
+                            : ""
                         }`}
-                        onClick={() => set_unidade(produto.id, unidade)}
+                        onClick={() =>
+                          set_unidade_selecionada(produto.id, unidade)
+                        }
                       >
                         {unidade}
                       </button>
@@ -287,40 +342,113 @@ const Page = () => {
                       type="button"
                       className={styles.quantity_button}
                       onClick={() =>
-                        set_quantidade(produto.id, item.quantidade - 1)
+                        set_quantidade_selecionada(
+                          produto.id,
+                          selecao.quantidade - 1,
+                        )
                       }
                     >
                       <FontAwesomeIcon icon={faMinus} size="lg" />
                     </button>
 
-                    <p className={styles.product_quantity}>{item.quantidade}</p>
+                    <p className={styles.product_quantity}>
+                      {selecao.quantidade}
+                    </p>
 
                     <button
                       type="button"
                       className={styles.quantity_button}
                       onClick={() =>
-                        set_quantidade(produto.id, item.quantidade + 1)
+                        set_quantidade_selecionada(
+                          produto.id,
+                          selecao.quantidade + 1,
+                        )
                       }
                     >
                       <FontAwesomeIcon icon={faPlus} size="lg" />
                     </button>
                   </section>
+
+                  <button
+                    type="button"
+                    className={styles.add_to_cart}
+                    onClick={() => add_to_cart(produto)}
+                  >
+                    <FontAwesomeIcon icon={faShoppingCart} size="sm" />
+                    <span>Adicionar ao Carrinho</span>
+                  </button>
                 </section>
               );
             })}
           </section>
 
-          {itensDoCarrinho.length > 0 && (
-            <section className={styles.cart_summary}>
-              {itensDoCarrinho.map((item) => (
-                <p key={item.produto.id} className={styles.cart_summary_item}>
-                  {item.quantidade}x {item.produto.nome} ({item.unidade}) — R${" "}
-                  {(Number(item.produto.valor) * item.quantidade).toFixed(2)}
+          {cart.length > 0 && (
+            <section className={styles.cart_wrapper}>
+              <header className={styles.cart_header}>
+                <div className={styles.cart_icon}>
+                  <FontAwesomeIcon icon={faShoppingCart} size="lg" />
+                </div>
+
+                <p className={styles.cart_title}>Carrinho</p>
+              </header>
+
+              <section className={styles.cart_summary}>
+                {cart.map((item) => (
+                  /* versão mobile? */
+                  <section
+                    key={`${item.produto.id}-${item.unidade}`}
+                    className={styles.cart_summary_item}
+                  >
+                    <section className={styles.cart_main_infos}>
+                      <div className={styles.cart_summary_item_img}>
+                        <Image
+                          src={item.produto.img_url}
+                          width={70}
+                          height={70}
+                          alt={item.produto.nome}
+                          loading="eager"
+                        />
+                      </div>
+
+                      <span className={styles.item_quant}>
+                        {item.quantidade}x
+                      </span>
+
+                      <section className={styles.cart_product_info}>
+                        <p>{item.produto.nome}</p>
+                        <p>
+                          Tamanho:{" "}
+                          <span className={styles.unity_label}>
+                            {item.unidade}
+                          </span>
+                        </p>
+                        <p>
+                          R${" "}
+                          {(
+                            Number(item.produto.valor) * item.quantidade
+                          ).toFixed(2)}
+                        </p>
+                      </section>
+                    </section>
+
+                    <button
+                      type="button"
+                      className={styles.remove_cart_item_btn}
+                      onClick={() =>
+                        remove_from_cart(item.produto.id, item.unidade)
+                      }
+                    >
+                      <FontAwesomeIcon icon={faTrash} size="2x" />
+                    </button>
+                  </section>
+                ))}
+
+                <Divider color="var(--foreground)" />
+
+                <p className={styles.cart_summary_total}>
+                  Total: R$ {total_count.toFixed(2)}
                 </p>
-              ))}
-              <p className={styles.cart_summary_total}>
-                Total: R$ {total.toFixed(2)}
-              </p>
+              </section>
             </section>
           )}
 
