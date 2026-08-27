@@ -1,0 +1,9 @@
+.status_badge {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  border-radius: var(--pill_border);
+  color: hsl(0, 0%, 100%);
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+}

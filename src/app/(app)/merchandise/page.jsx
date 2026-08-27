@@ -414,10 +414,10 @@ const Page = () => {
                       <div className={styles.cart_summary_item_img}>
                         <Image
                           src={item.produto.img_url}
-                          width={70}
-                          height={70}
+                          fill
+                          style={{ objectFit: "contain" }}
                           alt={item.produto.nome}
-                          loading="eager"
+                          sizes="70px"
                         />
                       </div>
 
