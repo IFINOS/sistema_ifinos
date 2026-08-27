@@ -32,8 +32,8 @@ const Page = () => {
   const [loading, setLoading] = useState(true);
   const [merchandise, setMerchandise] = useState([]);
   const showLoading = useSmartLoading(loading);
-
   const [cart, setCart] = useState([]);
+
   // seleção temporária por produto, antes de "adicionar ao carrinho"
   // { [produtoId]: { unidade, quantidade } }
   const [selecaoAtual, setSelecaoAtual] = useState({});
@@ -106,139 +106,6 @@ const Page = () => {
     }));
   };
 
-  // só os itens com quantidade > 0 entram de fato no pedido
-  const itensDoCarrinho = Object.values(cart).filter(
-    (item) => item.quantidade > 0,
-  );
-
-  const total_unities = itensDoCarrinho.reduce(
-    (soma, produto) => soma + produto.quantidade,
-    0,
-  );
-
-  const handle_form_change = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const validate_form = () => {
-    const newErrors = {};
-
-    if (itensDoCarrinho.length === 0) {
-      newErrors.carrinho = "Adicione pelo menos um item ao carrinho.";
-    }
-    if (!formData.nome || formData.nome.trim().length < 3) {
-      newErrors.nome = "Informe seu nome completo.";
-    }
-    if (
-      !formData.whatsapp ||
-      formData.whatsapp.replace(/\D/g, "").length < 10
-    ) {
-      newErrors.whatsapp = "Informe um número de WhatsApp válido.";
-    }
-    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Informe um email válido.";
-    }
-
-    return newErrors;
-  };
-
-  const total_count = itensDoCarrinho.reduce(
-    (acc, item) => acc + Number(item.produto.valor) * item.quantidade,
-    0,
-  );
-
-  const handle_submit = async (e) => {
-    e.preventDefault();
-
-    const validationErrors = validate_form();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-
-    if (!user) {
-      toast.error("Você precisa estar logado para fazer um pedido.");
-      return;
-    }
-
-    setErrors({});
-    setSubmitting(true);
-
-    try {
-      // 1. cria o pedido — só com os campos que já existem na tabela
-      const { data: pedido, error: pedidoError } = await supabase
-        .from("pedidos")
-        .insert({
-          usuario_id: user.id,
-          status: "pendente",
-        })
-        .select("id")
-        .single();
-
-      if (pedidoError) {
-        toast.error("Erro ao criar o pedido.");
-        return;
-      }
-
-      // 2. insere os itens do pedido
-      const { error: itensError } = await supabase
-        .from("produtos_pedidos")
-        .insert(
-          itensDoCarrinho.map((item) => ({
-            pedido_id: pedido.id,
-            produto_id: item.produto.id,
-            unidade: item.unidade,
-            valor: item.produto.valor,
-            quantidade: item.quantidade,
-          })),
-        );
-
-      if (itensError) {
-        toast.error("Pedido criado, mas houve erro ao registrar os itens.");
-        return;
-      }
-
-      // 3. dispara o email com os dados de contato (nome, whatsapp, email,
-      // nome na camiseta, observações) — esses dados NÃO são salvos no banco,
-      // vão só no corpo do email para o responsável
-      try {
-        await fetch("/api/merchandise/pedido", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            pedidoId: pedido.id,
-            ...formData,
-            itens: itensDoCarrinho.map((item) => ({
-              nome: item.produto.nome,
-              unidade: item.unidade,
-              quantidade: item.quantidade,
-              valor: item.produto.valor,
-            })),
-            total_count,
-          }),
-        });
-      } catch (emailErr) {
-        console.error("Erro ao notificar por email:", emailErr);
-      }
-
-      toast.success("Pedido enviado com sucesso!");
-      setCart({});
-      setFormData({
-        nome: "",
-        whatsapp: "",
-        email: "",
-        nome_camiseta: "",
-        observacoes: "",
-      });
-      load_merchandise();
-    } catch (e) {
-      toast.error("Erro desconhecido ao enviar o pedido.");
-      console.error(e);
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
   const add_to_cart = (produto) => {
     const selecao = selecaoAtual[produto.id];
     if (!selecao?.unidade) {
@@ -283,6 +150,132 @@ const Page = () => {
     );
   };
 
+  const total = cart.reduce(
+    (acc, item) => acc + Number(item.produto.valor) * item.quantidade,
+    0,
+  );
+
+  const total_unidades = cart.reduce((soma, item) => soma + item.quantidade, 0);
+
+  const handle_form_change = (field, value) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const validate_form = () => {
+    const newErrors = {};
+
+    if (cart.length === 0) {
+      newErrors.carrinho = "Adicione pelo menos um item ao carrinho.";
+    }
+    if (!formData.nome || formData.nome.trim().length < 3) {
+      newErrors.nome = "Informe seu nome completo.";
+    }
+    if (
+      !formData.whatsapp ||
+      formData.whatsapp.replace(/\D/g, "").length < 10
+    ) {
+      newErrors.whatsapp = "Informe um número de WhatsApp válido.";
+    }
+    if (!formData.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Informe um email válido.";
+    }
+
+    return newErrors;
+  };
+
+  const handle_submit = async (e) => {
+    e.preventDefault();
+
+    const validationErrors = validate_form();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      toast.error("Confira os campos destacados antes de enviar.");
+      return;
+    }
+
+    if (!user) {
+      toast.error("Você precisa estar logado para fazer um pedido.");
+      return;
+    }
+
+    setErrors({});
+    setSubmitting(true);
+
+    try {
+      // 1. cria o pedido — só com os campos que já existem na tabela
+      const { data: pedido, error: pedidoError } = await supabase
+        .from("pedidos")
+        .insert({
+          usuario_id: user.id,
+          status: "pendente",
+        })
+        .select("id")
+        .single();
+
+      if (pedidoError) {
+        toast.error("Erro ao criar o pedido.");
+        return;
+      }
+
+      // 2. insere os itens do pedido
+      const { error: itensError } = await supabase
+        .from("produtos_pedidos")
+        .insert(
+          cart.map((item) => ({
+            pedido_id: pedido.id,
+            produto_id: item.produto.id,
+            unidade: item.unidade,
+            valor: item.produto.valor,
+            quantidade: item.quantidade,
+          })),
+        );
+
+      if (itensError) {
+        toast.error("Pedido criado, mas houve erro ao registrar os itens.");
+        return;
+      }
+
+      // 3. dispara o email com os dados de contato (nome, whatsapp, email,
+      // nome na camiseta, observações) — esses dados NÃO são salvos no banco,
+      // vão só no corpo do email para o responsável
+      try {
+        await fetch("/api/merchandise/pedido", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            pedidoId: pedido.id,
+            ...formData,
+            itens: cart.map((item) => ({
+              nome: item.produto.nome,
+              unidade: item.unidade,
+              quantidade: item.quantidade,
+              valor: item.produto.valor,
+            })),
+            total,
+          }),
+        });
+      } catch (emailErr) {
+        console.error("Erro ao notificar por email:", emailErr);
+      }
+
+      toast.success("Pedido enviado com sucesso!");
+      setCart([]);
+      setFormData({
+        nome: "",
+        whatsapp: "",
+        email: "",
+        nome_camiseta: "",
+        observacoes: "",
+      });
+      load_merchandise();
+    } catch (e) {
+      toast.error("Erro desconhecido ao enviar o pedido.");
+      console.error(e);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <section style={{ width: "100%", height: "100%" }}>
       {showLoading ? (
@@ -299,7 +292,7 @@ const Page = () => {
               Meus Pedidos
             </Link>
 
-            {(userRole === "admin" || userRole === "professor") && (
+            {userRole === "admin" && (
               <Link
                 className={styles.manage_products_link}
                 href="/merchandise/gerenciar"
@@ -413,7 +406,6 @@ const Page = () => {
 
               <section className={styles.cart_summary}>
                 {cart.map((item) => (
-                  /* versão mobile? */
                   <section
                     key={`${item.produto.id}-${item.unidade}`}
                     className={styles.cart_summary_item}
@@ -466,13 +458,13 @@ const Page = () => {
 
                 <section className={styles.cart_summary_wrapper}>
                   <p className={styles.cart_summary_total}>
-                    Total: R$ {total_count.toFixed(2)}
+                    Total: R$ {total.toFixed(2)}
                   </p>
 
                   <p className={styles.cart_unities_total}>
-                    {total_unities > 1
-                      ? `${total_unities} Unidades`
-                      : `${total_unities} Unidade`}
+                    {total_unidades > 1
+                      ? `${total_unidades} Unidades`
+                      : `${total_unidades} Unidade`}
                   </p>
                 </section>
               </section>
