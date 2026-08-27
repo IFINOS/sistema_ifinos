@@ -152,6 +152,7 @@ const Page = () => {
 
       toast.success("Projeto deletado com sucesso!");
       setDeletingProductId(null);
+      setTotalProducts((prev) => prev - 1);
       setProducts((prev) => prev.filter((u) => u.id !== deletingProductId));
     } catch (e) {
       toast.error("Erro ao deletar projeto.");
