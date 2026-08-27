@@ -1,0 +1,158 @@
+.header_register_product_main_page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 1rem;
+  width: 100%;
+}
+
+.register_product_main_page {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  gap: 1.5rem;
+}
+
+.product_form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 35rem;
+  max-width: 100%;
+}
+
+.input_row {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.input_row .input_wrapper {
+  flex: 1 1 12rem;
+}
+
+.input_wrapper {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.product_label {
+  font-size: 1.2rem;
+}
+
+.product_input,
+.product_textarea {
+  padding: var(--global_input_pad);
+  border-radius: var(--input_border_radius);
+  border: 0.1rem solid var(--foreground);
+  font-size: 1rem;
+  width: 100%;
+}
+
+.product_input:focus,
+.product_textarea:focus {
+  outline: none;
+  border: 0.1rem solid var(--primary_green);
+}
+
+.product_textarea {
+  resize: none;
+  font-family: "Bai Jamburee", sans-serif;
+  height: 8rem;
+  line-height: var(--long_text_line_height);
+}
+
+.input_invalid {
+  border: 0.1rem solid var(--primary_red) !important;
+}
+
+.field_error {
+  color: var(--primary_red);
+  font-size: 0.9rem;
+}
+
+.add_unidade_wrapper {
+  display: flex;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.add_unidade_wrapper .product_input {
+  flex: 1;
+}
+
+.add_unidade_btn {
+  padding: var(--global_input_pad);
+  border-radius: var(--input_border_radius);
+  border: 0.1rem solid var(--primary_green);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--default_transition);
+  white-space: nowrap;
+}
+
+.add_unidade_btn:hover {
+  box-shadow: var(--background_effect) var(--primary_green);
+  color: hsl(0, 0%, 100%);
+}
+
+.unidades_chips_wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.unidade_chip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--pill_border);
+  background-color: var(--primary_cyan);
+  color: hsl(0, 0%, 100%);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.remove_chip_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: hsl(0, 0%, 100%);
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.8rem;
+}
+
+.submit_btn {
+  padding: var(--global_input_pad);
+  border-radius: var(--input_border_radius);
+  border: 0.1rem solid var(--primary_green);
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: var(--default_transition);
+  font-weight: 500;
+}
+
+.submit_btn:hover:not(:disabled) {
+  box-shadow: var(--background_effect) var(--primary_green);
+  color: hsl(0, 0%, 100%);
+}
+
+.submit_btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
