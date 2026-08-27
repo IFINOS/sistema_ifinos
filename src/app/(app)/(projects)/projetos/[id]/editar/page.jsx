@@ -18,6 +18,7 @@ import StepInfoBasica from "@/app/components/MultiStepForm/steps/StepInfoBasica"
 import StepTags from "@/app/components/MultiStepForm/steps/StepTags";
 import StepIntegrantes from "@/app/components/MultiStepForm/steps/StepIntegrantes";
 import StepLinhaPesquisa from "@/app/components/MultiStepForm/steps/StepLinhaDePesquisa";
+import AdminProjectControls from "@/app/components/AdminProjectControls/AdminProjectControls";
 
 // Validators
 import { validate_info_basica } from "@/app/components/MultiStepForm/validators/stepInfoBasica.validator";
@@ -65,13 +66,14 @@ const Page = () => {
           .from("projetos")
           .select(
             `
-              id,
-              titulo_projeto,
-              descricao,
-              criado_por,
-              linha_de_pesquisa_id (id, nome),
-              projetos_tags ( tags ( id, nome ) ),
-              usuarios_projetos ( funcao, usuarios ( id, nome, avatar_url ) )
+            id,
+            titulo_projeto,
+            descricao,
+            criado_por,
+            status_projeto ( id, nome ),
+            tipo_projeto ( id, nome ),
+            projetos_tags ( tags ( id, nome ) ),
+            usuarios_projetos ( funcao, usuarios ( id, nome,avatar_url ) )
             `,
           )
           .eq("id", id)
@@ -233,6 +235,15 @@ const Page = () => {
       <h1 className={layout.main_app_title}>Editar Projeto</h1>
 
       <section className={layout.create_project_form_wrapper}>
+        {userRole === "admin" && (
+          <AdminProjectControls
+            projectId={id}
+            currentStatus={projectData.status_projeto?.nome}
+            currentTipo={projectData.tipo_projeto?.nome}
+            onUpdated={() => router.push("/projetos")}
+          />
+        )}
+
         <MultiStepForm
           steps={STEPS}
           initial_data={initial_data}

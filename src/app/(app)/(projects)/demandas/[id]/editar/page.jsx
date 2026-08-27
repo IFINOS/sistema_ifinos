@@ -16,6 +16,7 @@ import Loading from "@/app/components/Loading/Loading";
 import MultiStepForm from "@/app/components/MultiStepForm/MultiStepForm";
 import StepInfoBasica from "@/app/components/MultiStepForm/steps/StepInfoBasica";
 import StepTags from "@/app/components/MultiStepForm/steps/StepTags";
+import AdminProjectControls from "@/app/components/AdminProjectControls/AdminProjectControls";
 
 // Validators
 import { validate_info_basica } from "@/app/components/MultiStepForm/validators/stepInfoBasica.validator";
@@ -53,9 +54,11 @@ const Page = () => {
             titulo_projeto,
             descricao,
             criado_por,
+            status_projeto ( id, nome ),
+            tipo_projeto ( id, nome ),
             projetos_tags ( tags ( id, nome ) ),
-            usuarios_projetos ( funcao, usuarios ( id, nome, avatar_url ) )
-          `,
+            usuarios_projetos ( funcao, usuarios ( id, nome,avatar_url ) )
+            `,
           )
           .eq("id", id)
           .single();
@@ -79,7 +82,7 @@ const Page = () => {
 
   const loading = projectLoading || userLoading;
   const showLoading = useSmartLoading(loading);
-  
+
   const canEdit =
     !loading &&
     projectData &&
@@ -160,6 +163,15 @@ const Page = () => {
       <h1 className={layout.main_app_title}>Editar Demanda</h1>
 
       <section className={layout.create_project_form_wrapper}>
+        {userRole === "admin" && (
+          <AdminProjectControls
+            projectId={id}
+            currentStatus={projectData.status_projeto?.nome}
+            currentTipo={projectData.tipo_projeto?.nome}
+            onUpdated={() => router.push("/demandas")}
+          />
+        )}
+
         <MultiStepForm
           steps={STEPS}
           initial_data={initial_data}
