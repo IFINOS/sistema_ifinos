@@ -28,7 +28,7 @@ const Page = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [confirmingCancelId, setConfirmingCancelId] = useState(null);
   const [cancelingId, setCancelingId] = useState(null);
-  
+
   const loading = ordersLoading || userLoading;
   const showLoading = useSmartLoading(loading);
 
@@ -86,8 +86,10 @@ const Page = () => {
     if (userLoading) return;
 
     if (!user) {
-      setOrdersLoading(false);
-      return;
+      const timeout = setTimeout(() => {
+        setOrdersLoading(false);
+      }, 0);
+      return () => clearTimeout(timeout);
     }
 
     const timeout = setTimeout(() => {
