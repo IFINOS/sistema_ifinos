@@ -52,7 +52,7 @@ export default function RootLayout({ children }) {
             },
           }}
         />
-        <VLibras forceOnload />
+        {process.env.NEXT_PUBLIC_SITE_URL != "http://localhost:3000" && <VLibras forceOnload />}
       </body>
     </html>
   );
