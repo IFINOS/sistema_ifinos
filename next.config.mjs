@@ -37,11 +37,11 @@ const nextConfig = {
               "frame-ancestors 'none'",
               // 'unsafe-eval' é liberado apenas em dev pq o React precisa disso pra debug (stack traces)
               // em produção o eval() nunca é usado então aqui fica só 'unsafe-inline' msm, sem enfraquecer a CSP :)
-              `script-src 'self' 'unsafe-inline'${is_dev ? " 'unsafe-eval'" : ""}`,
+              `script-src 'self' 'unsafe-inline'${is_dev ? " 'unsafe-eval'" : ""} https://cdn.jsdelivr.net/gh/spbgovbr-vlibras/vlibras-portal@v7.9.1/app/vlibras-plugin.js`,
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com",
-              "img-src 'self' data: https://lh3.googleusercontent.com https://res.cloudinary.com",
-              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.cloudinary.com",
+              "img-src 'self' data: https://lh3.googleusercontent.com https://res.cloudinary.com https://cdn.jsdelivr.net/gh/spbgovbr-vlibras/vlibras-portal@v7.9.1/app/vlibras-plugin.js",
+              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.cloudinary.com https://cdn.jsdelivr.net/gh/spbgovbr-vlibras/vlibras-portal@v7.9.1/app/vlibras-plugin.js",
             ].join("; "),
           },
           {
