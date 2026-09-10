@@ -3,12 +3,12 @@ import { Bai_Jamjuree } from "next/font/google";
 
 // Components
 import { Toaster } from "sonner";
+import VLibrasWrapper from "./components/VLibrasWrapper/VLibrasWrapper";
 
 // Utils
 import "@/_lib/fontawesome";
 import "./globals.css";
 import { UserProvider } from "@/context/userContext";
-import VLibras from "vlibras-nextjs";
 
 const bai_jamjuree = Bai_Jamjuree({
   variable: "--font-bai-jamjuree",
@@ -34,7 +34,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={bai_jamjuree.variable}>
+    <html lang="pt-BR" className={bai_jamjuree.variable}>
       <body suppressHydrationWarning>
         <UserProvider>{children}</UserProvider>
         {/* componente para alertar o usuário com mensagens de "erro" e de "sucesso" */}
@@ -52,7 +52,9 @@ export default function RootLayout({ children }) {
             },
           }}
         />
-        {process.env.NEXT_PUBLIC_SITE_URL != "http://localhost:3000" && <VLibras forceOnload />}
+        {process.env.NEXT_PUBLIC_SITE_URL != "http://localhost:3000" && (
+          <VLibrasWrapper forceOnload />
+        )}
       </body>
     </html>
   );
