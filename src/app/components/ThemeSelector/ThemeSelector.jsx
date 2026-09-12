@@ -12,7 +12,14 @@ const ThemeSelector = () => {
   const [mounted, setMounted] = useState(false);
 
   // evita mismatch de hidratação: só sabe o tema real depois de montar no client
-  useEffect(() => setMounted(true), []);
+  // useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setMounted(true);
+    }, 0);
+    return () => clearTimeout(timeout);
+  }, [mounted]);
 
   if (!mounted) return null;
 
