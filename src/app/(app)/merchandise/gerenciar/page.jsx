@@ -172,7 +172,7 @@ const Page = () => {
       {deletingProductId && (
         <div
           className={styles.modal_overlay}
-          onClick={() => setDeletingUserId(null)}
+          onClick={() => setDeletingProductId(null)}
         >
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <h2 className={styles.modal_title}>Deletar produto</h2>
@@ -182,7 +182,7 @@ const Page = () => {
             <section className={styles.modal_actions}>
               <button
                 className={styles.modal_cancel_btn}
-                onClick={() => setDeletingUserId(null)}
+                onClick={() => setDeletingProductId(null)}
               >
                 Não Deletar Produto
               </button>

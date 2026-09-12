@@ -122,7 +122,7 @@ a {
 .toast_success {
   border-color: var(--primary_green) !important;
   background-color: var(--dark_green) !important;
-  color: var(--secondary_green) !important;
+  color: var(--primary_green) !important;
 }
 
 .toast_error {

@@ -115,7 +115,7 @@
 }
 
 .modal {
-  background-color: hsl(0, 0%, 100%);
+  background-color: var(--surface);
   border-radius: var(--input_border_radius);
   padding: 2rem;
   width: min(30rem, 90vw);

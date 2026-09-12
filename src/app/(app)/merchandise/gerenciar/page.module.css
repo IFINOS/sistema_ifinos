@@ -57,7 +57,7 @@
 }
 
 .product {
-  background-color: hsl(0, 0%, 100%);
+  background-color: var(--surface);
   padding: 0.8rem 1rem;
   border-radius: var(--input_border_radius);
   box-shadow: var(--input_box_shadow);
@@ -97,7 +97,6 @@
   flex-shrink: 0;
   border-radius: var(--input_border_radius);
   overflow: hidden;
-  background-color: hsl(0, 0%, 96%);
 }
 
 .products_options {
@@ -201,7 +200,7 @@
 }
 
 .modal {
-  background-color: hsl(0, 0%, 100%);
+  background-color: var(--surface);
   border-radius: var(--input_border_radius);
   padding: 2rem;
   width: min(30rem, 90vw);
