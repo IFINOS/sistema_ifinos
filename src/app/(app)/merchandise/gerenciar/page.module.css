@@ -124,7 +124,7 @@
 }
 
 .order {
-  background-color: hsl(0, 0%, 100%);
+  background-color: var(--surface);
   box-shadow: var(--input_box_shadow);
   border-radius: var(--input_border_radius);
   padding: 1rem;

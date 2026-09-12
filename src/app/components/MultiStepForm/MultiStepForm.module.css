@@ -71,7 +71,7 @@
 .submit_btn {
   margin-left: auto;
   background-color: var(--primary_green);
-  color: hsl(0, 0%, 100%);
+  color: var(--surface);
 }
 
 .back_btn {

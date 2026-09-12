@@ -190,7 +190,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: hsl(0, 0%, 100%);
+  background-color: var(--surface);
   box-shadow: var(--input_box_shadow);
   border-radius: var(--input_border_radius);
   padding: 0.8rem 0.6rem;

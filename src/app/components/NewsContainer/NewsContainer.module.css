@@ -1,5 +1,5 @@
 .news_container {
-  background-color: hsl(0, 0%, 100%);
+  background-color: var(--surface);
   padding: 1.2rem 2rem;
   display: flex;
   flex-direction: column;

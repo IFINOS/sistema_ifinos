@@ -9,6 +9,7 @@ import Loading from "@/app/components/Loading/Loading";
 import { toast } from "sonner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Divider from "@/app/components/Divider/Divider";
+import ThemeToggle from "@/app/components/ThemeToggle/ThemeToggle";
 
 // Images
 import {
@@ -211,6 +212,13 @@ const Page = () => {
 
           <section className={styles.my_profile_user_info}>
             <h2 className={styles.username}>{userData.nome}</h2>
+            <ThemeToggle />
+          </section>
+
+          <Divider  color="var(--foreground)"/>
+
+          <section className={styles.visual_themes_wrapper}>
+
           </section>
 
           <Divider color="var(--foreground)" />

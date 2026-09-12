@@ -23,7 +23,7 @@
 
 .pagination_btn:hover:not(:disabled) {
   background-color: var(--primary_green);
-  color: hsl(0, 0%, 100%);
+  color: var(--surface);
 }
 
 .pagination_btn:disabled {
@@ -33,7 +33,7 @@
 
 .pagination_btn_active {
   background-color: var(--primary_green);
-  color: hsl(0, 0%, 100%);
+  color: var(--surface);
 }
 
 .pagination_dots {

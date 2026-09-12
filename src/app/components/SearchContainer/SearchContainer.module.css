@@ -30,7 +30,7 @@
   align-items: center;
   justify-content: center;
   border: 0.1rem solid transparent;
-  background-color: hsl(0, 0%, 100%);
+  background-color: var(--surface);
   border-radius: var(--input_border_radius) 0 0 var(--input_border_radius);
   padding: var(--global_input_pad);
 }

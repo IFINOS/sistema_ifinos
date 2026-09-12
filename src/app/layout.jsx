@@ -8,7 +8,10 @@ import VLibrasWrapper from "./components/VLibrasWrapper/VLibrasWrapper";
 // Utils
 import "@/_lib/fontawesome";
 import "./globals.css";
+
+// Providers
 import { UserProvider } from "@/context/userContext";
+import ThemeProvider from "./providers/ThemeProvider";
 
 const bai_jamjuree = Bai_Jamjuree({
   variable: "--font-bai-jamjuree",
@@ -36,25 +39,26 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR" className={bai_jamjuree.variable}>
       <body suppressHydrationWarning>
-        <UserProvider>{children}</UserProvider>
-        {/* componente para alertar o usuário com mensagens de "erro" e de "sucesso" */}
-        <Toaster
-          position="top-center"
-          toastOptions={{
-            style: {
-              background: "#1C1C20",
-              border: "0.5px solid #2A2A2E",
-              color: "#E8E8E8",
-            },
-            classNames: {
-              success: "toast_success",
-              error: "toast_error",
-            },
-          }}
-        />
-        {/* {process.env.NEXT_PUBLIC_SITE_URL != "http://localhost:3000" && ( */}
-        <VLibrasWrapper />
-        {/* // )} */}
+        <ThemeProvider>
+          <UserProvider>{children}</UserProvider>
+
+          {/* componente para alertar o usuário com mensagens de "erro" e de "sucesso" */}
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              style: {
+                background: "#1C1C20",
+                border: "0.5px solid #2A2A2E",
+                color: "#E8E8E8",
+              },
+              classNames: {
+                success: "toast_success",
+                error: "toast_error",
+              },
+            }}
+          />
+          <VLibrasWrapper />
+        </ThemeProvider>
       </body>
     </html>
   );

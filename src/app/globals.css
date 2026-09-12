@@ -1,15 +1,14 @@
 /* qualquer valor de estilo que for recorrente no código adicione aqui :) */
 /* BREAKPOINT PARA QUEBRA DE TELA: 869px */
-:root {
-  /* cores */
-  --background: hsl(60, 5%, 95%);
 
+:root {
+  /* ===== TEMA CLARO (padrão) ===== */
   --background: #f3f3f2;
   --foreground: hsl(0, 0%, 15%);
   --dark_gray: hsl(0, 0%, 29%);
   --light_gray: hsl(0, 0%, 55%);
 
-  /* Cores "hover" = -8% de lightness (o L de HSL)*/
+  /* Cores "hover" = -8% de lightness (o L de HSL) */
   --primary_green: hsl(134, 100%, 36%);
   --primary_green_hover: hsl(134, 100%, 28%);
   --secondary_green: hsl(134, 62%, 90%);
@@ -22,6 +21,11 @@
   --primary_red: hsl(0, 90%, 44%);
   --primary_red_hover: hsl(0, 90%, 36%);
   --secondary_red: hsl(0, 88%, 95%);
+
+  /* superfícies (cards, containers com fundo próprio) —
+     hoje muito código usa hsl(0, 0%, 100%) direto, veja o aviso
+     no final da resposta sobre isso */
+  --surface: hsl(0, 0%, 100%);
 
   /* altura de componentes */
   --header-height: 6rem;
@@ -42,10 +46,9 @@
   --global_input_pad: 0.8rem;
 
   /* effects  principalmente usado em hovers */
-  /* este efeito é utilizado com o box-shadow */
-  --background_effect: inset 0 -4rem 0 0; /* efeito de preencher o background de um componente... LEMBRAR DE ESCOLHER A COR */
+  --background_effect: inset 0 -4rem 0 0;
 
-  /* transições*/
+  /* transições */
   --default_transition: 0.4s ease all;
 
   /* fontes/linhas de texto */
@@ -53,6 +56,31 @@
 
   /* box-shadow */
   --input_box_shadow: 0.25rem 0.25rem 0.25rem 0 hsla(0, 0, 0, 25%);
+}
+
+/* ===== TEMA ESCURO ===== */
+[data-theme="dark"] {
+  --background: hsl(220, 10%, 10%);
+  --foreground: hsl(0, 0%, 92%);
+  --dark_gray: hsl(0, 0%, 68%);
+  --light_gray: hsl(0, 0%, 35%);
+
+  --primary_green: hsl(134, 65%, 52%);
+  --primary_green_hover: hsl(134, 65%, 44%);
+  --secondary_green: hsl(134, 40%, 20%);
+  --dark_green: hsl(134, 55%, 22%);
+
+  --primary_cyan: hsl(183, 75%, 50%);
+  --secondary_cyan: hsl(185, 45%, 20%);
+  --dark_cyan: hsl(191, 70%, 40%);
+
+  --primary_red: hsl(0, 75%, 58%);
+  --primary_red_hover: hsl(0, 75%, 50%);
+  --secondary_red: hsl(0, 45%, 22%);
+
+  --surface: hsl(220, 10%, 15%);
+
+  --input_box_shadow: 0.25rem 0.25rem 0.25rem 0 hsla(0, 0%, 0%, 45%);
 }
 
 * {
@@ -76,6 +104,9 @@ body {
   font-family: var(--font-bai-jamjuree), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 ul {
