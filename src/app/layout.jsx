@@ -52,9 +52,9 @@ export default function RootLayout({ children }) {
             },
           }}
         />
-        {process.env.NEXT_PUBLIC_SITE_URL != "http://localhost:3000" && (
-          <VLibrasWrapper forceOnload />
-        )}
+        {/* {process.env.NEXT_PUBLIC_SITE_URL != "http://localhost:3000" && ( */}
+        <VLibrasWrapper />
+        {/* // )} */}
       </body>
     </html>
   );
