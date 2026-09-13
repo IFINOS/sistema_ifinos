@@ -9,6 +9,7 @@ import Loading from "@/app/components/Loading/Loading";
 import { toast } from "sonner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Divider from "@/app/components/Divider/Divider";
+import ThemeSelector from "@/app/components/ThemeSelector/ThemeSelector";
 
 // Images
 import {
@@ -189,14 +190,14 @@ const Page = () => {
                 onClick={() => setShowDeleteModal(false)}
                 disabled={deleting}
               >
-                Cancelar
+                Não Deletar Conta
               </button>
               <button
                 className={styles.modal_confirm_btn}
                 onClick={handle_delete_account}
                 disabled={deleting}
               >
-                {deleting ? "Deletando..." : "Deletar"}
+                {deleting ? "Deletando..." : "Deletar Conta"}
               </button>
             </section>
           </div>
@@ -211,6 +212,13 @@ const Page = () => {
 
           <section className={styles.my_profile_user_info}>
             <h2 className={styles.username}>{userData.nome}</h2>
+          </section>
+
+          <Divider color="var(--foreground)" />
+
+          <section className={styles.visual_themes_wrapper}>
+            <h2 className={styles.form_title}>Aparência do Site</h2>
+            <ThemeSelector />
           </section>
 
           <Divider color="var(--foreground)" />

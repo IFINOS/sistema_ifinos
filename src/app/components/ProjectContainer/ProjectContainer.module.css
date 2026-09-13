@@ -1,5 +1,5 @@
 .project_container {
-  background-color: hsl(0, 0%, 100%);
+  background-color: var(--surface);
   padding: 1.2rem 2rem;
   display: flex;
   align-items: center;
@@ -68,7 +68,7 @@
 .project_tag {
   font-size: 0.85rem;
   background-color: var(--primary_cyan);
-  color: hsl(0, 0%, 100%);
+  color: var(--surface);
   border-radius: var(--pill_border);
   padding: 0.25rem 0.6rem;
   font-weight: 500;

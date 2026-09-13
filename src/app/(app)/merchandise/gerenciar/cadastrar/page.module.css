@@ -116,7 +116,7 @@
   padding: 0.35rem 0.7rem;
   border-radius: var(--pill_border);
   background-color: var(--primary_cyan);
-  color: hsl(0, 0%, 100%);
+  color: var(--surface);
   font-size: 0.9rem;
   font-weight: 500;
 }

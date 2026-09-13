@@ -1,5 +1,5 @@
 .admin_controls_wrapper {
-  background-color: hsl(0, 0%, 98%);
+  background-color: var(--surface_muted);
   border: 0.1rem solid var(--light_gray);
   border-radius: var(--input_border_radius);
   padding: 1.2rem;
@@ -73,7 +73,7 @@
 
 .save_admin_btn:hover:not(:disabled) {
   background-color: var(--primary_green);
-  color: hsl(0, 0%, 100%);
+  color: var(--surface);
 }
 
 .save_admin_btn:disabled {

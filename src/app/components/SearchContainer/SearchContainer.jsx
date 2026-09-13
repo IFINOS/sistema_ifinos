@@ -48,7 +48,7 @@ const SearchContainer = ({ on_search, placeholder, is_loading }) => {
 
 SearchContainer.propTypes = {
   on_search: PropTypes.func.isRequired,
-  is_loading: PropTypes.bool.isRe,
+  is_loading: PropTypes.bool.isRequired,
   placeholder: PropTypes.string,
 };
 

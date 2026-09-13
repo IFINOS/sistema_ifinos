@@ -73,7 +73,7 @@
   height: 100%;
   max-width: 5rem;
   flex: 1 1 5rem;
-  background-color: hsl(0, 0%, 100%);
+  background-color: var(--surface);
   border-radius: 0 var(--input_border_radius) var(--input_border_radius) 0;
   border: 0.1rem solid var(--foreground);
   border-left: none;
@@ -148,7 +148,7 @@
 }
 
 .modal {
-  background-color: hsl(0, 0%, 100%);
+  background-color: var(--surface);
   border-radius: var(--input_border_radius);
   padding: 2rem;
   width: min(30rem, 90vw);

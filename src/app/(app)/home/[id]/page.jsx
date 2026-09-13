@@ -131,7 +131,7 @@ const Page = () => {
             <section className={styles.modal_actions}>
               <button
                 className={styles.modal_cancel_btn}
-                onClick={() => setDeletingProjectId(null)}
+                onClick={() => setDeletingNewsId(null)}
               >
                 Não Deletar Notícia
               </button>
