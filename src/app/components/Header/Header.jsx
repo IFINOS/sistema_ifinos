@@ -30,7 +30,7 @@ const links = [
   { id: 1, content: "Home", path: "/home" },
   { id: 2, content: "Projetos", path: "/projetos" },
   { id: 3, content: "Demandas", path: "/demandas" },
-  { id: 4, content: "Merchandise", path: "/merchandise" },
+  { id: 4, content: "Shoppinos", path: "/shoppinos" },
   { id: 5, content: "Sobre", path: "/sobre" },
   { id: 6, content: "Fale Conosco", path: "/fale-conosco" },
 ];

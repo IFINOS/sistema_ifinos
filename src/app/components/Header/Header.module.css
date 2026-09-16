@@ -98,7 +98,7 @@
   position: absolute;
   top: calc(100% + 0.6rem);
   right: 0;
-  background: var(--surface-2, #fff);
+  background: var(--surface, #fff);
   border: 0.5px solid var(--border, #e5e5e5);
   border-radius: 0.6rem;
   min-width: 10rem;
@@ -178,7 +178,7 @@
   width: min(16.25rem, 80vw);
   height: fit-content;
   min-height: unset;
-  background-color: hsl(0, 0%, 100%);
+  background-color: var(--background);
   box-shadow: -0.4rem 0 1.6rem hsla(0, 0%, 0%, 0.12);
   border-left: 1px solid hsla(134, 100%, 28%, 0.15);
   border-bottom: 1px solid hsla(134, 100%, 28%, 0.15);
@@ -227,6 +227,10 @@
 
 .mobile_links .link {
   font-size: 1.2rem;
+}
+
+.link:hover {
+  color: var(--primary_green);
 }
 
 .mobile_user_options {
