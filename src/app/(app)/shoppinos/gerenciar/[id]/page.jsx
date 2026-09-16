@@ -147,7 +147,7 @@ const Page = () => {
       }
 
       toast.success("Produto editado com sucesso!");
-      router.push("/merchandise/gerenciar");
+      router.push("/shoppinos/gerenciar");
     } catch (e) {
       toast.error("Erro desconhecido ao editar produto.");
       console.error(e);
