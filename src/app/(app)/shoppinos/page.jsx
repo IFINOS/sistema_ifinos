@@ -286,7 +286,7 @@ const Page = () => {
         <section className={styles.merchandise_page_wrapper}>
           <section className={styles.merchandise_options}>
             <Link
-              href="/merchandise/meus-pedidos"
+              href="/shoppinos/meus-pedidos"
               className={styles.orders_link}
             >
               Meus Pedidos
@@ -295,7 +295,7 @@ const Page = () => {
             {userRole === "admin" && (
               <Link
                 className={styles.manage_products_link}
-                href="/merchandise/gerenciar"
+                href="/shoppinos/gerenciar"
               >
                 Gerenciar Produtos
               </Link>

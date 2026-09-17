@@ -188,6 +188,12 @@
   transition: transform 0.3s ease;
 }
 
+.order_option_wrapper {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+
 /* MODAL */
 .modal_overlay {
   position: fixed;

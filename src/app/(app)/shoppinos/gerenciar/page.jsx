@@ -37,6 +37,7 @@ const Page = () => {
   const [updatingOrderId, setUpdatingOrderId] = useState(null);
   const [openSection, setOpenSection] = useState("produtos");
   const [deletingProductId, setDeletingProductId] = useState(null);
+  const [deletingOrderId, setDeletingOrderId] = useState(null);
 
   const load_products = useCallback(async () => {
     try {
@@ -150,15 +151,45 @@ const Page = () => {
         return;
       }
 
-      toast.success("Projeto deletado com sucesso!");
+      toast.success("Produto deletado com sucesso!");
       setDeletingProductId(null);
       setTotalProducts((prev) => prev - 1);
       setProducts((prev) => prev.filter((u) => u.id !== deletingProductId));
     } catch (e) {
-      toast.error("Erro ao deletar projeto.");
+      toast.error("Erro ao deletar produto.");
       console.error(e);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handle_order_delete = async () => {
+    if (!deletingOrderId) return;
+    setLoading(true);
+
+    try {
+      const { error } = await supabase
+        .from("pedidos")
+        .update({
+          registro_ativo: false,
+        })
+        .eq("id", deletingOrderId);
+
+      if (error) {
+        toast.error("Erro ao apagar pedido.");
+        return;
+      }
+
+      toast.success("Pedido deletado com sucesso!");
+      setDeletingOrderId(null);
+      setTotalProducts((prev) => prev - 1);
+      setProducts((prev) => prev.filter((u) => u.id !== deletingOrderId));
+    } catch (e) {
+      toast.error("Erro ao deletar pedido.");
+      console.error(e);
+    } finally {
+      setLoading(false);
+      location.reload();
     }
   };
 
@@ -168,7 +199,7 @@ const Page = () => {
 
   return (
     <>
-      {/* MODAL DE CONFIRMAÇÃO DE DELETE */}
+      {/* MODAL DE CONFIRMAÇÃO DE DELETE DE PRODUTO */}
       {deletingProductId && (
         <div
           className={styles.modal_overlay}
@@ -197,6 +228,35 @@ const Page = () => {
         </div>
       )}
 
+      {/* MODAL DE CONFIRMAÇÃO DE DELETE DE PEDIDO */}
+      {deletingOrderId && (
+        <div
+          className={styles.modal_overlay}
+          onClick={() => setDeletingOrderId(null)}
+        >
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <h2 className={styles.modal_title}>Deletar pedido</h2>
+            <p className={styles.modal_description}>
+              Tem certeza que deseja deletar este pedido?
+            </p>
+            <section className={styles.modal_actions}>
+              <button
+                className={styles.modal_cancel_btn}
+                onClick={() => setDeletingOrderId(null)}
+              >
+                Não Deletar Pedido
+              </button>
+              <button
+                className={styles.modal_confirm_btn}
+                onClick={handle_order_delete}
+              >
+                Deletar Pedido
+              </button>
+            </section>
+          </div>
+        </div>
+      )}
+
       <section style={{ width: "100%", height: "100%" }}>
         {showLoading ? (
           <section className={styles.manage_merchandise_page_wrapper}>
@@ -205,10 +265,10 @@ const Page = () => {
         ) : loading ? null : (
           <section className={styles.manage_merchandise_page_wrapper}>
             <header className={styles.manage_merchandise_header}>
-              <BackButton route="/merchandise" />
+              <BackButton route="/shoppinos" />
 
               <Link
-                href="/merchandise/gerenciar/cadastrar"
+                href="/shoppinos/gerenciar/cadastrar"
                 className={styles.register_product_link}
               >
                 <FontAwesomeIcon icon={faAdd} size="sm" />
@@ -263,7 +323,7 @@ const Page = () => {
 
                           <section className={styles.products_options}>
                             <Link
-                              href={`/merchandise/gerenciar/${produto.id}`}
+                              href={`/shoppinos/gerenciar/${produto.id}`}
                               className={styles.admin_option}
                             >
                               <FontAwesomeIcon
@@ -330,7 +390,21 @@ const Page = () => {
                               </p>
                             </div>
 
-                            <StatusBadge status={pedido.status} />
+                            <section className={styles.order_option_wrapper}>
+                              <StatusBadge status={pedido.status} />
+
+                              <button
+                                type="button"
+                                className={styles.admin_option}
+                                onClick={() => setDeletingOrderId(pedido.id)}
+                              >
+                                <FontAwesomeIcon
+                                  icon={faTrash}
+                                  color="var(--primary_red)"
+                                  size="xl"
+                                />
+                              </button>
+                            </section>
                           </header>
 
                           <section className={styles.order_items}>

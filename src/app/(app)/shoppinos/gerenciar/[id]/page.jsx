@@ -1,8 +1,8 @@
 "use client";
 // Hooks
 import { createClient } from "@/_lib/supabase/client";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { useState, useCallback, useEffect } from "react";
 
 // Utils
 import styles from "./page.module.css";
@@ -28,10 +28,6 @@ const validate_form = (data) => {
     errors.valor = "Informe um valor válido.";
   }
 
-  if (!data.quantidade || Number(data.quantidade) < 0) {
-    errors.quantidade = "Informe uma quantidade válida.";
-  }
-
   if (!data.unidades || data.unidades.length === 0) {
     errors.unidades = "Adicione pelo menos um tamanho/unidade.";
   }
@@ -44,6 +40,7 @@ const validate_form = (data) => {
 };
 
 const Page = () => {
+  const { id } = useParams();
   const router = useRouter();
   const [formData, setFormData] = useState({
     nome: "",
@@ -56,6 +53,7 @@ const Page = () => {
   const [novaUnidade, setNovaUnidade] = useState("");
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handle_change = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -87,6 +85,35 @@ const Page = () => {
     }
   };
 
+  const load_product = useCallback(async () => {
+    try {
+      const { data, error } = await supabase
+        .from("produtos")
+        .select("*")
+        .eq("id", id)
+        .single();
+      if (error) {
+        toast.error("Ocorreu um erro ao os produto");
+        return;
+      }
+
+      setFormData(data ?? []);
+    } catch (e) {
+      toast.error("Ocorreu um erro desconhecido ao carregar o produto");
+      console.error(e);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    const timeout = setTimeout(async () => {
+      setLoading(true);
+      load_product();
+      setLoading(false);
+    }, 0);
+
+    return () => clearTimeout(timeout);
+  }, [load_product]);
+
   const handle_submit = async (e) => {
     e.preventDefault();
 
@@ -103,7 +130,7 @@ const Page = () => {
     try {
       const { data: produto, error } = await supabase
         .from("produtos")
-        .insert({
+        .update({
           nome: formData.nome,
           descricao: formData.descricao || null,
           valor: Number(formData.valor),
@@ -111,18 +138,18 @@ const Page = () => {
           unidades: formData.unidades,
           img_url: formData.img_url,
         })
-        .select("id")
+        .eq("id", id)
         .single();
 
       if (error) {
-        toast.error("Erro ao cadastrar produto.");
+        toast.error("Erro ao editar produto.");
         return;
       }
 
-      toast.success("Produto cadastrado com sucesso!");
-      router.push("/merchandise/gerenciar");
+      toast.success("Produto editado com sucesso!");
+      router.push("/shoppinos/gerenciar");
     } catch (e) {
-      toast.error("Erro desconhecido ao cadastrar produto.");
+      toast.error("Erro desconhecido ao editar produto.");
       console.error(e);
     } finally {
       setSubmitting(false);
@@ -133,7 +160,7 @@ const Page = () => {
     <section className={styles.register_product_main_page}>
       <header className={styles.header_register_product_main_page}>
         <BackButton />
-        <h1 className={layout.main_app_title}>Cadastrar Produto</h1>
+        <h1 className={layout.main_app_title}>Editar Produto</h1>
       </header>
 
       <form className={styles.product_form} onSubmit={handle_submit}>
@@ -160,7 +187,7 @@ const Page = () => {
             id="descricao"
             className={styles.product_textarea}
             rows={4}
-            value={formData.descricao}
+            value={formData.descricao ?? ""}
             onChange={(e) => handle_change("descricao", e.target.value)}
           />
         </section>
@@ -261,7 +288,7 @@ const Page = () => {
           className={styles.submit_btn}
           disabled={submitting}
         >
-          {submitting ? "Cadastrando..." : "Cadastrar Produto"}
+          {submitting ? "Editando..." : "Editar Produto"}
         </button>
       </form>
     </section>
