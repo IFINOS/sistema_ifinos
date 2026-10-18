@@ -78,6 +78,37 @@ const Header = () => {
     return () => document.removeEventListener("click", handle_click_outside);
   }, []);
 
+  // trava o scroll da página enquanto o menu mobile estiver aberto,
+  // pra o logo e o botão (que rolam junto com a página) não saírem de vista
+  // enquanto o menu (que é fixed) fica parado
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    const original_body_overflow = document.body.style.overflow;
+    const original_html_overflow = document.documentElement.style.overflow;
+
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+
+    // restaura ao fechar o menu (ou se o componente desmontar com ele aberto)
+    return () => {
+      document.body.style.overflow = original_body_overflow;
+      document.documentElement.style.overflow = original_html_overflow;
+    };
+  }, [isMenuOpen]);
+
+  // se alguém abrir o menu no mobile e depois girar o celular para além de 1080px,
+  // o menu mobile some, mas isMenuOpen continua true e o body fica travado no layout desktop
+  // nesse caso adiciona o listener de resize
+  useEffect(() => {
+    const handle_resize = () => {
+      if (window.innerWidth > 1080) setIsMenuOpen(false);
+    };
+
+    window.addEventListener("resize", handle_resize);
+    return () => window.removeEventListener("resize", handle_resize);
+  }, []);
+
   return (
     <header className={styles.header_wrapper}>
       <Image

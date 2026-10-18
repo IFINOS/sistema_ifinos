@@ -286,7 +286,7 @@
   transition: color 0.2s;
 }
 
-.sistema_submenu_link:hover {
+.submenu_system_link:hover {
   color: var(--primary_green_hover);
 }
 
