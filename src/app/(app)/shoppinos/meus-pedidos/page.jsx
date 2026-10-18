@@ -165,7 +165,7 @@ const Page = () => {
       )}
 
       <section style={{ width: "100%", height: "100%" }}>
-        <BackButton route="/merchandise" />
+        <BackButton />
         <h1 className={layout.main_app_title}>Meus Pedidos</h1>
 
         {showLoading ? (
