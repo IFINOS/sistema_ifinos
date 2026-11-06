@@ -15,7 +15,7 @@ const Page = () => {
         Pesquisas cadastrado no{" "}
         <a
           className={styles.about_link}
-          href="http://dgp.cnpq.br/dgp/espelhogrupo/3372312546337683"
+          href="http://dgp.cnpq.br/dgp/espelhogrupo/788942"
         >
           Diretório de Grupos do CNPq
         </a>
