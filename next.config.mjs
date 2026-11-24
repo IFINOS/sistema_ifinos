@@ -40,7 +40,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com https://vlibras.gov.br https://cdn.jsdelivr.net",
               "img-src 'self' data: https://lh3.googleusercontent.com https://res.cloudinary.com https://vlibras.gov.br https://cdn.jsdelivr.net",
-              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://vlibras.gov.br",
+              "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://vlibras.gov.br https://api.cloudinary.com/*",
             ].join("; "),
           },
           {
